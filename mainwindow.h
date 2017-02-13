@@ -26,19 +26,28 @@ private slots:
     void pauseUnpause();    // Pause/unpause timer
     void showMessage();     // Timer has run out
 
+    void on_spinBox_Interval_valueChanged(int val);
+    void on_slider_interval_valueChanged(int val);
+
+    void on_button_setTimer_clicked();
+    void on_button_Cancel_clicked();
+
+
+
 private:
 
-    void setTimer(/*interval*/); // Slot?
+    void setTimer(); // Slot?
 
 
     Ui::MainWindow *_ui;
 
+    QTimer _timer;
+    bool _timerIsActive;
+    int _interval;
 
-    int interval;
-    QTimer *_timer;
     QSystemTrayIcon *_trayIcon;
     QMenu *_trayIconMenu;
-    QAction *_actionQuit;
+    QAction *_actionExit;
     QAction *_actionPauseUnpause;
 };
 

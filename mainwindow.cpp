@@ -11,32 +11,42 @@ MainWindow::MainWindow(QWidget *parent) :
     _trayIcon = new QSystemTrayIcon(this);
     _trayIcon->setIcon(QIcon("://myappico.png"));
     _trayIcon->setVisible(true);
+    connect(_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this, SLOT(show()));
+    connect(_trayIcon, SIGNAL(messageClicked()),this, SLOT(show()));
+
 
     // Tray actions
-    _actionQuit = new QAction(this);
-    _actionQuit->setText(QString("Quit"));
+    _actionExit = new QAction(this);
+    _actionExit->setText(QString("Exit"));
 
     _actionPauseUnpause = new QAction(this);
     _actionPauseUnpause->setText(QString("Pause timer"));
 
-    connect(_actionQuit,SIGNAL(triggered(bool)), this, SLOT(close()));
+    connect(_actionExit,SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(_actionPauseUnpause,SIGNAL(triggered(bool)), this, SLOT(pauseUnpause()));
 
     _trayIconMenu = new QMenu(this);
 
     _trayIconMenu->addAction(_actionPauseUnpause);
-    _trayIconMenu->addAction(_actionQuit);
+    _trayIconMenu->addAction(_actionExit);
     _trayIcon->setContextMenu(_trayIconMenu);
 
 
     // Timer
-    interval = 10 * 1000; // Timer interval in ms
+
+    _interval = 10;
 
     _timer = new QTimer(this);
     _timer->setTimerType(Qt::TimerType::CoarseTimer);
-    _timer->start(interval);
+    _timer->start(_interval * 1000);
 
-    connect(_timer, SIGNAL(timeout()), this, SLOT(showMessage()));
+
+    connect(_timer, SIGNAL(), this, SLOT(showMessage()));
+
+
+    _ui->spinBox_Interval->setValue(_interval);
+    _ui->slider_interval->setValue(_interval);
+
 }
 
 MainWindow::~MainWindow()
@@ -55,7 +65,7 @@ void MainWindow::pauseUnpause()
     }
     else
     {
-        _timer->start(interval);
+        _timer->start(_interval);
         _actionPauseUnpause->setText(QString("Pause timer"));
     }
 }
@@ -65,7 +75,32 @@ void MainWindow::showMessage()
     _trayIcon->showMessage( QString("Time to stretch!"),QString(""),QSystemTrayIcon::NoIcon, 1000);
 }
 
-void MainWindow::setTimer(/*Interval<w*/)
+void MainWindow::setTimer()
 {
-    //TODO
+    _timer->stop();
+    _timer->start(_interval * 1000);
 }
+
+
+void MainWindow::on_spinBox_Interval_valueChanged(int val)
+{
+    _interval = val;
+    _ui->slider_interval->setValue(val);
+}
+
+void MainWindow::on_slider_interval_valueChanged(int val)
+{
+    _interval = val;
+    _ui->spinBox_Interval->setValue(val);
+}
+
+void MainWindow::on_button_setTimer_clicked()
+{
+    _timer->start(_interval);
+}
+
+void MainWindow::on_button_Cancel_clicked()
+{
+    this->hide();
+}
+
