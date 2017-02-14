@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _ui(new Ui::MainWindow)
 {
     _ui->setupUi(this);
+    this->setFixedSize(300,200);
 
     // Tray icon
     _trayIcon = new QSystemTrayIcon(this);
@@ -103,4 +104,3 @@ void MainWindow::on_button_Cancel_clicked()
 {
     this->hide();
 }
-

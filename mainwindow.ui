@@ -2,13 +2,22 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>233</width>
-    <height>331</height>
+    <width>300</width>
+    <height>200</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -23,8 +32,8 @@
    <widget class="QPushButton" name="button_Cancel">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>300</y>
+      <x>210</x>
+      <y>160</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -36,9 +45,9 @@
    <widget class="QSlider" name="slider_interval">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>270</y>
-      <width>160</width>
+      <x>19</x>
+      <y>130</y>
+      <width>211</width>
       <height>22</height>
      </rect>
     </property>
@@ -55,8 +64,8 @@
    <widget class="QSpinBox" name="spinBox_Interval">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>270</y>
+      <x>240</x>
+      <y>130</y>
       <width>42</width>
       <height>22</height>
      </rect>
@@ -65,27 +74,14 @@
    <widget class="QPushButton" name="button_setTimer">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>300</y>
+      <x>120</x>
+      <y>160</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>Set timer</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_timeLeft">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>230</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
     </property>
    </widget>
   </widget>
