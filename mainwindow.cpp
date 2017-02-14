@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _timer->start(_interval * 1000);
 
 
-    connect(_timer, SIGNAL(), this, SLOT(showMessage()));
+    connect(_timer, SIGNAL(timeout()), this, SLOT(showMessage()));
 
 
     _ui->spinBox_Interval->setValue(_interval);
@@ -96,7 +96,7 @@ void MainWindow::on_slider_interval_valueChanged(int val)
 
 void MainWindow::on_button_setTimer_clicked()
 {
-    _timer->start(_interval);
+    setTimer();
 }
 
 void MainWindow::on_button_Cancel_clicked()

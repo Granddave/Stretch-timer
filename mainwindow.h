@@ -41,7 +41,7 @@ private:
 
     Ui::MainWindow *_ui;
 
-    QTimer _timer;
+    QTimer *_timer;
     bool _timerIsActive;
     int _interval;
 
