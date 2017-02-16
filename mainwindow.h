@@ -9,6 +9,7 @@
 #include <QIcon>
 #include <QString>
 #include <QTimer>
+#include <QTime>
 
 namespace Ui {
 class MainWindow;
@@ -24,7 +25,9 @@ public:
 
 private slots:
     void pauseUnpause();    // Pause/unpause timer
+    void stopTimer();
     void showMessage();     // Timer has run out
+    void tickUpdate();
 
     void on_spinBox_Interval_valueChanged(int val);
     void on_slider_interval_valueChanged(int val);
@@ -41,6 +44,8 @@ private:
     Ui::MainWindow *_ui;
 
     QTimer *_timer;
+    QTimer *_tick;
+    QTime *_time;
     bool _timerIsActive;
     int _interval;          // Time in seconds
 

@@ -44,10 +44,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(_timer, SIGNAL(timeout()), this, SLOT(showMessage()));
 
+    _tick = new QTimer(this);
+    _tick->start(1000);
+    connect(_tick, SIGNAL(timeout()), this, SLOT(tickUpdate()));
+
+    _time = new QTime();
+    _time->start();
 
     _ui->spinBox_Interval->setValue(_interval);
     _ui->slider_interval->setValue(_interval);
 
+    connect(_ui->button_stopTimer, SIGNAL(clicked()), this, SLOT(stopTimer()));
 }
 
 MainWindow::~MainWindow()
@@ -67,19 +74,42 @@ void MainWindow::pauseUnpause()
     else
     {
         _timer->start(_interval);
+        _time->start();
         _actionPauseUnpause->setText(QString("Pause timer"));
     }
+}
+
+void MainWindow::stopTimer()
+{
+    _timer->stop();
+    _timerIsActive = false;
 }
 
 void MainWindow::showMessage()
 {
     _trayIcon->showMessage( QString("Time to stretch!"),QString(""),QSystemTrayIcon::NoIcon, 1000);
+    _time->start();
+}
+
+void MainWindow::tickUpdate()
+{
+    if(_timerIsActive)
+    {
+        int rem = (_timer->interval()-_time->elapsed()) / 1000 + 1;
+        _ui->label_timeLeft->setText(QString::number(rem));
+    }
+    else
+    {
+        _ui->label_timeLeft->setText(QString("Timer is stopped."));
+    }
 }
 
 void MainWindow::setTimer()
 {
     _timer->stop();
     _timer->start(_interval * 1000);
+    _time->start();
+    _timerIsActive = true;
 }
 
 
