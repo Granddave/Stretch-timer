@@ -35,24 +35,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Timer
 
-    _interval = 10;
-
-    _timer = new QTimer(this);
-    _timer->setTimerType(Qt::TimerType::CoarseTimer);
-    _timer->start(_interval * 1000);
-
-
-    connect(_timer, SIGNAL(timeout()), this, SLOT(showMessage()));
+    _alarm = new Alarm(this, 10);
+    connect(_alarm, SIGNAL(timeout()), this, SLOT(showMessage()));
 
     _tick = new QTimer(this);
     _tick->start(1000);
     connect(_tick, SIGNAL(timeout()), this, SLOT(tickUpdate()));
 
-    _time = new QTime();
-    _time->start();
 
-    _ui->spinBox_Interval->setValue(_interval);
-    _ui->slider_interval->setValue(_interval);
+    _ui->spinBox_Interval->setValue(_alarm->interval());
+    _ui->slider_interval->setValue(_alarm->interval);
 
     connect(_ui->button_stopTimer, SIGNAL(clicked()), this, SLOT(stopTimer()));
 }
@@ -64,39 +56,39 @@ MainWindow::~MainWindow()
 
 void MainWindow::pauseUnpause()
 {
-    if(_timer->isActive())
+    if(!_alarm->paused())
     {
-        int remaining = _timer->remainingTime();
-        _timer->stop();
-        _timer->setInterval(remaining);
+        _alarm->pauseUnpause();
         _actionPauseUnpause->setText(QString("Start timer"));
     }
     else
     {
-        _timer->start(_interval);
-        _time->start();
+        _alarm->pauseUnpause();
         _actionPauseUnpause->setText(QString("Pause timer"));
     }
 }
 
 void MainWindow::stopTimer()
 {
-    _timer->stop();
-    _timerIsActive = false;
+    _alarm->stop();
 }
 
 void MainWindow::showMessage()
 {
     _trayIcon->showMessage( QString("Time to stretch!"),QString(""),QSystemTrayIcon::NoIcon, 1000);
-    _time->start();
+    _alarm->start();
 }
 
 void MainWindow::tickUpdate()
 {
-    if(_timerIsActive)
+    if(_alarm->isActive())
     {
-        int rem = (_timer->interval()-_time->elapsed()) / 1000 + 1;
+        int rem = _alarm->remainingTime();
         _ui->label_timeLeft->setText(QString::number(rem));
+    }
+    else if(_alarm->paused())
+    {
+        _ui->label_timeLeft->setText(QString("Timer is paused."));
     }
     else
     {
@@ -104,30 +96,21 @@ void MainWindow::tickUpdate()
     }
 }
 
-void MainWindow::setTimer()
-{
-    _timer->stop();
-    _timer->start(_interval * 1000);
-    _time->start();
-    _timerIsActive = true;
-}
-
-
 void MainWindow::on_spinBox_Interval_valueChanged(int val)
 {
-    _interval = val;
+    _alarm->setInterval(val);
     _ui->slider_interval->setValue(val);
 }
 
 void MainWindow::on_slider_interval_valueChanged(int val)
 {
-    _interval = val;
+    _alarm->setInterval(val);
     _ui->spinBox_Interval->setValue(val);
 }
 
 void MainWindow::on_button_setTimer_clicked()
 {
-    setTimer();
+    _alarm->start();
 }
 
 void MainWindow::on_button_Cancel_clicked()
