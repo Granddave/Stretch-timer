@@ -81,11 +81,9 @@ void MainWindow::showMessage()
 void MainWindow::tickUpdate()
 {
     int rem = _alarm->remainingTime();
-
-    QString str;
-
-
-    if(_alarm->isActive())
+	QString str;
+	
+	if(_alarm->isActive())
     {
 		QTextStream(&str) << "Time left: " << rem;
 		_ui->label_timeLeft->setText(str);

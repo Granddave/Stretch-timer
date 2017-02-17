@@ -26,16 +26,16 @@ void Alarm::sendTimeout()
 
 void Alarm::pauseUnpause()
 {
-
     if(!_paused)
     {
-        _timer->stop();
+		_remaining = remainingTime();
+		stop();
         _timer->setInterval(_remaining);
         _paused = true;
     }
     else
     {
-        _timer->start();
+		_timer->start(_remaining * 1000);
         _time->restart();
         _paused = false;
     }
