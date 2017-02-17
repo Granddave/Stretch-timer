@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     _actionPauseUnpause = new QAction(this);
     _actionPauseUnpause->setText(QString("Pause timer"));
+	_actionPauseUnpause->setEnabled(false);
 
     connect(_actionExit,SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(_actionPauseUnpause,SIGNAL(triggered(bool)), this, SLOT(pauseUnpause()));
@@ -35,16 +36,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // Timer
 
-    _alarm = new Alarm(this, 10);
+    _alarm = new Alarm(this);
+    _alarm->setInterval(10);
     connect(_alarm, SIGNAL(timeout()), this, SLOT(showMessage()));
 
     _tick = new QTimer(this);
-    _tick->start(1000);
+    _tickInterval = 1000;
+    _tick->start(_tickInterval);
     connect(_tick, SIGNAL(timeout()), this, SLOT(tickUpdate()));
-
+    tickUpdate();
 
     _ui->spinBox_Interval->setValue(_alarm->interval());
-    _ui->slider_interval->setValue(_alarm->interval);
+    _ui->slider_interval->setValue(_alarm->interval());
 
     connect(_ui->button_stopTimer, SIGNAL(clicked()), this, SLOT(stopTimer()));
 }
@@ -59,19 +62,15 @@ void MainWindow::pauseUnpause()
     if(!_alarm->paused())
     {
         _alarm->pauseUnpause();
+        restartTick();
         _actionPauseUnpause->setText(QString("Start timer"));
-    }
-    else
-    {
+    } else {
         _alarm->pauseUnpause();
+        restartTick();
         _actionPauseUnpause->setText(QString("Pause timer"));
     }
 }
 
-void MainWindow::stopTimer()
-{
-    _alarm->stop();
-}
 
 void MainWindow::showMessage()
 {
@@ -81,19 +80,32 @@ void MainWindow::showMessage()
 
 void MainWindow::tickUpdate()
 {
+    int rem = _alarm->remainingTime();
+
+    QString str;
+
+
     if(_alarm->isActive())
     {
-        int rem = _alarm->remainingTime();
-        _ui->label_timeLeft->setText(QString::number(rem));
+		QTextStream(&str) << "Time left: " << rem;
+		_ui->label_timeLeft->setText(str);
     }
     else if(_alarm->paused())
     {
-        _ui->label_timeLeft->setText(QString("Timer is paused."));
+        QTextStream(&str) << "Timer is paused at " << rem << " seconds.";
+        _ui->label_timeLeft->setText(str);
     }
     else
     {
-        _ui->label_timeLeft->setText(QString("Timer is stopped."));
+        _ui->label_timeLeft->setText(QString("Timer is stopped"));
     }
+}
+
+void MainWindow::restartTick()
+{
+    _tick->stop();
+    _tick->start(_tickInterval);
+    tickUpdate();
 }
 
 void MainWindow::on_spinBox_Interval_valueChanged(int val)
@@ -111,8 +123,18 @@ void MainWindow::on_slider_interval_valueChanged(int val)
 void MainWindow::on_button_setTimer_clicked()
 {
     _alarm->start();
+    _alarm->setPaused(false);
+    _actionPauseUnpause->setEnabled(true);
+    restartTick();
 }
 
+void MainWindow::stopTimer()
+{
+    _alarm->stop();
+    _alarm->setPaused(false);
+    _actionPauseUnpause->setEnabled(false);
+    restartTick();
+}
 void MainWindow::on_button_Cancel_clicked()
 {
     this->hide();

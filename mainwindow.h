@@ -8,6 +8,7 @@
 #include <QAction>
 #include <QIcon>
 #include <QString>
+#include <QTextStream>
 #include <QTimer>
 
 #include "alarm.h"
@@ -25,8 +26,11 @@ public:
     ~MainWindow();
 
 private slots:
+    void pauseUnpause();
+    void stopTimer();
     void showMessage();     // Timer has run out
     void tickUpdate();
+    void restartTick();
 
     void on_spinBox_Interval_valueChanged(int val);
     void on_slider_interval_valueChanged(int val);
@@ -40,6 +44,7 @@ private:
 
     Alarm *_alarm;
     QTimer *_tick;
+    int _tickInterval;
 
     QSystemTrayIcon *_trayIcon;
     QMenu *_trayIconMenu;
