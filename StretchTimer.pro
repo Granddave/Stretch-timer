@@ -13,9 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    alarm.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    alarm.h
 
 FORMS    += mainwindow.ui
 
