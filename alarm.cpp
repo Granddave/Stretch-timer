@@ -8,9 +8,9 @@ Alarm::Alarm(QObject *parent) : QObject(parent), _interval(10)
 void Alarm::setUp()
 {
     _timer = new QTimer(this);
-    _timer->setTimerType(Qt::TimerType::CoarseTimer);
+    //_timer->setTimerType(Qt::TimerType::CoarseTimer);
     _timer->setSingleShot(true);
-    _timer->setInterval(_interval * 1000);
+    _timer->setInterval(_interval * 1000 * 60);
 
     connect(_timer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
 
@@ -49,7 +49,7 @@ void Alarm::stop()
 void Alarm::start()
 {
     _timer->stop();
-    _timer->start(_interval * 1000);
+    _timer->start(_interval * 1000 *60);
     _time->restart();
 }
 
@@ -59,5 +59,5 @@ int Alarm::remainingTime()
     {
         return _remaining;
     }
-    return _remaining = (_timer->interval()-_time->elapsed()) / 1000;
+    return _remaining = (_timer->interval() - _time->elapsed()) / 1000;
 }

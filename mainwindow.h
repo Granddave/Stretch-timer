@@ -10,6 +10,8 @@
 #include <QString>
 #include <QTextStream>
 #include <QTimer>
+#include <QTime>
+#include <QDebug>
 
 #include "alarm.h"
 

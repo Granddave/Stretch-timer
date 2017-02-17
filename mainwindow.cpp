@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(_alarm, SIGNAL(timeout()), this, SLOT(showMessage()));
 
     _tick = new QTimer(this);
-    _tickInterval = 1000;
+    _tickInterval = 400;
     _tick->start(_tickInterval);
     connect(_tick, SIGNAL(timeout()), this, SLOT(tickUpdate()));
     tickUpdate();
@@ -80,17 +80,21 @@ void MainWindow::showMessage()
 
 void MainWindow::tickUpdate()
 {
-    int rem = _alarm->remainingTime();
-	QString str;
+	QString str, sec, min, hour;
+	int rem = _alarm->remainingTime();
 	
+	sec  = QString::number(rem % 60).rightJustified(2, '0');
+	min  = QString::number((rem / 60) % 60).rightJustified(2, '0');
+	hour = QString::number((rem / 3600) % 24).rightJustified(2, '0');
+
 	if(_alarm->isActive())
     {
-		QTextStream(&str) << "Time left: " << rem;
+		QTextStream(&str) << "Time left: " << hour << ":"<< min << ":" << sec;
 		_ui->label_timeLeft->setText(str);
     }
     else if(_alarm->paused())
     {
-        QTextStream(&str) << "Timer is paused at " << rem << " seconds.";
+		QTextStream(&str) << "Timer is paused at " << min << ":" << sec;
         _ui->label_timeLeft->setText(str);
     }
     else
