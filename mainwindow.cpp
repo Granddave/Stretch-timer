@@ -73,7 +73,7 @@ void MainWindow::pauseUnpause()
 
 void MainWindow::showMessage()
 {
-    _trayIcon->showMessage( QString("Time to stretch!"),QString(""),QSystemTrayIcon::NoIcon, 1000);
+    _trayIcon->showMessage( QString("Time to stretch!"),QString(""),QSystemTrayIcon::NoIcon, 2000);
     _alarm->start();
 }
 
@@ -124,7 +124,6 @@ void MainWindow::on_slider_interval_valueChanged(int val)
 void MainWindow::on_button_setTimer_clicked()
 {
     _alarm->start();
-    _alarm->setPaused(false);
     _actionPauseUnpause->setEnabled(true);
     restartTick();
 }
@@ -132,7 +131,6 @@ void MainWindow::on_button_setTimer_clicked()
 void MainWindow::stopTimer()
 {
     _alarm->stop();
-    _alarm->setPaused(false);
     _actionPauseUnpause->setEnabled(false);
     restartTick();
 }

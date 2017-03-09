@@ -43,11 +43,13 @@ void Alarm::pauseUnpause()
 
 void Alarm::stop()
 {
+    _paused = false;
     _timer->stop();
 }
 
 void Alarm::start()
 {
+    _paused = false;
     _timer->stop();
     _timer->start(_interval * 1000 *60);
     _time->restart();
