@@ -1,19 +1,17 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include "countdowntimer.h"
 
+// Qt
+#include <QMainWindow>
+#include <QTimer>
+#include <QTime>
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QAction>
-#include <QIcon>
-#include <QString>
-#include <QTextStream>
-#include <QTimer>
-#include <QTime>
-#include <QDebug>
+#include <QSettings>
 
-#include "alarm.h"
 
 namespace Ui {
 class MainWindow;
@@ -28,30 +26,32 @@ public:
     ~MainWindow();
 
 private slots:
+    void setTimer();
     void pauseUnpause();
     void stopTimer();
-    void showMessage();     // Timer has run out
-    void tickUpdate();
-    void restartTick();
+    void showMessage();         // Timer has run out
+    void SystemTrayTriggered(QSystemTrayIcon::ActivationReason e);
+    void tickUpdate(int rem);
 
     void on_spinBox_Interval_valueChanged(int val);
     void on_slider_interval_valueChanged(int val);
 
-    void on_button_setTimer_clicked();
-    void on_button_Cancel_clicked();
+    void about();
 
 private:
+    void initSystemTray();
 
     Ui::MainWindow *_ui;
-
-    Alarm *_alarm;
-    QTimer *_tick;
-    int _tickInterval;
+    QSettings *_settings;
+    CountdownTimer *_countdownTimer;
 
     QSystemTrayIcon *_trayIcon;
     QMenu *_trayIconMenu;
-    QAction *_actionExit;
+    QAction *_actionSet;
     QAction *_actionPauseUnpause;
+    QAction *_actionStop;
+    QAction *_actionAbout;
+    QAction *_actionExit;
 };
 
 #endif // MAINWINDOW_H
