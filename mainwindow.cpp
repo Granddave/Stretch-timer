@@ -149,9 +149,11 @@ void MainWindow::showMessage()
     _countdownTimer->start();
 }
 
+/* Show and set focus on the main window */
 void MainWindow::showMainWindow()
 {
     this->showNormal();
+    this->activateWindow();
 }
 
 /* The system tray is activated */

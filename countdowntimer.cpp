@@ -37,8 +37,7 @@ void CountdownTimer::pauseUnpause()
     if(!_paused)
     {
         // Pause timer
-        _remaining = remainingTime();
-        stop();
+        _countDownTimer->stop();
         _countDownTimer->setInterval(_remaining);
         _tickTimer->stop();
         _paused = true;
@@ -69,7 +68,7 @@ int CountdownTimer::remainingTime()
     if(_paused)
         return _remaining;
 
-    return _remaining = (_countDownTimer->interval() - _remainingTime->elapsed()) / 1000;
+    return _remaining = qRound((float)(_countDownTimer->interval() - _remainingTime->elapsed()) / 1000);
 }
 
 void CountdownTimer::sendTimeout()
