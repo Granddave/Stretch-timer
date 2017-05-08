@@ -30,6 +30,7 @@ private slots:
     void pauseUnpause();
     void stopTimer();
     void showMessage();         // Timer has run out
+    void showMainWindow();
     void SystemTrayTriggered(QSystemTrayIcon::ActivationReason e);
     void tickUpdate(int rem);
 

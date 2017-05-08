@@ -61,7 +61,7 @@ void MainWindow::initSystemTray()
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this,
             SLOT(SystemTrayTriggered(QSystemTrayIcon::ActivationReason)));
-    connect(_trayIcon, SIGNAL(messageClicked()),this, SLOT(show()));
+    connect(_trayIcon, SIGNAL(messageClicked()),this, SLOT(showMainWindow()));
 
     // Tray actions
     _actionSet= new QAction(this);
@@ -149,11 +149,16 @@ void MainWindow::showMessage()
     _countdownTimer->start();
 }
 
+void MainWindow::showMainWindow()
+{
+    this->showNormal();
+}
+
 /* The system tray is activated */
 void MainWindow::SystemTrayTriggered(QSystemTrayIcon::ActivationReason e)
 {
     if(e == QSystemTrayIcon::Trigger)
-        this->show();
+        showMainWindow();
 }
 
 /* Update the label with the remaining time */
