@@ -14,8 +14,8 @@ CountdownTimer::CountdownTimer(QObject *parent,
     _tickTimer->start(1000);
     connect(_tickTimer, SIGNAL(timeout()), this, SLOT(sendTick()));
 
-    _remainingTime = new QTime();
-    _remainingTime->start();
+    _elapsedTimer = new QElapsedTimer();
+    _elapsedTimer->start();
 
     _paused = false;
     sendTick();
@@ -27,7 +27,7 @@ void CountdownTimer::start()
     _countDownTimer->stop();
     _countDownTimer->start(_interval * 1000 * 60);
     _tickTimer->start(1000);
-    _remainingTime->restart();
+    _elapsedTimer->restart();
 
     sendTick();
 }
@@ -47,7 +47,7 @@ void CountdownTimer::pauseUnpause()
         // Unpause timer
         _countDownTimer->start(_remaining * 1000);
         _tickTimer->start(1000);
-        _remainingTime->restart();
+        _elapsedTimer->restart();
         _paused = false;
     }
 
@@ -68,7 +68,7 @@ int CountdownTimer::remainingTime()
     if(_paused)
         return _remaining;
 
-    return _remaining = qRound((float)(_countDownTimer->interval() - _remainingTime->elapsed()) / 1000);
+    return _remaining = qRound((float)(_countDownTimer->interval() - _elapsedTimer->elapsed()) / 1000);
 }
 
 void CountdownTimer::sendTimeout()

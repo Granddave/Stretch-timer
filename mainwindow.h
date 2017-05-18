@@ -31,6 +31,9 @@ private slots:
     void stopTimer();
     void showMessage();         // Timer has run out
     void showMainWindow();
+    void closeEvent(QCloseEvent *e);
+    void closeApp();
+    void hideApp();
     void SystemTrayTriggered(QSystemTrayIcon::ActivationReason e);
     void tickUpdate(int rem);
 
@@ -43,7 +46,6 @@ private:
     void initSystemTray();
 
     Ui::MainWindow *_ui;
-    QSettings *_settings;
     CountdownTimer *_countdownTimer;
 
     QSystemTrayIcon *_trayIcon;
@@ -52,7 +54,7 @@ private:
     QAction *_actionPauseUnpause;
     QAction *_actionStop;
     QAction *_actionAbout;
-    QAction *_actionExit;
+    QAction *_actionQuit;
 };
 
 #endif // MAINWINDOW_H

@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QShortcut>
 #include <QMessageBox>
+#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,15 +18,15 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle("Stretch Timer");
     setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
 
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q), this, SLOT(close()));
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(hide()));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q), this, SLOT(closeApp()));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(hideApp()));
 
-    _settings = new QSettings();
-    qDebug() << "SETTINGS: Config file located at" << _settings->fileName();
+    QSettings settings;
+    qDebug() << "SETTINGS: Config file located at" << settings.fileName();
 
     initSystemTray();
 
-    int userInterval = _settings->value("interval", 30).toInt();
+    int userInterval = settings.value("interval", 30).toInt();
     _countdownTimer = new CountdownTimer(this, userInterval);
     connect(_countdownTimer, SIGNAL(timeout()), this, SLOT(showMessage()));
     connect(_countdownTimer, SIGNAL(tick(int)), this, SLOT(tickUpdate(int)));
@@ -57,34 +58,29 @@ void MainWindow::initSystemTray()
     _trayIcon->setIcon(QIcon("://myappico.png"));
     _trayIcon->setVisible(true);
 
+    connect(_trayIcon, SIGNAL(messageClicked()),this, SLOT(showMainWindow()));
     connect(_trayIcon,
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this,
             SLOT(SystemTrayTriggered(QSystemTrayIcon::ActivationReason)));
-    connect(_trayIcon, SIGNAL(messageClicked()),this, SLOT(showMainWindow()));
 
     // Tray actions
-    _actionSet= new QAction(this);
-    _actionSet->setText(QString("Set timer"));
+    _actionSet= new QAction("Set timer", this);
     connect(_actionSet, SIGNAL(triggered(bool)), this, SLOT(setTimer()));
 
-    _actionPauseUnpause = new QAction(this);
-    _actionPauseUnpause->setText(QString("Pause timer"));
+    _actionPauseUnpause = new QAction("Pause timer", this);
     _actionPauseUnpause->setEnabled(false);
-    connect(_actionPauseUnpause, SIGNAL(triggered(bool)), this, SLOT(pauseUnpause()));
+    connect(_actionPauseUnpause, SIGNAL(triggered()), this, SLOT(pauseUnpause()));
 
-    _actionStop = new QAction(this);
-    _actionStop->setText(QString("Stop timer"));
+    _actionStop = new QAction("Stop timer", this);
     _actionStop->setEnabled(false);
-    connect(_actionStop, SIGNAL(triggered(bool)), this, SLOT(stopTimer()));
+    connect(_actionStop, SIGNAL(triggered()), this, SLOT(stopTimer()));
 
-    _actionAbout = new QAction(this);
-    _actionAbout->setText(QString("About"));
-    connect(_actionAbout, SIGNAL(triggered(bool)), this, SLOT(about()));
+    _actionAbout = new QAction("About", this);
+    connect(_actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
-    _actionExit = new QAction(this);
-    _actionExit->setText(QString("Exit"));
-    connect(_actionExit, SIGNAL(triggered(bool)), this, SLOT(close()));
+    _actionQuit = new QAction("Quit", this);
+    connect(_actionQuit, SIGNAL(triggered()), this, SLOT(closeApp()));
 
     _trayIconMenu = new QMenu(this);
     _trayIconMenu->addAction(_actionSet);
@@ -92,7 +88,7 @@ void MainWindow::initSystemTray()
     _trayIconMenu->addAction(_actionStop);
     _trayIconMenu->addSeparator();
     _trayIconMenu->addAction(_actionAbout);
-    _trayIconMenu->addAction(_actionExit);
+    _trayIconMenu->addAction(_actionQuit);
     _trayIcon->setContextMenu(_trayIconMenu);
 }
 
@@ -102,7 +98,8 @@ void MainWindow::setTimer()
 {
     int interval = _ui->slider_interval->value();
 
-    _settings->setValue("interval", interval);
+    QSettings settings;
+    settings.setValue("interval", interval);
     _countdownTimer->setInterval(interval);
 
     _countdownTimer->start();
@@ -145,7 +142,14 @@ void MainWindow::stopTimer()
 /* Show "Time to stretch" in the system tray */
 void MainWindow::showMessage()
 {
-    _trayIcon->showMessage( QString("Time to stretch!"),QString(""),QSystemTrayIcon::NoIcon, 2000);
+    QSettings settings;
+    int time = settings.value("secondsToDisplay", 5).toInt();
+
+    // Max 20 seconds
+    if(time > 20)
+        time = 20;
+
+    _trayIcon->showMessage( QString("Time to stretch!"),QString(""),QSystemTrayIcon::NoIcon, time * 1000);
     _countdownTimer->start();
 }
 
@@ -154,6 +158,31 @@ void MainWindow::showMainWindow()
 {
     this->showNormal();
     this->activateWindow();
+}
+
+void MainWindow::closeEvent(QCloseEvent *e)
+{
+    hideApp();
+}
+
+void MainWindow::closeApp()
+{
+    qApp->quit();
+}
+
+void MainWindow::hideApp()
+{
+    if (_trayIcon->isVisible())
+    {
+        _trayIcon->showMessage("Still running...",
+                               "Stretch Timer is still running. "
+                               "To terminate the program, "
+                               "choose <b>Quit</b> in the context menu "
+                               "or <b>Ctrl+Q</b> when the window is open.",
+                               QSystemTrayIcon::NoIcon,
+                               5000);
+        hide();
+    }
 }
 
 /* The system tray is activated */
@@ -184,6 +213,7 @@ void MainWindow::tickUpdate(int rem)
     {
         QTextStream(&str) << "Timer is stopped";
     }
+
     _ui->label_timeLeft->setText(str);
     _trayIcon->setToolTip(str);
 }

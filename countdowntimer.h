@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTimer>
 #include <QTime>
+#include <QElapsedTimer>
 
 class CountdownTimer : public QObject
 {
@@ -30,12 +31,12 @@ public slots:
     void sendTick();            // Triggers int tick(int)
 
 private:
-    QTimer *_countDownTimer;    // Main countdown timer.
-    QTimer *_tickTimer;         // Sends update tick every second.
-    QTime *_remainingTime;      // Needed to calculate remaining time.
-    bool _paused;               // If timer is paused or not.
-    int _remaining;             // Seconds remaining, needed if paused.
-    int _interval;              // Time in seconds.
+    QTimer *_countDownTimer;        // Main countdown timer.
+    QTimer *_tickTimer;             // Sends update tick every second.
+    QElapsedTimer *_elapsedTimer;   // Needed to calculate remaining time.
+    bool _paused;                   // If timer is paused or not.
+    int _remaining;                 // Seconds remaining, needed if paused.
+    int _interval;                  // Time in seconds.
 };
 
 #endif // COUNTDOWNTIMER_H
