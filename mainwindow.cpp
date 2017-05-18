@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "version.h"
 
+// Qt
 #include <QIcon>
 #include <QString>
 #include <QTextStream>
@@ -9,30 +10,34 @@
 #include <QShortcut>
 #include <QMessageBox>
 #include <QApplication>
+#include <QCloseEvent>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     _ui(new Ui::MainWindow)
 {
-    _ui->setupUi(this);
-    setWindowTitle("Stretch Timer");
-    setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
-
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q), this, SLOT(closeApp()));
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(hideApp()));
-
     QSettings settings;
     qDebug() << "SETTINGS: Config file located at" << settings.fileName();
 
+    initUI();
     initSystemTray();
+    initCountdownTimer();
 
-    int userInterval = settings.value("interval", 30).toInt();
-    _countdownTimer = new CountdownTimer(this, userInterval);
-    connect(_countdownTimer, SIGNAL(timeout()), this, SLOT(showMessage()));
-    connect(_countdownTimer, SIGNAL(tick(int)), this, SLOT(tickUpdate(int)));
+    tickUpdate(0); // To initialize label in the mainwindow
+}
 
-    _ui->spinBox_Interval->setValue(_countdownTimer->interval());
-    _ui->slider_interval->setValue(_countdownTimer->interval());
+MainWindow::~MainWindow()
+{
+    delete _ui;
+}
+
+void MainWindow::initUI()
+{
+    _ui->setupUi(this);
+    setWindowTitle("Stretch Timer");
+    setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q), this, SLOT(closeApp()));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(hide()));
 
     connect(_ui->button_setTimer, SIGNAL(clicked()), this, SLOT(setTimer()));
     connect(_ui->button_pause, SIGNAL(clicked()), this, SLOT(pauseUnpause()));
@@ -41,14 +46,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     _ui->button_pause->setEnabled(false);
     _ui->button_stopTimer->setEnabled(false);
-
-    // Initialize label
-    tickUpdate(0);
-}
-
-MainWindow::~MainWindow()
-{
-    delete _ui;
 }
 
 void MainWindow::initSystemTray()
@@ -90,6 +87,18 @@ void MainWindow::initSystemTray()
     _trayIconMenu->addAction(_actionAbout);
     _trayIconMenu->addAction(_actionQuit);
     _trayIcon->setContextMenu(_trayIconMenu);
+}
+
+void MainWindow::initCountdownTimer()
+{
+    QSettings settings;
+    int userInterval = settings.value("interval", 30).toInt();
+    _countdownTimer = new CountdownTimer(this, userInterval);
+    connect(_countdownTimer, SIGNAL(timeout()), this, SLOT(showTimeoutMessage()));
+    connect(_countdownTimer, SIGNAL(tick(int)), this, SLOT(tickUpdate(int)));
+
+    _ui->spinBox_Interval->setValue(_countdownTimer->interval());
+    _ui->slider_interval->setValue(_countdownTimer->interval());
 }
 
 /* Set the countdown timer to the value on the slider and spinbox
@@ -140,7 +149,7 @@ void MainWindow::stopTimer()
 }
 
 /* Show "Time to stretch" in the system tray */
-void MainWindow::showMessage()
+void MainWindow::showTimeoutMessage()
 {
     QSettings settings;
     int time = settings.value("secondsToDisplay", 5).toInt();
@@ -162,7 +171,14 @@ void MainWindow::showMainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    hideApp();
+    QSettings settings;
+    bool b = settings.value("quitOnClose", false).toBool();
+
+    if(!b)
+    {
+        hideApp();
+        e->ignore();
+    }
 }
 
 void MainWindow::closeApp()
@@ -177,8 +193,8 @@ void MainWindow::hideApp()
         _trayIcon->showMessage("Still running...",
                                "Stretch Timer is still running. "
                                "To terminate the program, "
-                               "choose <b>Quit</b> in the context menu "
-                               "or <b>Ctrl+Q</b> when the window is open.",
+                               "choose Quit in the context menu "
+                               "or Ctrl+Q when the window is open.",
                                QSystemTrayIcon::NoIcon,
                                5000);
         hide();
@@ -203,11 +219,11 @@ void MainWindow::tickUpdate(int rem)
 
     if(_countdownTimer->isActive())
     {
-		QTextStream(&str) << "Time left: " << hour << ":"<< min << ":" << sec;
+        QTextStream(&str) << "Time left: " << hour << ":"<< min << ":" << sec;
     }
     else if(_countdownTimer->paused())
     {
-		QTextStream(&str) << "Timer is paused at " << min << ":" << sec;
+        QTextStream(&str) << "Timer is paused at " << min << ":" << sec;
     }
     else
     {
@@ -234,7 +250,7 @@ void MainWindow::on_slider_interval_valueChanged(int val)
 void MainWindow::about()
 {
     QMessageBox msgBox;
-    msgBox.setTextFormat(Qt::RichText); // this does the magic trick and allows you to click the link
+    msgBox.setTextFormat(Qt::RichText);
     msgBox.setWindowTitle("About Stretch Timer "STRETCHTIMER_VERSION);
     msgBox.setText("Stretch Timer is an opensource project "
                    "that help people to stand up and stretch between their "
@@ -243,6 +259,8 @@ void MainWindow::about()
                    "<a href=\"https://github.com/Granddave/Stretch-timer\">https://github.com/Granddave/Stretch-timer</a>");
     msgBox.exec();
 }
+
+
 
 
 

@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>424</width>
-    <height>110</height>
+    <width>344</width>
+    <height>92</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,14 +24,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>300</width>
+    <width>344</width>
     <height>92</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>583</width>
-    <height>338</height>
+    <width>344</width>
+    <height>92</height>
    </size>
   </property>
   <property name="contextMenuPolicy">
@@ -39,19 +39,31 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="horizontalSpacing">
+     <number>6</number>
+    </property>
+    <property name="verticalSpacing">
+     <number>12</number>
+    </property>
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
       <property name="leftMargin">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>2</number>
+       <number>0</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>0</number>
       </property>
       <item row="2" column="0">
        <widget class="QSlider" name="slider_interval">
@@ -94,6 +106,15 @@
     </item>
     <item row="1" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QPushButton" name="button_setTimer">
         <property name="text">

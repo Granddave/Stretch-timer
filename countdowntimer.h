@@ -1,6 +1,7 @@
 #ifndef COUNTDOWNTIMER_H
 #define COUNTDOWNTIMER_H
 
+// Qt
 #include <QObject>
 #include <QTimer>
 #include <QTime>

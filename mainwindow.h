@@ -29,7 +29,7 @@ private slots:
     void setTimer();
     void pauseUnpause();
     void stopTimer();
-    void showMessage();         // Timer has run out
+    void showTimeoutMessage();         // Timer has run out
     void showMainWindow();
     void closeEvent(QCloseEvent *e);
     void closeApp();
@@ -43,7 +43,9 @@ private slots:
     void about();
 
 private:
+    void initUI();
     void initSystemTray();
+    void initCountdownTimer();
 
     Ui::MainWindow *_ui;
     CountdownTimer *_countdownTimer;
