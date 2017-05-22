@@ -118,7 +118,7 @@
       <item>
        <widget class="QPushButton" name="button_setTimer">
         <property name="text">
-         <string>Set timer</string>
+         <string>&amp;Set timer</string>
         </property>
         <property name="autoDefault">
          <bool>true</bool>
@@ -131,14 +131,14 @@
       <item>
        <widget class="QPushButton" name="button_pause">
         <property name="text">
-         <string>Pause</string>
+         <string>&amp;Pause</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="button_stopTimer">
         <property name="text">
-         <string>Stop timer</string>
+         <string>St&amp;op timer</string>
         </property>
        </widget>
       </item>
@@ -155,19 +155,6 @@
         </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QPushButton" name="button_hide">
-        <property name="text">
-         <string>Hide</string>
-        </property>
-        <property name="default">
-         <bool>false</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
    </layout>
@@ -178,7 +165,6 @@
   <tabstop>button_setTimer</tabstop>
   <tabstop>button_pause</tabstop>
   <tabstop>button_stopTimer</tabstop>
-  <tabstop>button_hide</tabstop>
   <tabstop>slider_interval</tabstop>
   <tabstop>spinBox_Interval</tabstop>
  </tabstops>

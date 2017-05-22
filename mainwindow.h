@@ -12,7 +12,6 @@
 #include <QAction>
 #include <QSettings>
 
-
 namespace Ui {
 class MainWindow;
 }

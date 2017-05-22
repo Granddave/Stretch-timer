@@ -11,6 +11,9 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QCloseEvent>
+#ifdef Q_OS_UNIX
+#include <QSound>
+#endif
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     initUI();
     initSystemTray();
     initCountdownTimer();
+
+
 
     tickUpdate(0); // To initialize label in the mainwindow
 }
@@ -36,47 +41,50 @@ void MainWindow::initUI()
     _ui->setupUi(this);
     setWindowTitle("Stretch Timer");
     setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q), this, SLOT(closeApp()));
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(hide()));
 
     connect(_ui->button_setTimer, SIGNAL(clicked()), this, SLOT(setTimer()));
     connect(_ui->button_pause, SIGNAL(clicked()), this, SLOT(pauseUnpause()));
     connect(_ui->button_stopTimer, SIGNAL(clicked()), this, SLOT(stopTimer()));
-    connect(_ui->button_hide, SIGNAL(clicked()), this, SLOT(hide()));
 
     _ui->button_pause->setEnabled(false);
     _ui->button_stopTimer->setEnabled(false);
+
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q), this, SLOT(closeApp()));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(hide()));
 }
 
 void MainWindow::initSystemTray()
 {
     // Tray icon
     _trayIcon = new QSystemTrayIcon(this);
-    _trayIcon->setIcon(QIcon("://myappico.png"));
+    _trayIcon->setIcon(QIcon("://resources/myappico.png"));
     _trayIcon->setVisible(true);
 
+    // Click on message from tray icon
     connect(_trayIcon, SIGNAL(messageClicked()),this, SLOT(showMainWindow()));
+    // Click on tray icintervalon
     connect(_trayIcon,
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this,
             SLOT(SystemTrayTriggered(QSystemTrayIcon::ActivationReason)));
 
     // Tray actions
-    _actionSet= new QAction("Set timer", this);
+    _actionSet= new QAction("&Set timer", this);
     connect(_actionSet, SIGNAL(triggered(bool)), this, SLOT(setTimer()));
 
-    _actionPauseUnpause = new QAction("Pause timer", this);
+    _actionPauseUnpause = new QAction("&Pause timer", this);
     _actionPauseUnpause->setEnabled(false);
     connect(_actionPauseUnpause, SIGNAL(triggered()), this, SLOT(pauseUnpause()));
 
-    _actionStop = new QAction("Stop timer", this);
+    _actionStop = new QAction("St&op timer", this);
     _actionStop->setEnabled(false);
     connect(_actionStop, SIGNAL(triggered()), this, SLOT(stopTimer()));
 
-    _actionAbout = new QAction("About", this);
+    _actionAbout = new QAction("&About", this);
     connect(_actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
-    _actionQuit = new QAction("Quit", this);
+    _actionQuit = new QAction("&Quit", this);
+    _actionQuit->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     connect(_actionQuit, SIGNAL(triggered()), this, SLOT(closeApp()));
 
     _trayIconMenu = new QMenu(this);
@@ -156,9 +164,21 @@ void MainWindow::showTimeoutMessage()
 
     // Max 20 seconds
     if(time > 20)
+    {
         time = 20;
+    }
 
-    _trayIcon->showMessage( QString("Time to stretch!"),QString(""),QSystemTrayIcon::NoIcon, time * 1000);
+    _trayIcon->showMessage(
+                "StretchTimer",
+                "Time to stretch!",
+                QSystemTrayIcon::NoIcon,
+                time * 1000);
+
+#ifdef Q_OS_UNIX
+    // Cred: https://www.freesound.org/people/SpiceProgram/sounds/387217/
+    QSound::play("://resources/ping.wav");
+#endif
+
     _countdownTimer->start();
 }
 
@@ -172,9 +192,9 @@ void MainWindow::showMainWindow()
 void MainWindow::closeEvent(QCloseEvent *e)
 {
     QSettings settings;
-    bool b = settings.value("quitOnClose", false).toBool();
+    bool quitOnClose = settings.value("quitOnClose", false).toBool();
 
-    if(!b)
+    if(!quitOnClose)
     {
         hideApp();
         e->ignore();
@@ -205,12 +225,20 @@ void MainWindow::hideApp()
 void MainWindow::SystemTrayTriggered(QSystemTrayIcon::ActivationReason e)
 {
     if(e == QSystemTrayIcon::Trigger)
+    {
         showMainWindow();
+    }
 }
 
 /* Update the label with the remaining time */
 void MainWindow::tickUpdate(int rem)
 {
+    if(rem < 0) // Missed the timeout...
+    {
+        _countdownTimer->start();
+        return;
+    }
+
 	QString str, sec, min, hour;
 
 	sec  = QString::number(rem % 60).rightJustified(2, '0');
@@ -251,7 +279,7 @@ void MainWindow::about()
 {
     QMessageBox msgBox;
     msgBox.setTextFormat(Qt::RichText);
-    msgBox.setWindowTitle("About Stretch Timer "STRETCHTIMER_VERSION);
+    msgBox.setWindowTitle(QString("About Stretch Timer ") + QString(STRETCHTIMER_VERSION));
     msgBox.setText("Stretch Timer is an opensource project "
                    "that help people to stand up and stretch between their "
                    "work sessions. <br/><br/>"
