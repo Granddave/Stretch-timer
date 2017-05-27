@@ -2,7 +2,7 @@
 
 #include <QDebug>
 
-#define TIME_DEBUG 1
+#define TIME_DEBUG 0
 
 #if TIME_DEBUG
 #define MINUTE 1

@@ -26,8 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
     initSystemTray();
     initCountdownTimer();
 
-
-
     tickUpdate(0); // To initialize label in the mainwindow
 }
 
@@ -239,11 +237,11 @@ void MainWindow::tickUpdate(int rem)
         return;
     }
 
-	QString str, sec, min, hour;
+    QString str, sec, min, hour;
 
-	sec  = QString::number(rem % 60).rightJustified(2, '0');
-	min  = QString::number((rem / 60) % 60).rightJustified(2, '0');
-	hour = QString::number((rem / 3600) % 24).rightJustified(2, '0');
+    sec  = QString::number(rem % 60).rightJustified(2, '0');
+    min  = QString::number((rem / 60) % 60).rightJustified(2, '0');
+    hour = QString::number((rem / 3600) % 24).rightJustified(2, '0');
 
     if(_countdownTimer->isActive())
     {
