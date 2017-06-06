@@ -22,7 +22,7 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-RC_ICONS = myappico.ico
+RC_ICONS = resources/myappico.ico
 
 RESOURCES += \
     res.qrc
