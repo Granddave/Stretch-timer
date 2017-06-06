@@ -24,6 +24,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void readGeometry();
+
 private slots:
     void setTimer();
     void pauseUnpause();

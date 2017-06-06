@@ -107,6 +107,16 @@ void MainWindow::initCountdownTimer()
     _ui->slider_interval->setValue(_countdownTimer->interval());
 }
 
+/* Load window position from settings.
+ * The window will be placed in the center of the screen if it
+ * was opened for the first time.
+ */
+void MainWindow::readGeometry()
+{
+    QSettings settings;
+    restoreGeometry(settings.value("geometry").toByteArray());
+}
+
 /* Set the countdown timer to the value on the slider and spinbox
  * If the timer is already running, it will be stopped before started.*/
 void MainWindow::setTimer()
@@ -187,23 +197,35 @@ void MainWindow::showMainWindow()
     this->activateWindow();
 }
 
+/* This gets called when the user presses the close button */
 void MainWindow::closeEvent(QCloseEvent *e)
 {
     QSettings settings;
     bool quitOnClose = settings.value("quitOnClose", false).toBool();
 
-    if(!quitOnClose)
+    if(quitOnClose)
+    {
+        closeApp();
+    }
+    else
     {
         hideApp();
-        e->ignore();
     }
 }
 
+/* This really closes the application and saves the
+ * geometry of the window
+ */
 void MainWindow::closeApp()
 {
+    // Save position on screen
+    QSettings settings;
+    settings.setValue("geometry", saveGeometry());
+
     qApp->quit();
 }
 
+/* Hides the application and displays a "hide message" */
 void MainWindow::hideApp()
 {
     if (_trayIcon->isVisible())
@@ -231,8 +253,11 @@ void MainWindow::SystemTrayTriggered(QSystemTrayIcon::ActivationReason e)
 /* Update the label with the remaining time */
 void MainWindow::tickUpdate(int rem)
 {
-    if(rem < 0) // Missed the timeout...
+    if(rem < 0)
     {
+        /* Missed the timeout.
+         * Could be because OS went to sleep etc.
+         */
         _countdownTimer->start();
         return;
     }
