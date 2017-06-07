@@ -210,6 +210,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
     else
     {
         hideApp();
+        e->ignore();
     }
 }
 
