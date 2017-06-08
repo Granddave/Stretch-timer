@@ -136,7 +136,7 @@ void MainWindow::setTimer()
     _ui->button_stopTimer->setEnabled(true);
 
     _actionPauseUnpause->setText(QString("Pause timer"));
-    _ui->button_pause->setText(QString("Pause"));
+    _ui->button_pause->setText(QString("&Pause"));
 }
 
 /* Pause/Unpause the countdown timer */
@@ -146,7 +146,7 @@ void MainWindow::pauseUnpause()
     {
         _countdownTimer->pauseUnpause();
         _actionPauseUnpause->setText(QString("Resume timer"));
-        _ui->button_pause->setText(QString("Resume"));
+        _ui->button_pause->setText(QString("&Resume"));
     } else {
         _countdownTimer->pauseUnpause();
         _actionPauseUnpause->setText(QString("Pause timer"));
