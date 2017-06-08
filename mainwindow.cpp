@@ -55,7 +55,7 @@ void MainWindow::initSystemTray()
 {
     // Tray icon
     _trayIcon = new QSystemTrayIcon(this);
-    _trayIcon->setIcon(QIcon("://resources/myappico.png"));
+    _trayIcon->setIcon(QIcon("://resources/icon.ico"));
     _trayIcon->setVisible(true);
 
     // Click on message from tray icon

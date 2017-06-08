@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/myappico.png</file>
-        <file>resources/myappico.ico</file>
         <file>resources/ping.wav</file>
+        <file>resources/icon.ico</file>
     </qresource>
 </RCC>
