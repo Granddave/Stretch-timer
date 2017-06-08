@@ -310,14 +310,19 @@ void MainWindow::about()
                    "work sessions. <br/><br/>"
                    "Developed by David Isaksson<br/>"
                    "<a href=\"https://github.com/Granddave/Stretch-timer\">https://github.com/Granddave/Stretch-timer</a>"
-                   "<br/><br/>"
-                   "<b>Shortcuts</b><br/>"
-                   "Ctrl+W - Hide<br/>"
-                   "Ctrl+Q - Quit<br/>"
-                   "Alt+S - Start timer<br/>"
-                   "Alt+P - Pause timer<br/>"
-                   "Alt+R - Resume timer<br/>"
-                   "Alt+O - Stop timer<br/>"
+                   "<br/>"
+                   //"<br/>"
+                   //"<b>Shortcuts</b><br/>"
+
+                   "<table>"
+                   "<tr><th>Shortcut</th><th>Action</th></tr>"
+                   "<tr><td>Ctrl+W</td><td>Hide</td></tr>"
+                   "<tr><td>Ctrl+Q</td><td>Quit</td></tr>"
+                   "<tr><td>Alt+S</td><td>Start timer</td></tr>"
+                   "<tr><td>Alt+P</td><td>Pause timer</td></tr>"
+                   "<tr><td>Alt+R</td><td>Resume timer</td></tr>"
+                   "<tr><td>Alt+O</td><td>Stop timer</td></tr>"
+                   "</table>"
                    );
     msgBox.exec();
 }
