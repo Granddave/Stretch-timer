@@ -304,11 +304,21 @@ void MainWindow::about()
     QMessageBox msgBox;
     msgBox.setTextFormat(Qt::RichText);
     msgBox.setWindowTitle(QString("About Stretch Timer ") + QString(STRETCHTIMER_VERSION));
-    msgBox.setText("Stretch Timer is an opensource project "
+    msgBox.setText("<b>About</b><br/>"
+                   "Stretch Timer is an opensource project "
                    "that help people to stand up and stretch between their "
                    "work sessions. <br/><br/>"
                    "Developed by David Isaksson<br/>"
-                   "<a href=\"https://github.com/Granddave/Stretch-timer\">https://github.com/Granddave/Stretch-timer</a>");
+                   "<a href=\"https://github.com/Granddave/Stretch-timer\">https://github.com/Granddave/Stretch-timer</a>"
+                   "<br/><br/>"
+                   "<b>Shortcuts</b><br/>"
+                   "Ctrl+W - Hide<br/>"
+                   "Ctrl+Q - Quit<br/>"
+                   "Alt+S - Start timer<br/>"
+                   "Alt+P - Pause timer<br/>"
+                   "Alt+R - Resume timer<br/>"
+                   "Alt+O - Stop timer<br/>"
+                   );
     msgBox.exec();
 }
 
