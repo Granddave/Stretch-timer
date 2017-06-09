@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "version.h"
+#include "settingswidget.h"
 
 // Qt
 #include <QIcon>
@@ -49,6 +50,7 @@ void MainWindow::initUI()
 
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q), this, SLOT(closeApp()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(hide()));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(settings()));
 }
 
 void MainWindow::initSystemTray()
@@ -60,7 +62,7 @@ void MainWindow::initSystemTray()
 
     // Click on message from tray icon
     connect(_trayIcon, SIGNAL(messageClicked()),this, SLOT(showMainWindow()));
-    // Click on tray icintervalon
+    // Click on tray icon
     connect(_trayIcon,
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this,
@@ -78,6 +80,10 @@ void MainWindow::initSystemTray()
     _actionStop->setEnabled(false);
     connect(_actionStop, SIGNAL(triggered()), this, SLOT(stopTimer()));
 
+    _actionSettings = new QAction("S&ettings", this);
+    _actionSettings->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
+    connect(_actionSettings, SIGNAL(triggered()), this, SLOT(settings()));
+
     _actionAbout = new QAction("&About", this);
     connect(_actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
@@ -90,6 +96,7 @@ void MainWindow::initSystemTray()
     _trayIconMenu->addAction(_actionPauseUnpause);
     _trayIconMenu->addAction(_actionStop);
     _trayIconMenu->addSeparator();
+    _trayIconMenu->addAction(_actionSettings);
     _trayIconMenu->addAction(_actionAbout);
     _trayIconMenu->addAction(_actionQuit);
     _trayIcon->setContextMenu(_trayIconMenu);
@@ -176,9 +183,12 @@ void MainWindow::showTimeoutMessage()
         time = 20;
     }
 
+    //settings.setValue("timeoutMessage", "Stand up you lazy bastard.");
+    QString message(settings.value("timeoutMessage", "Time to stretch!").toString());
+
     _trayIcon->showMessage(
                 "StretchTimer",
-                "Time to stretch!",
+                message,
                 QSystemTrayIcon::NoIcon,
                 time * 1000);
 
@@ -296,6 +306,12 @@ void MainWindow::on_spinBox_Interval_valueChanged(int val)
 void MainWindow::on_slider_interval_valueChanged(int val)
 {
     _ui->spinBox_Interval->setValue(val);
+}
+
+void MainWindow::settings()
+{
+    SettingsWidget *settingsWidget = new SettingsWidget(this);
+    settingsWidget->show();
 }
 
 /* Shows the about dialog */

@@ -14,13 +14,16 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    countdowntimer.cpp
+    countdowntimer.cpp \
+    settingswidget.cpp
 
 HEADERS  += mainwindow.h \
     version.h \
-    countdowntimer.h
+    countdowntimer.h \
+    settingswidget.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    settingswidget.ui
 
 RC_ICONS = resources/icon.ico
 

@@ -41,6 +41,7 @@ private slots:
     void on_spinBox_Interval_valueChanged(int val);
     void on_slider_interval_valueChanged(int val);
 
+    void settings();
     void about();
 
 private:
@@ -56,6 +57,7 @@ private:
     QAction *_actionSet;
     QAction *_actionPauseUnpause;
     QAction *_actionStop;
+    QAction *_actionSettings;
     QAction *_actionAbout;
     QAction *_actionQuit;
 };
