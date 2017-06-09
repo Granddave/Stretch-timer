@@ -62,6 +62,7 @@ void MainWindow::initSystemTray()
 
     // Click on message from tray icon
     connect(_trayIcon, SIGNAL(messageClicked()),this, SLOT(showMainWindow()));
+
     // Click on tray icon
     connect(_trayIcon,
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -102,6 +103,7 @@ void MainWindow::initSystemTray()
     _trayIcon->setContextMenu(_trayIconMenu);
 }
 
+/* Initialize the countdown timer object and update relevant UI elements */
 void MainWindow::initCountdownTimer()
 {
     QSettings settings;
@@ -176,12 +178,6 @@ void MainWindow::showTimeoutMessage()
 {
     QSettings settings;
     int time = settings.value("secondsToDisplay", 5).toInt();
-
-    // Max 20 seconds
-    if(time > 20)
-    {
-        time = 20;
-    }
 
     //settings.setValue("timeoutMessage", "Stand up you lazy bastard.");
     QString message(settings.value("timeoutMessage", "Time to stretch!").toString());

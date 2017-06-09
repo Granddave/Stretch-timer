@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
 
     a.setApplicationName("StretchTimer");
     a.setOrganizationName("StretchTimer");
+    a.setWindowIcon(QIcon("://resources/icon.ico"));
 
     MainWindow w;
     w.show();

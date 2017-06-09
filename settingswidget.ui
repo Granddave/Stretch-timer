@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>475</width>
     <height>186</height>
    </rect>
   </property>
@@ -25,49 +25,102 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <layout class="QFormLayout" name="formLayout">
+    <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="1">
-      <widget class="QLineEdit" name="timeoutMessagelineEdit"/>
+      <widget class="QLineEdit" name="timeoutMessagelineEdit">
+       <property name="maxLength">
+        <number>50</number>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="timeToShow_label">
        <property name="text">
-        <string>Seconds to show timeout message</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QSpinBox" name="timeToShow_spinBox"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="closeAction_label">
-       <property name="text">
-        <string>Action when closing window</string>
+        <string>Time to show timeout message:</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QCheckBox" name="closeAction_CheckBox">
+      <layout class="QHBoxLayout" name="closeAction_layout">
+       <item>
+        <widget class="QRadioButton" name="hide_radioButton">
+         <property name="text">
+          <string>Hide</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="quit_radioButton">
+         <property name="text">
+          <string>&amp;Quit</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="timeToShow_spinBox">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="suffix">
+        <string> seconds</string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="closeAction_label">
        <property name="text">
-        <string/>
+        <string>Action when closing window:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="timeoutMessage_label">
        <property name="text">
-        <string>Timeout message</string>
+        <string>Timeout message:</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="shortcuts_label">
-     <property name="text">
-      <string>TextLabel</string>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-    </widget>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

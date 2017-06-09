@@ -3,6 +3,7 @@
 
 #include <QShortcut>
 #include <QSettings>
+#include <QDebug>
 
 SettingsWidget::SettingsWidget(QWidget *parent) :
     QDialog(parent),
@@ -11,11 +12,10 @@ SettingsWidget::SettingsWidget(QWidget *parent) :
     _ui->setupUi(this);
 
     loadSettings();
+    connect(_ui->buttonBox, SIGNAL(accepted()), this, SLOT(saveSettings()));
 
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(close()));
 }
-
-
 
 SettingsWidget::~SettingsWidget()
 {
@@ -26,13 +26,38 @@ void SettingsWidget::loadSettings()
 {
     QSettings settings;
 
-    _ui->closeAction_CheckBox->setChecked(settings.value("quitOnClose").toBool());
-    if(_ui->closeAction_CheckBox->isChecked())
-    {
+    // Message
+    QString message = settings.value("timeoutMessage", "Time to stretch!").toString();
+    _ui->timeoutMessagelineEdit->setText(message);
 
+    // Message time
+    int time = settings.value("secondsToDisplay", 5).toInt();
+    _ui->timeToShow_spinBox->setValue(time);
+
+    // Quit on close
+    bool quitOnClose = settings.value("quitOnClose", false).toBool();
+    if(quitOnClose)
+    {
+        _ui->quit_radioButton->setChecked(true);
     }
     else
     {
-
+        _ui->hide_radioButton->setChecked(true);
     }
+}
+
+void SettingsWidget::saveSettings()
+{
+    QSettings settings;
+
+    QString message = _ui->timeoutMessagelineEdit->text();
+    settings.setValue("timeoutMessage", message);
+
+    int time = _ui->timeToShow_spinBox->value();
+    settings.setValue("secondsToDisplay", time);
+
+    bool quitOnClose = _ui->quit_radioButton->isChecked();
+    settings.setValue("quitOnClose", quitOnClose);
+
+    qDebug() << "SETTINGS: Saved";
 }

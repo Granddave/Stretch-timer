@@ -15,6 +15,9 @@ public:
     explicit SettingsWidget(QWidget *parent = 0);
     ~SettingsWidget();
 
+private slots:
+    void saveSettings();
+
 private:
     void loadSettings();
 

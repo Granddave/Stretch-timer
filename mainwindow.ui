@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>344</width>
-    <height>92</height>
+    <width>310</width>
+    <height>96</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,14 +24,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>344</width>
-    <height>92</height>
+    <width>310</width>
+    <height>96</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>344</width>
-    <height>92</height>
+    <width>310</width>
+    <height>96</height>
    </size>
   </property>
   <property name="contextMenuPolicy">
@@ -78,15 +78,11 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_timeLeft">
-        <property name="text">
-         <string>label_timeLeft</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="1">
        <widget class="QSpinBox" name="spinBox_Interval">
+        <property name="suffix">
+         <string> minutes</string>
+        </property>
         <property name="maximum">
          <number>120</number>
         </property>
@@ -95,10 +91,10 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_timeLeft">
         <property name="text">
-         <string>minutes</string>
+         <string>label_timeLeft</string>
         </property>
        </widget>
       </item>
