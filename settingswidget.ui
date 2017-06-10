@@ -6,15 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>475</width>
-    <height>186</height>
+    <width>427</width>
+    <height>123</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
   </property>
   <property name="windowTitle">
    <string>Settings</string>
   </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
+   <item row="1" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -28,6 +40,15 @@
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="1">
       <widget class="QLineEdit" name="timeoutMessagelineEdit">
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="whatsThis">
+        <string>The message in the popup that shows when the timer hits zero.</string>
+       </property>
        <property name="maxLength">
         <number>50</number>
        </property>
@@ -38,6 +59,9 @@
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="timeToShow_label">
+       <property name="whatsThis">
+        <string>How many seconds the popup is visible.</string>
+       </property>
        <property name="text">
         <string>Time to show timeout message:</string>
        </property>
@@ -47,6 +71,9 @@
       <layout class="QHBoxLayout" name="closeAction_layout">
        <item>
         <widget class="QRadioButton" name="hide_radioButton">
+         <property name="whatsThis">
+          <string>What happens when you press the close button on the main window.</string>
+         </property>
          <property name="text">
           <string>Hide</string>
          </property>
@@ -54,6 +81,9 @@
        </item>
        <item>
         <widget class="QRadioButton" name="quit_radioButton">
+         <property name="whatsThis">
+          <string>What happens when you press the close button on the main window.</string>
+         </property>
          <property name="text">
           <string>&amp;Quit</string>
          </property>
@@ -78,9 +108,12 @@
       <widget class="QSpinBox" name="timeToShow_spinBox">
        <property name="maximumSize">
         <size>
-         <width>100</width>
+         <width>90</width>
          <height>16777215</height>
         </size>
+       </property>
+       <property name="whatsThis">
+        <string>How many seconds the popup is visible.</string>
        </property>
        <property name="suffix">
         <string> seconds</string>
@@ -95,6 +128,9 @@
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="closeAction_label">
+       <property name="whatsThis">
+        <string>What happens when you press the close button on the main window.</string>
+       </property>
        <property name="text">
         <string>Action when closing window:</string>
        </property>
@@ -102,25 +138,15 @@
      </item>
      <item row="0" column="0">
       <widget class="QLabel" name="timeoutMessage_label">
+       <property name="whatsThis">
+        <string>The message in the popup that shows when the timer hits zero.</string>
+       </property>
        <property name="text">
         <string>Timeout message:</string>
        </property>
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="1" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>

@@ -10,8 +10,9 @@ SettingsWidget::SettingsWidget(QWidget *parent) :
     _ui(new Ui::SettingsWidget)
 {
     _ui->setupUi(this);
-
+    this->layout()->setSizeConstraint(QLayout::SetFixedSize);
     loadSettings();
+
     connect(_ui->buttonBox, SIGNAL(accepted()), this, SLOT(saveSettings()));
 
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(close()));
