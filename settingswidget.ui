@@ -160,6 +160,12 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>timeoutMessagelineEdit</tabstop>
+  <tabstop>timeToShow_spinBox</tabstop>
+  <tabstop>hide_radioButton</tabstop>
+  <tabstop>quit_radioButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
