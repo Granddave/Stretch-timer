@@ -70,7 +70,7 @@ void CountdownTimer::stop()
     _countDownTimer->stop();
     _tickTimer->stop();
 
-    sendTick();
+    emit tick(0);
 }
 
 int CountdownTimer::remainingTime()
