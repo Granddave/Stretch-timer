@@ -27,7 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     initSystemTray();
     initCountdownTimer();
 
-    tickUpdate(0); // To initialize label in the mainwindow
+    // Initialize label in the main window
+    tickUpdate(0);
 }
 
 MainWindow::~MainWindow()
@@ -35,6 +36,7 @@ MainWindow::~MainWindow()
     delete _ui;
 }
 
+/* Initialize UI elements */
 void MainWindow::initUI()
 {
     _ui->setupUi(this);
@@ -53,6 +55,7 @@ void MainWindow::initUI()
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(settings()));
 }
 
+/* Initialize system tray with context menu */
 void MainWindow::initSystemTray()
 {
     // Tray icon
@@ -118,8 +121,7 @@ void MainWindow::initCountdownTimer()
 
 /* Load window position from settings.
  * The window will be placed in the center of the screen if it
- * was opened for the first time.
- */
+ * was opened for the first time. */
 void MainWindow::readGeometry()
 {
     QSettings settings;
@@ -132,9 +134,14 @@ void MainWindow::setTimer()
 {
     int interval = _ui->slider_interval->value();
 
+    if (!_countdownTimer->setInterval(interval))
+    {
+        qDebug() << "WARNING: Could not set interval" << interval;
+        return;
+    }
+
     QSettings settings;
     settings.setValue("interval", interval);
-    _countdownTimer->setInterval(interval);
 
     _countdownTimer->start();
 
@@ -146,6 +153,10 @@ void MainWindow::setTimer()
 
     _actionPauseUnpause->setText(QString("Pause timer"));
     _ui->button_pause->setText(QString("&Pause"));
+
+    qDebug() << "TIMER: Setting timer with an interval of"
+             << interval
+             << "minutes.";
 }
 
 /* Pause/Unpause the countdown timer */
@@ -156,11 +167,18 @@ void MainWindow::pauseUnpause()
         _countdownTimer->pauseUnpause();
         _actionPauseUnpause->setText(QString("Resume timer"));
         _ui->button_pause->setText(QString("&Resume"));
+
+        qDebug() << "TIMER: Pausing timer with "
+                 << _countdownTimer->remainingTime() / 60
+                 << "minutes left.";
     } else {
         _countdownTimer->pauseUnpause();
         _actionPauseUnpause->setText(QString("Pause timer"));
         _ui->button_pause->setText(QString("Pause"));
+
+        qDebug() << "TIMER: Unpausing timer.";
     }
+
 }
 
 /* Stops and resets the countdown timer */
@@ -171,6 +189,8 @@ void MainWindow::stopTimer()
     _ui->button_pause->setEnabled(false);
     _actionStop->setEnabled(false);
     _ui->button_stopTimer->setEnabled(false);
+
+    qDebug() << "TIMER: Stopping timer.";
 }
 
 /* Show "Time to stretch" in the system tray */
@@ -180,7 +200,8 @@ void MainWindow::showTimeoutMessage()
     int time = settings.value("secondsToDisplay", 5).toInt();
 
     //settings.setValue("timeoutMessage", "Stand up you lazy bastard.");
-    QString message(settings.value("timeoutMessage", "Time to stretch!").toString());
+    QString message(settings.value("timeoutMessage",
+                                   "Time to stretch!").toString());
 
     _trayIcon->showMessage(
                 "StretchTimer",
@@ -194,6 +215,7 @@ void MainWindow::showTimeoutMessage()
 #endif
 
     _countdownTimer->start();
+    qDebug() << "TIMER: Timeout and restarting timer.";
 }
 
 /* Show and set focus on the main window */
@@ -221,8 +243,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 }
 
 /* This really closes the application and saves the
- * geometry of the window
- */
+ * geometry of the window */
 void MainWindow::closeApp()
 {
     // Save position on screen
@@ -263,9 +284,10 @@ void MainWindow::tickUpdate(int rem)
     if(rem < 0)
     {
         /* Missed the timeout.
-         * Could be because OS went to sleep etc.
-         */
-        _countdownTimer->start();
+         * Could be because OS went to sleep etc. */
+        setTimer();
+
+        qDebug() << "WARNING: Remaining time is < 0:" << rem;
         return;
     }
 
@@ -304,6 +326,7 @@ void MainWindow::on_slider_interval_valueChanged(int val)
     _ui->spinBox_Interval->setValue(val);
 }
 
+/* Opens settings window */
 void MainWindow::settings()
 {
     SettingsWidget *settingsWidget = new SettingsWidget(this);
@@ -315,13 +338,15 @@ void MainWindow::about()
 {
     QMessageBox msgBox;
     msgBox.setTextFormat(Qt::RichText);
-    msgBox.setWindowTitle(QString("About Stretch Timer ") + QString(STRETCHTIMER_VERSION));
+    msgBox.setWindowTitle(QString("About Stretch Timer ")
+                          + QString(STRETCHTIMER_VERSION));
     msgBox.setText("<b>About</b><br/>"
                    "Stretch Timer is an opensource project "
                    "that help people to stand up and stretch between their "
                    "work sessions. <br/><br/>"
                    "Developed by David Isaksson<br/>"
-                   "<a href=\"https://github.com/Granddave/Stretch-timer\">https://github.com/Granddave/Stretch-timer</a>"
+                   "<a href=\"https://github.com/Granddave/Stretch-timer\">"
+                   "https://github.com/Granddave/Stretch-timer</a>"
                    "<br/>"
                    );
     msgBox.exec();

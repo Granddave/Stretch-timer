@@ -23,6 +23,7 @@ SettingsWidget::~SettingsWidget()
     delete _ui;
 }
 
+/* Loads settings from file */
 void SettingsWidget::loadSettings()
 {
     QSettings settings;
@@ -47,6 +48,7 @@ void SettingsWidget::loadSettings()
     }
 }
 
+/* Saves settings to file */
 void SettingsWidget::saveSettings()
 {
     QSettings settings;

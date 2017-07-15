@@ -31,6 +31,7 @@ CountdownTimer::CountdownTimer(QObject *parent,
     sendTick();
 }
 
+/* Starts timer */
 void CountdownTimer::start()
 {
     _paused = false;
@@ -42,6 +43,7 @@ void CountdownTimer::start()
     sendTick();
 }
 
+/* Toggles between paused and unpaused */
 void CountdownTimer::pauseUnpause()
 {
     if(!_paused)
@@ -64,6 +66,7 @@ void CountdownTimer::pauseUnpause()
     sendTick();
 }
 
+/* Stops timer */
 void CountdownTimer::stop()
 {
     _paused = false;
@@ -73,7 +76,8 @@ void CountdownTimer::stop()
     emit tick(0);
 }
 
-int CountdownTimer::remainingTime()
+/* Returning number of seconds remaining */
+int CountdownTimer::remainingTime() // test
 {
     if(_paused)
         return _remaining;
@@ -86,11 +90,28 @@ int CountdownTimer::remainingTime()
     return _remaining;
 }
 
+/* Sets new interval */
+bool CountdownTimer::setInterval(int interval)
+{
+    if(interval < 1)
+    {
+        return false;
+    }
+    else
+    {
+        _interval = interval;
+        return true;
+    }
+}
+
+/* Sends timeout signal */
 void CountdownTimer::sendTimeout()
 {
     emit timeout();
 }
 
+/* Sends tick signal every second.
+ * Helps with updating UI */
 void CountdownTimer::sendTick()
 {
     emit tick(remainingTime());
