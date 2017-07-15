@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>resources/ping.wav</file>
         <file>resources/icon.ico</file>
+        <file>resources/logo.png</file>
     </qresource>
 </RCC>

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "version.h"
 #include "settingswidget.h"
+#include "aboutdialog.h"
 
 // Qt
 #include <QIcon>
@@ -22,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     QSettings settings;
     qDebug() << "SETTINGS: Config file located at" << settings.fileName();
+
+
 
     initUI();
     initSystemTray();
@@ -341,20 +344,8 @@ void MainWindow::settings()
 /* Shows the about dialog */
 void MainWindow::about()
 {
-    QMessageBox msgBox;
-    msgBox.setTextFormat(Qt::RichText);
-    msgBox.setWindowTitle(QString("About Stretch Timer ")
-                          + QString(STRETCHTIMER_VERSION));
-    msgBox.setText("<b>About</b><br/>"
-                   "Stretch Timer is an opensource project "
-                   "that help people to stand up and stretch between their "
-                   "work sessions. <br/><br/>"
-                   "Developed by David Isaksson<br/>"
-                   "<a href=\"https://github.com/Granddave/Stretch-timer\">"
-                   "https://github.com/Granddave/Stretch-timer</a>"
-                   "<br/>"
-                   );
-    msgBox.exec();
+    AboutDialog dialog;
+    dialog.exec();
 }
 
 

@@ -15,15 +15,18 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     countdowntimer.cpp \
-    settingswidget.cpp
+    settingswidget.cpp \
+    aboutdialog.cpp
 
 HEADERS  += mainwindow.h \
     version.h \
     countdowntimer.h \
-    settingswidget.h
+    settingswidget.h \
+    aboutdialog.h
 
 FORMS    += mainwindow.ui \
-    settingswidget.ui
+    settingswidget.ui \
+    aboutdialog.ui
 
 RC_ICONS = resources/icon.ico
 
