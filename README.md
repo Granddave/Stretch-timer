@@ -2,6 +2,13 @@
 
 Stretch Timer is an open source project that help people to stand up and stretch between their work sessions.
 
+![Main window](https://github.com/Granddave/Stretch-timer/blob/master/preview-images/main-window.png)
+
+![Popup message](https://github.com/Granddave/Stretch-timer/blob/master/preview-images/popup.png)
+
+![Settings](https://github.com/Granddave/Stretch-timer/blob/master/preview-images/settings.png)
+
+
 ## Dependencies
 
 `Qt 4` or higher
@@ -13,7 +20,7 @@ Go to [releases page](https://github.com/Granddave/Stretch-timer/releases) to do
 
 ### Linux
 
-Get source and compile. Tested on Manjaro KDE, but should work on most Linux platform.
+Get source and compile. Tested on Manjaro KDE, but should work on most Linux platforms.
 
 ## Getting the source
 
