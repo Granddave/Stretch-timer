@@ -27,7 +27,17 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <layout class="QGridLayout" name="gridLayout_2">
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="timeoutMessage_label">
+       <property name="whatsThis">
+        <string>The message in the popup that shows when the timer hits zero.</string>
+       </property>
+       <property name="text">
+        <string>Timeout message:</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="timeoutMessagelineEdit">
        <property name="minimumSize">
@@ -54,6 +64,38 @@
        </property>
        <property name="text">
         <string>Time to show timeout message:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="timeToShow_spinBox">
+       <property name="maximumSize">
+        <size>
+         <width>90</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="whatsThis">
+        <string>How many seconds the popup is visible.</string>
+       </property>
+       <property name="suffix">
+        <string> seconds</string>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>20</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="closeAction_label">
+       <property name="whatsThis">
+        <string>What happens when you press the close button on the main window.</string>
+       </property>
+       <property name="text">
+        <string>Action when closing window:</string>
        </property>
       </widget>
      </item>
@@ -94,69 +136,84 @@
        </item>
       </layout>
      </item>
-     <item row="1" column="1">
-      <widget class="QSpinBox" name="timeToShow_spinBox">
-       <property name="maximumSize">
-        <size>
-         <width>90</width>
-         <height>16777215</height>
-        </size>
-       </property>
+     <item row="3" column="0">
+      <widget class="QLabel" name="disablePopup_label">
        <property name="whatsThis">
-        <string>How many seconds the popup is visible.</string>
+        <string>If unchecked, a popup will appear saying that the program is still running.</string>
        </property>
-       <property name="suffix">
-        <string> seconds</string>
-       </property>
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>20</number>
+       <property name="text">
+        <string>Disable popup when closing window:</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="timeoutMessage_label">
+     <item row="3" column="1">
+      <widget class="QCheckBox" name="disablePopup_checkBox">
        <property name="whatsThis">
-        <string>The message in the popup that shows when the timer hits zero.</string>
+        <string>If unchecked, a popup will appear saying that the program is still running.</string>
        </property>
        <property name="text">
-        <string>Timeout message:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="closeAction_label">
-       <property name="whatsThis">
-        <string>What happens when you press the close button on the main window.</string>
-       </property>
-       <property name="text">
-        <string>Action when closing window:</string>
+        <string/>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="2" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="shortcut_label">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Shortcut     &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Action&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Ctrl+W&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Hide&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Ctrl+Q&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Quit&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+S&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Start timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+P&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Pause timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+R&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Resume timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+O&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Stop timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="indent">
-      <number>0</number>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="shortcut_label">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Shortcut     &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Action&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;p&gt;Ctrl+W&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Hide&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;p&gt;Ctrl+Q&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Quit&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;p&gt;Ctrl+S&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Settings&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+S&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Start timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+P&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Pause timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+R&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Resume timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+O&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Stop timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;
+
+</string>
+       </property>
+       <property name="indent">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QDialogButtonBox" name="buttonBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="standardButtons">
+          <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

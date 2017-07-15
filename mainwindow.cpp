@@ -258,13 +258,18 @@ void MainWindow::hideApp()
 {
     if (_trayIcon->isVisible())
     {
-        _trayIcon->showMessage("Still running...",
-                               "Stretch Timer is still running. "
-                               "To terminate the program, "
-                               "choose Quit in the context menu "
-                               "or Ctrl+Q when the window is open.",
-                               QSystemTrayIcon::NoIcon,
-                               5000);
+        QSettings settings;
+        if(settings.value("showPopupWhenHide", true).toBool())
+        {
+            _trayIcon->showMessage("Stretch Timer is still running...",
+                                   "To terminate the program, "
+                                   "choose Quit in the context menu "
+                                   "or Ctrl+Q when the window is open"
+                                   "\nThis message can be disable in "
+                                   "the settings.",
+                                   QSystemTrayIcon::NoIcon,
+                                   5000);
+        }
         hide();
     }
 }

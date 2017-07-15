@@ -17,6 +17,7 @@ public:
 
 private slots:
     void saveSettings();
+    void hideCloseRadioChanged(bool b);
 
 private:
     void loadSettings();
