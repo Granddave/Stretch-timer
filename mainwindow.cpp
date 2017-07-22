@@ -43,6 +43,8 @@ MainWindow::~MainWindow()
 void MainWindow::initUI()
 {
     _ui->setupUi(this);
+    qApp->setQuitOnLastWindowClosed(false);
+
     setWindowTitle("Stretch Timer");
     setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
 
