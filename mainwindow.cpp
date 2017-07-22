@@ -336,8 +336,8 @@ void MainWindow::on_slider_interval_valueChanged(int val)
 /* Opens settings window */
 void MainWindow::settings()
 {
-    SettingsWidget *settingsWidget = new SettingsWidget(this);
-    settingsWidget->show();
+    SettingsWidget settingsWidget;
+    settingsWidget.exec();
 }
 
 /* Shows the about dialog */
