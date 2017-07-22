@@ -24,8 +24,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QSettings settings;
     qDebug() << "SETTINGS: Config file located at" << settings.fileName();
 
-
-
     initUI();
     initSystemTray();
     initCountdownTimer();
@@ -251,7 +249,6 @@ void MainWindow::closeEvent(QCloseEvent *e)
  * geometry of the window */
 void MainWindow::closeApp()
 {
-    // Save position on screen
     QSettings settings;
     settings.setValue("geometry", saveGeometry());
 
