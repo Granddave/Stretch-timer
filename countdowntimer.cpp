@@ -28,7 +28,7 @@ CountdownTimer::CountdownTimer(QObject *parent,
     _elapsedTimer->start();
 
     _paused = false;
-    sendTick();
+    stop();
 }
 
 /* Starts timer */

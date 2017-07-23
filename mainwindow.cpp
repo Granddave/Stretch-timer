@@ -24,8 +24,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QSettings settings;
     qDebug() << "SETTINGS: Config file located at" << settings.fileName();
 
-
-
     initUI();
     initSystemTray();
     initCountdownTimer();
@@ -43,6 +41,8 @@ MainWindow::~MainWindow()
 void MainWindow::initUI()
 {
     _ui->setupUi(this);
+    qApp->setQuitOnLastWindowClosed(false);
+
     setWindowTitle("Stretch Timer");
     setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
 
@@ -249,7 +249,6 @@ void MainWindow::closeEvent(QCloseEvent *e)
  * geometry of the window */
 void MainWindow::closeApp()
 {
-    // Save position on screen
     QSettings settings;
     settings.setValue("geometry", saveGeometry());
 
@@ -337,8 +336,8 @@ void MainWindow::on_slider_interval_valueChanged(int val)
 /* Opens settings window */
 void MainWindow::settings()
 {
-    SettingsWidget *settingsWidget = new SettingsWidget(this);
-    settingsWidget->show();
+    SettingsWidget settingsWidget;
+    settingsWidget.exec();
 }
 
 /* Shows the about dialog */
