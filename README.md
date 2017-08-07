@@ -30,4 +30,4 @@ $ git clone https://github.com/Granddave/Stretch-timer.git
 
 ### License
 Stretch Timer is licensed under GNU GPL3
-Developed by David Isakssond ([davidisaksson93@gmail.com](mailto:davidisaksson93@gmail.com))
+Developed by David Isaksson ([davidisaksson93@gmail.com](mailto:davidisaksson93@gmail.com))
