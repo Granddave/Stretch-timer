@@ -30,7 +30,7 @@ private slots:
     void setTimer();
     void pauseUnpause();
     void stopTimer();
-    void showTimeoutMessage();         // Timer has run out
+    void showTimeoutMessage();
     void showMainWindow();
     void closeEvent(QCloseEvent *e);
     void closeApp();

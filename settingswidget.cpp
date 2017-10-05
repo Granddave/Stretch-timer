@@ -38,6 +38,10 @@ void SettingsWidget::loadSettings()
     int time = settings.value("secondsToDisplay", 5).toInt();
     _ui->timeToShow_spinBox->setValue(time);
 
+    // Aggressive mode
+    bool aggressiveMode = settings.value("aggressiveMode", false).toBool();
+        _ui->aggressiveMode_checkBox->setChecked(aggressiveMode);
+
     // Quit on close
     bool quitOnClose = settings.value("quitOnClose", false).toBool();
     if(quitOnClose)
@@ -69,6 +73,9 @@ void SettingsWidget::saveSettings()
 
     bool quitOnClose = _ui->quit_radioButton->isChecked();
     settings.setValue("quitOnClose", quitOnClose);
+
+    bool aggressiveMode = _ui->aggressiveMode_checkBox->isChecked();
+    settings.setValue("aggressiveMode", aggressiveMode);
 
     bool showPopupWhenHide = !_ui->disablePopup_checkBox->isChecked();
     settings.setValue("showPopupWhenHide", showPopupWhenHide);

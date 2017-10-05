@@ -3,6 +3,11 @@
 #include "version.h"
 #include "settingswidget.h"
 #include "aboutdialog.h"
+#include "common.h"
+
+#ifdef AGGRESSIVE_MODE_COMP
+#include "alarmdialog.h"
+#endif
 
 // Qt
 #include <QIcon>
@@ -114,7 +119,9 @@ void MainWindow::initCountdownTimer()
 {
     QSettings settings;
     int userInterval = settings.value("interval", 30).toInt();
-    _countdownTimer = new CountdownTimer(this, userInterval);
+
+    _countdownTimer = new CountdownTimer(minutes, this, userInterval);
+
     connect(_countdownTimer, SIGNAL(timeout()), this, SLOT(showTimeoutMessage()));
     connect(_countdownTimer, SIGNAL(tick(int)), this, SLOT(tickUpdate(int)));
 
@@ -181,7 +188,6 @@ void MainWindow::pauseUnpause()
 
         qDebug() << "TIMER: Unpausing timer.";
     }
-
 }
 
 /* Stops and resets the countdown timer */
@@ -217,8 +223,25 @@ void MainWindow::showTimeoutMessage()
     QSound::play("://resources/ping.wav");
 #endif
 
-    _countdownTimer->start();
+#ifdef AGGRESSIVE_MODE_COMP
+    _countdownTimer->stop();
+    qDebug() << "TIMER: Timeout";
+
+    if(settings.value("aggressiveMode", false).toBool())
+    {
+        AlarmDialog* d = new AlarmDialog();
+        connect(d, SIGNAL(destroyed(QObject*)), this, SLOT(setTimer()));
+        d->exec();
+        d->deleteLater();
+    }
+    else
+    {
+        setTimer();
+    }
+#else
+    setTimer();
     qDebug() << "TIMER: Timeout and restarting timer.";
+#endif
 }
 
 /* Show and set focus on the main window */

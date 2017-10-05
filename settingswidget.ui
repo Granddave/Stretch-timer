@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>427</width>
-    <height>236</height>
+    <width>450</width>
+    <height>243</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -89,7 +89,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="closeAction_label">
        <property name="whatsThis">
         <string>What happens when you press the close button on the main window.</string>
@@ -99,7 +99,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <layout class="QHBoxLayout" name="closeAction_layout">
        <item>
         <widget class="QRadioButton" name="hide_radioButton">
@@ -136,7 +136,7 @@
        </item>
       </layout>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="disablePopup_label">
        <property name="whatsThis">
         <string>If unchecked, a popup will appear saying that the program is still running.</string>
@@ -146,13 +146,27 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QCheckBox" name="disablePopup_checkBox">
        <property name="whatsThis">
         <string>If unchecked, a popup will appear saying that the program is still running.</string>
        </property>
        <property name="text">
         <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QCheckBox" name="aggressiveMode_checkBox">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="aggressiveMode_label">
+       <property name="text">
+        <string>Aggressive mode</string>
        </property>
       </widget>
      </item>
