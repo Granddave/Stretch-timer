@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ping.wav</file>
+        <file>icon.ico</file>
+        <file>logo.png</file>
+    </qresource>
+</RCC>
