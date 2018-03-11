@@ -68,7 +68,7 @@ void MainWindow::initSystemTray()
 {
     // Tray icon
     _trayIcon = new QSystemTrayIcon(this);
-    _trayIcon->setIcon(QIcon("://resources/icon.ico"));
+    _trayIcon->setIcon(QIcon("://icon.ico"));
     _trayIcon->setVisible(true);
 
     // Click on message from tray icon
@@ -220,7 +220,7 @@ void MainWindow::showTimeoutMessage()
 
 #ifdef Q_OS_UNIX
     // Cred: https://www.freesound.org/people/SpiceProgram/sounds/387217/
-    QSound::play("://resources/ping.wav");
+    QSound::play("://ping.wav");
 #endif
 
 #ifdef AGGRESSIVE_MODE_COMP

@@ -37,8 +37,8 @@ FORMS += \
 win32:FORMS += \
     alarmdialog.ui
 
-RC_ICONS = resources/icon.ico
+RC_ICONS = res/icon.ico
 
 RESOURCES += \
-    res.qrc \
-    darkstyle.qrc
+    res/res.qrc \
+    res/darkstyle.qrc
