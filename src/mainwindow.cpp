@@ -369,8 +369,3 @@ void MainWindow::about()
     AboutDialog dialog;
     dialog.exec();
 }
-
-
-
-
-
