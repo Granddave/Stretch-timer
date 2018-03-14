@@ -6,6 +6,7 @@ TARGET = StretchTimer
 TEMPLATE = app
 
 win32:LIBS += -luser32
+linux:LIBS += -lX11 -lXext -lXss
 
 SOURCES += \
     main.cpp\
@@ -14,9 +15,11 @@ SOURCES += \
     settingswidget.cpp \
     aboutdialog.cpp \
     darkstyle.cpp
-win32:SOURCES += \
-    idletimer.cpp \
-    alarmdialog.cpp
+win32|linux {
+    SOURCES += \
+        idletimer.cpp \
+        alarmdialog.cpp
+}
 
 HEADERS  += \
     mainwindow.h \
@@ -26,16 +29,20 @@ HEADERS  += \
     aboutdialog.h \
     common.h \
     darkstyle.h
-win32:HEADERS += \
-    idletimer.h \
-    alarmdialog.h \
+win32|linux {
+    HEADERS += \
+        idletimer.h \
+        alarmdialog.h \
+}
 
 FORMS += \
     mainwindow.ui \
     settingswidget.ui \
     aboutdialog.ui
-win32:FORMS += \
-    alarmdialog.ui
+win32|linux {
+    FORMS += \
+        alarmdialog.ui
+}
 
 RC_ICONS = res/icon.ico
 
