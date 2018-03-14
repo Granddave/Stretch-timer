@@ -5,20 +5,20 @@ set(SRCS
     main.cpp
     mainwindow.cpp
     settingswidget.cpp)
-if(WIN32)
+if(WIN32 OR UNIX)
     list(APPEND SRCS 
         alarmdialog.cpp
         idletimer.cpp)
-endif(WIN32)
+endif(WIN32 OR UNIX)
 
 set(UI_HEADERS 
     aboutdialog.ui
     mainwindow.ui
     settingswidget.ui)
-if(WIN32)
+if(WIN32 OR UNIX)
     list(APPEND UI_HEADERS
         alarmdialog.ui)
-endif(WIN32)
+endif(WIN32 OR UNIX)
 
 qt5_add_resources(QRCS 
     res/darkstyle.qrc
@@ -29,7 +29,8 @@ add_executable(stretch-timer ${SRCS} ${UI_HEADERS} ${QRCS})
 set(LIBS Qt5::Widgets)
 if(UNIX)
     list(APPEND LIBS
-        Qt5::Multimedia)
+        Qt5::Multimedia # Sound notification
+        Xss Xext X11)   # User idle recognition
 endif(UNIX)
 if(WIN32)
     list(APPEND LIBS

@@ -2,8 +2,8 @@
 #define COMMON
 
 #include <qsystemdetection.h>
-#ifdef Q_OS_WIN
-#define AGGRESSIVE_MODE_COMP
+#if defined(Q_OS_WIN) | defined(Q_OS_LINUX)
+#define AGGRESSIVE_MODE_COMPAT
 #endif
 
 /* Changes the minute countdown timers to seconds. */

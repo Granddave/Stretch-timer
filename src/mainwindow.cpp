@@ -5,7 +5,7 @@
 #include "aboutdialog.h"
 #include "common.h"
 
-#ifdef AGGRESSIVE_MODE_COMP
+#ifdef AGGRESSIVE_MODE_COMPAT
 #include "alarmdialog.h"
 #endif
 
@@ -223,7 +223,7 @@ void MainWindow::showTimeoutMessage()
     QSound::play("://ping.wav");
 #endif
 
-#ifdef AGGRESSIVE_MODE_COMP
+#ifdef AGGRESSIVE_MODE_COMPAT
     _countdownTimer->stop();
     qDebug() << "TIMER: Timeout";
 
