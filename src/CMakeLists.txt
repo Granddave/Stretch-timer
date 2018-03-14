@@ -11,6 +11,9 @@ if(WIN32 OR UNIX)
         idletimer.cpp)
 endif(WIN32 OR UNIX)
 
+set(HEADERS
+    common.h
+    version.h)
 set(UI_HEADERS 
     aboutdialog.ui
     mainwindow.ui
@@ -24,7 +27,7 @@ qt5_add_resources(QRCS
     res/darkstyle.qrc
     res/res.qrc)
 
-add_executable(stretch-timer ${SRCS} ${UI_HEADERS} ${QRCS})
+add_executable(stretch-timer ${SRCS} ${HEADERS} ${UI_HEADERS} ${QRCS})
 
 set(LIBS Qt5::Widgets)
 if(UNIX)
