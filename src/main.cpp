@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "darkStyle.h"
+#include "darkstyle.h"
 
 #include <QApplication>
 #include <QCoreApplication>

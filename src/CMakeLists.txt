@@ -1,7 +1,7 @@
 set(SRCS
     aboutdialog.cpp
     countdowntimer.cpp
-    darkStyle.cpp
+    darkstyle.cpp
     main.cpp
     mainwindow.cpp
     settingswidget.cpp)

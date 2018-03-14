@@ -13,7 +13,7 @@ SOURCES += \
     countdowntimer.cpp \
     settingswidget.cpp \
     aboutdialog.cpp \
-    darkStyle.cpp
+    darkstyle.cpp
 win32:SOURCES += \
     idletimer.cpp \
     alarmdialog.cpp
@@ -25,7 +25,7 @@ HEADERS  += \
     settingswidget.h \
     aboutdialog.h \
     common.h \
-    darkStyle.h
+    darkstyle.h
 win32:HEADERS += \
     idletimer.h \
     alarmdialog.h \
