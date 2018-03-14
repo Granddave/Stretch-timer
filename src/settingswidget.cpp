@@ -1,5 +1,6 @@
 #include "settingswidget.h"
 #include "ui_settingswidget.h"
+#include "common.h"
 
 #include <QShortcut>
 #include <QSettings>
@@ -38,9 +39,14 @@ void SettingsWidget::loadSettings()
     int time = settings.value("secondsToDisplay", 5).toInt();
     _ui->timeToShow_spinBox->setValue(time);
 
+#ifdef AGGRESSIVE_MODE_COMPAT
     // Aggressive mode
     bool aggressiveMode = settings.value("aggressiveMode", false).toBool();
         _ui->aggressiveMode_checkBox->setChecked(aggressiveMode);
+#else
+    _ui->aggressiveMode_checkBox->hide();
+    _ui->aggressiveMode_label->hide();
+#endif
 
     // Quit on close
     bool quitOnClose = settings.value("quitOnClose", false).toBool();
