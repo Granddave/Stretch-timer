@@ -54,12 +54,15 @@ private:
 
     QSystemTrayIcon *_trayIcon;
     QMenu *_trayIconMenu;
-    QAction *_actionSet;
-    QAction *_actionPauseUnpause;
-    QAction *_actionStop;
-    QAction *_actionSettings;
-    QAction *_actionAbout;
-    QAction *_actionQuit;
+
+    struct {
+        QAction *setTimer;
+        QAction *pauseUnpauseTimer;
+        QAction *stopTimer;
+        QAction *openSettings;
+        QAction *openAbout;
+        QAction *quit;
+    } _actions;
 };
 
 #endif // MAINWINDOW_H
