@@ -2,7 +2,7 @@ QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = StretchTimer
+TARGET = stretch-timer 
 TEMPLATE = app
 
 win32:LIBS += -luser32

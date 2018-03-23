@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    a.setApplicationName("StretchTimer");
+    a.setApplicationName("stretch-timer");
     a.setOrganizationName("StretchTimer");
     a.setWindowIcon(QIcon("://icon.ico"));
 
