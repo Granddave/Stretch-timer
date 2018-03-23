@@ -88,6 +88,7 @@ bool CountdownTimer::setInterval(int interval)
 {
     if(interval < 1)
     {
+        qDebug() << "WARNING: The interval is less than 1. interval: " << interval;
         return false;
     }
     else

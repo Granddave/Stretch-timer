@@ -7,7 +7,7 @@
 
 #ifdef AGGRESSIVE_MODE_COMPAT
 #include "alarmdialog.h"
-#endif
+#endif // AGGRESSIVE_MODE_COMPAT
 
 // Qt
 #include <QIcon>
@@ -20,7 +20,7 @@
 #include <QCloseEvent>
 #ifdef Q_OS_UNIX
 #include <QSound>
-#endif
+#endif // Q_OS_UNIX
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -202,13 +202,12 @@ void MainWindow::stopTimer()
     qDebug() << "TIMER: Stopping timer.";
 }
 
-/* Show "Time to stretch" in the system tray */
+/* Show time out message in the system tray */
 void MainWindow::showTimeoutMessage()
 {
     QSettings settings;
     int time = settings.value("secondsToDisplay", 5).toInt();
 
-    //settings.setValue("timeoutMessage", "Stand up you lazy bastard.");
     QString message(settings.value("timeoutMessage",
                                    "Time to stretch!").toString());
 
@@ -238,10 +237,10 @@ void MainWindow::showTimeoutMessage()
     {
         setTimer();
     }
-#else
+#else // AGGRESSIVE_MODE_COMPAT
     setTimer();
     qDebug() << "TIMER: Timeout and restarting timer.";
-#endif
+#endif // AGGRESSIVE_MODE_COMPAT
 }
 
 /* Show and set focus on the main window */

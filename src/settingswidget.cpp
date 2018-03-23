@@ -43,10 +43,10 @@ void SettingsWidget::loadSettings()
     // Aggressive mode
     bool aggressiveMode = settings.value("aggressiveMode", false).toBool();
         _ui->aggressiveMode_checkBox->setChecked(aggressiveMode);
-#else
+#else // AGGRESSIVE_MODE_COMPAT
     _ui->aggressiveMode_checkBox->hide();
     _ui->aggressiveMode_label->hide();
-#endif
+#endif // AGGRESSIVE_MODE_COMPAT
 
     // Quit on close
     bool quitOnClose = settings.value("quitOnClose", false).toBool();
