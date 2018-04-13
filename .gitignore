@@ -397,3 +397,5 @@ $RECYCLE.BIN/
 
 .vscode
 src/\.qmake\.stash
+\.directory
+*.stash
