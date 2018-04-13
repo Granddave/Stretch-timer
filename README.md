@@ -20,7 +20,7 @@ Go to [releases page](https://github.com/Granddave/Stretch-timer/releases) to do
 
 ### Linux
 
-Get source and compile. Tested on Manjaro KDE, but should work on most Linux platforms.
+Get source and compile. Tested on Manjaro KDE and Debian 9, but should work on most Linux platforms.
 
 ## Getting the source
 
