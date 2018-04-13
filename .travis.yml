@@ -8,5 +8,6 @@ before_install:
  - sudo apt-get install qt5-default qttools5-dev-tools
 
 script:
- - qmake stretch-timer.pro
- - make
+ - qmake stretch-timer.pro && make
+ - rm -r build/* Makefile
+ - cd build/ && cmake .. && make
