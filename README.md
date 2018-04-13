@@ -28,9 +28,11 @@ Get source and compile. Tested on Manjaro KDE, but should work on most Linux pla
 $ git clone https://github.com/Granddave/Stretch-timer.git
 ```
 
-### License
+## License
 
 Stretch Timer is licensed under GNU GPL3
 Developed by David Isaksson ([davidisaksson93@gmail.com](mailto:davidisaksson93@gmail.com))
+
+### 3rd party licenses
 
 The [darkstyle theme (cred to Jorgen-VikingGod)](https://github.com/Jorgen-VikingGod/Qt-Frameless-Window-DarkStyle) is licensed under the MIT license.
