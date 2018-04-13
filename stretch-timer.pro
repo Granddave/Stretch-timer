@@ -14,7 +14,8 @@ else {
     DESTDIR = build/release
 }
 
-#DEFINES += QT_NO_DEBUG_OUTPUT=1
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
+
 OBJECTS_DIR = $${DESTDIR}
 MOC_DIR = $${DESTDIR}
 RCC_DIR = $${DESTDIR}
