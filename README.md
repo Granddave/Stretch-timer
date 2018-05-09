@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Granddave/Stretch-timer.svg?branch=master)](https://travis-ci.org/Granddave/Stretch-timer)
+
 # Stretch Timer
 
 Stretch Timer is an open source project that help people to stand up and stretch between their work sessions.
