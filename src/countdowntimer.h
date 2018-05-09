@@ -44,9 +44,9 @@ signals:
 
 private:
     TimerType _timerType;
-    QTimer *_countDownTimer;    // Main countdown timer.
-    QTimer *_tickTimer;         // Sends update tick every second.
-    QTime *_elapsedTimer;       // Needed to calculate remaining time.
+    QTimer* _countDownTimer;    // Main countdown timer.
+    QTimer* _tickTimer;         // Sends update tick every second.
+    QTime* _elapsedTimer;       // Needed to calculate remaining time.
     bool _paused;               // If timer is paused or not.
     int _remaining;             // Seconds remaining, needed if paused.
     int _interval;              // Time in seconds.

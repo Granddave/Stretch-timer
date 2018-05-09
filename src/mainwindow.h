@@ -49,19 +49,19 @@ private:
     void initSystemTray();
     void initCountdownTimer();
 
-    Ui::MainWindow *_ui;
-    CountdownTimer *_countdownTimer;
+    Ui::MainWindow* _ui;
+    CountdownTimer* _countdownTimer;
 
-    QSystemTrayIcon *_trayIcon;
-    QMenu *_trayIconMenu;
+    QSystemTrayIcon* _trayIcon;
+    QMenu* _trayIconMenu;
 
     struct {
-        QAction *setTimer;
-        QAction *pauseUnpauseTimer;
-        QAction *stopTimer;
-        QAction *openSettings;
-        QAction *openAbout;
-        QAction *quit;
+        QAction* setTimer;
+        QAction* pauseUnpauseTimer;
+        QAction* stopTimer;
+        QAction* openSettings;
+        QAction* openAbout;
+        QAction* quit;
     } _actions;
 };
 

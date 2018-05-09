@@ -24,7 +24,7 @@ private slots:
 
 private:
     void keyPressEvent(QKeyEvent* e);
-    Ui::AlarmDialog *_ui;
+    Ui::AlarmDialog* _ui;
     IdleTimer* _idleTimer;
 
 };

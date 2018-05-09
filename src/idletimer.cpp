@@ -45,7 +45,7 @@ int IdleTimer::getIdleTime()
 #elif defined(Q_OS_LINUX) // Cred to https://stackoverflow.com/a/4702411
     time_t idle_time;
     static XScreenSaverInfo *mit_info;
-    Display *display;
+    Display* display;
     int screen;
     mit_info = XScreenSaverAllocInfo();
     if((display=XOpenDisplay(NULL)) == NULL) { return(-1); }

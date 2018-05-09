@@ -22,7 +22,7 @@ private slots:
 private:
     void loadSettings();
 
-    Ui::SettingsWidget *_ui;
+    Ui::SettingsWidget* _ui;
 };
 
 #endif // SETTINGSWIDGET_H
