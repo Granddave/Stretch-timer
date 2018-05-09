@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>271</height>
+    <width>499</width>
+    <height>343</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -89,6 +89,20 @@
        </property>
       </widget>
      </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="aggressiveMode_label">
+       <property name="text">
+        <string>Aggressive mode</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QCheckBox" name="aggressiveMode_checkBox">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
      <item row="3" column="0">
       <widget class="QLabel" name="closeAction_label">
        <property name="whatsThis">
@@ -156,17 +170,23 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QCheckBox" name="aggressiveMode_checkBox">
+     <item row="5" column="0">
+      <widget class="QLabel" name="darkTheme_label">
+       <property name="whatsThis">
+        <string>If unchecked, a popup will appear saying that the program is still running.</string>
+       </property>
        <property name="text">
-        <string/>
+        <string>Enable dark theme</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="aggressiveMode_label">
+     <item row="5" column="1">
+      <widget class="QCheckBox" name="darkTheme_checkBox">
+       <property name="whatsThis">
+        <string>If unchecked, a popup will appear saying that the program is still running.</string>
+       </property>
        <property name="text">
-        <string>Aggressive mode</string>
+        <string/>
        </property>
       </widget>
      </item>

@@ -7,8 +7,6 @@
 
 int main(int argc, char *argv[])
 {
-    //qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
-
     QApplication a(argc, argv);
 
     a.setApplicationName("stretch-timer");
@@ -16,7 +14,7 @@ int main(int argc, char *argv[])
     a.setWindowIcon(QIcon("://icon.ico"));
 
     QSettings settings;
-    if (settings.value("DarkTheme", false).toBool())
+    if (settings.value("darkTheme", true).toBool())
     {
         a.setStyle(new DarkStyle);
     }

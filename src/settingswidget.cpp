@@ -17,6 +17,8 @@ SettingsWidget::SettingsWidget(QWidget *parent) :
     connect(_ui->buttonBox, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(_ui->hide_radioButton, SIGNAL(toggled(bool)),
             this, SLOT(hideCloseRadioChanged(bool)));
+    connect(_ui->darkTheme_checkBox, SIGNAL(toggled(bool)),
+            this, SLOT(darkThemeToggled(bool)));
 
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(close()));
 }
@@ -64,6 +66,9 @@ void SettingsWidget::loadSettings()
     bool showPopupWhenHide = !settings.value("showPopupWhenHide", true).toBool();
     settings.setValue("showPopupWhenHide", showPopupWhenHide);
     _ui->disablePopup_checkBox->setChecked(showPopupWhenHide);
+
+    bool darkTheme = settings.value("darkTheme", true).toBool();
+    _ui->darkTheme_checkBox->setChecked(darkTheme);
 }
 
 /* Saves settings to file */
@@ -86,6 +91,9 @@ void SettingsWidget::saveSettings()
     bool showPopupWhenHide = !_ui->disablePopup_checkBox->isChecked();
     settings.setValue("showPopupWhenHide", showPopupWhenHide);
 
+    bool darkTheme = _ui->darkTheme_checkBox->isChecked();
+    settings.setValue("darkTheme", darkTheme);
+
     qDebug() << "SETTINGS: Saved";
 }
 
@@ -93,4 +101,9 @@ void SettingsWidget::hideCloseRadioChanged(bool b)
 {
     _ui->disablePopup_checkBox->setEnabled(b);
     _ui->disablePopup_label->setEnabled(b);
+}
+
+void SettingsWidget::darkThemeToggled(bool b)
+{
+    _ui->darkTheme_checkBox->setText("Restart for change to take effect");
 }
