@@ -2,22 +2,15 @@
 
 #include <QDebug>
 
-#define TIME_DEBUG 0
-
-#if TIME_DEBUG
-#define MINUTE 1
-#else
-#define MINUTE 60
-#endif
-
-CountdownTimer::CountdownTimer(QObject *parent,
+CountdownTimer::CountdownTimer(TimerType timerType, QObject *parent,
                                int interval) :
     QObject(parent),
+    _timerType(timerType),
     _interval(interval)
 {
     _countDownTimer = new QTimer(this);
     _countDownTimer->setSingleShot(true);
-    _countDownTimer->setInterval(_interval * 1000 * MINUTE);
+    _countDownTimer->setInterval(_interval * 1000 * _timerType);
     connect(_countDownTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
 
     _tickTimer = new QTimer(this);
@@ -36,7 +29,7 @@ void CountdownTimer::start()
 {
     _paused = false;
     _countDownTimer->stop();
-    _countDownTimer->start(_interval * 1000 * MINUTE);
+    _countDownTimer->start(_interval * 1000 * _timerType);
     _tickTimer->start(1000);
     _elapsedTimer->restart();
 
@@ -77,7 +70,7 @@ void CountdownTimer::stop()
 }
 
 /* Returning number of seconds remaining */
-int CountdownTimer::remainingTime() // test
+int CountdownTimer::remainingTime()
 {
     if(_paused)
         return _remaining;
@@ -95,6 +88,7 @@ bool CountdownTimer::setInterval(int interval)
 {
     if(interval < 1)
     {
+        qDebug() << "WARNING: The interval is less than 1. interval: " << interval;
         return false;
     }
     else
@@ -107,6 +101,7 @@ bool CountdownTimer::setInterval(int interval)
 /* Sends timeout signal */
 void CountdownTimer::sendTimeout()
 {
+    this->stop();
     emit timeout();
 }
 

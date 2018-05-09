@@ -30,7 +30,7 @@ private slots:
     void setTimer();
     void pauseUnpause();
     void stopTimer();
-    void showTimeoutMessage();         // Timer has run out
+    void showTimeoutMessage();
     void showMainWindow();
     void closeEvent(QCloseEvent *e);
     void closeApp();
@@ -49,17 +49,20 @@ private:
     void initSystemTray();
     void initCountdownTimer();
 
-    Ui::MainWindow *_ui;
-    CountdownTimer *_countdownTimer;
+    Ui::MainWindow* _ui;
+    CountdownTimer* _countdownTimer;
 
-    QSystemTrayIcon *_trayIcon;
-    QMenu *_trayIconMenu;
-    QAction *_actionSet;
-    QAction *_actionPauseUnpause;
-    QAction *_actionStop;
-    QAction *_actionSettings;
-    QAction *_actionAbout;
-    QAction *_actionQuit;
+    QSystemTrayIcon* _trayIcon;
+    QMenu* _trayIconMenu;
+
+    struct {
+        QAction* setTimer;
+        QAction* pauseUnpauseTimer;
+        QAction* stopTimer;
+        QAction* openSettings;
+        QAction* openAbout;
+        QAction* quit;
+    } _actions;
 };
 
 #endif // MAINWINDOW_H

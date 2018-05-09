@@ -3,6 +3,11 @@
 #include "version.h"
 #include "settingswidget.h"
 #include "aboutdialog.h"
+#include "common.h"
+
+#ifdef AGGRESSIVE_MODE_COMPAT
+#include "alarmdialog.h"
+#endif // AGGRESSIVE_MODE_COMPAT
 
 // Qt
 #include <QIcon>
@@ -15,7 +20,7 @@
 #include <QCloseEvent>
 #ifdef Q_OS_UNIX
 #include <QSound>
-#endif
+#endif // Q_OS_UNIX
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -63,7 +68,7 @@ void MainWindow::initSystemTray()
 {
     // Tray icon
     _trayIcon = new QSystemTrayIcon(this);
-    _trayIcon->setIcon(QIcon("://resources/icon.ico"));
+    _trayIcon->setIcon(QIcon("://icon.ico"));
     _trayIcon->setVisible(true);
 
     // Click on message from tray icon
@@ -76,36 +81,36 @@ void MainWindow::initSystemTray()
             SLOT(SystemTrayTriggered(QSystemTrayIcon::ActivationReason)));
 
     // Tray actions
-    _actionSet= new QAction("&Set timer", this);
-    connect(_actionSet, SIGNAL(triggered(bool)), this, SLOT(setTimer()));
+    _actions.setTimer = new QAction("&Set timer", this);
+    connect(_actions.setTimer, SIGNAL(triggered(bool)), this, SLOT(setTimer()));
 
-    _actionPauseUnpause = new QAction("&Pause timer", this);
-    _actionPauseUnpause->setEnabled(false);
-    connect(_actionPauseUnpause, SIGNAL(triggered()), this, SLOT(pauseUnpause()));
+    _actions.pauseUnpauseTimer = new QAction("&Pause timer", this);
+    _actions.pauseUnpauseTimer->setEnabled(false);
+    connect(_actions.pauseUnpauseTimer, SIGNAL(triggered()), this, SLOT(pauseUnpause()));
 
-    _actionStop = new QAction("St&op timer", this);
-    _actionStop->setEnabled(false);
-    connect(_actionStop, SIGNAL(triggered()), this, SLOT(stopTimer()));
+    _actions.stopTimer = new QAction("St&op timer", this);
+    _actions.stopTimer->setEnabled(false);
+    connect(_actions.stopTimer, SIGNAL(triggered()), this, SLOT(stopTimer()));
 
-    _actionSettings = new QAction("S&ettings", this);
-    _actionSettings->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
-    connect(_actionSettings, SIGNAL(triggered()), this, SLOT(settings()));
+    _actions.openSettings = new QAction("S&ettings", this);
+    _actions.openSettings->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
+    connect(_actions.openSettings, SIGNAL(triggered()), this, SLOT(settings()));
 
-    _actionAbout = new QAction("&About", this);
-    connect(_actionAbout, SIGNAL(triggered()), this, SLOT(about()));
+    _actions.openAbout = new QAction("&About", this);
+    connect(_actions.openAbout, SIGNAL(triggered()), this, SLOT(about()));
 
-    _actionQuit = new QAction("&Quit", this);
-    _actionQuit->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
-    connect(_actionQuit, SIGNAL(triggered()), this, SLOT(closeApp()));
+    _actions.quit = new QAction("&Quit", this);
+    _actions.quit->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
+    connect(_actions.quit, SIGNAL(triggered()), this, SLOT(closeApp()));
 
     _trayIconMenu = new QMenu(this);
-    _trayIconMenu->addAction(_actionSet);
-    _trayIconMenu->addAction(_actionPauseUnpause);
-    _trayIconMenu->addAction(_actionStop);
+    _trayIconMenu->addAction(_actions.setTimer);
+    _trayIconMenu->addAction(_actions.pauseUnpauseTimer);
+    _trayIconMenu->addAction(_actions.stopTimer);
     _trayIconMenu->addSeparator();
-    _trayIconMenu->addAction(_actionSettings);
-    _trayIconMenu->addAction(_actionAbout);
-    _trayIconMenu->addAction(_actionQuit);
+    _trayIconMenu->addAction(_actions.openSettings);
+    _trayIconMenu->addAction(_actions.openAbout);
+    _trayIconMenu->addAction(_actions.quit);
     _trayIcon->setContextMenu(_trayIconMenu);
 }
 
@@ -114,7 +119,9 @@ void MainWindow::initCountdownTimer()
 {
     QSettings settings;
     int userInterval = settings.value("interval", 30).toInt();
-    _countdownTimer = new CountdownTimer(this, userInterval);
+
+    _countdownTimer = new CountdownTimer(minutes, this, userInterval);
+
     connect(_countdownTimer, SIGNAL(timeout()), this, SLOT(showTimeoutMessage()));
     connect(_countdownTimer, SIGNAL(tick(int)), this, SLOT(tickUpdate(int)));
 
@@ -148,13 +155,13 @@ void MainWindow::setTimer()
 
     _countdownTimer->start();
 
-    _actionPauseUnpause->setEnabled(true);
+    _actions.pauseUnpauseTimer->setEnabled(true);
     _ui->button_pause->setEnabled(true);
 
-    _actionStop->setEnabled(true);
+    _actions.stopTimer->setEnabled(true);
     _ui->button_stopTimer->setEnabled(true);
 
-    _actionPauseUnpause->setText(QString("Pause timer"));
+    _actions.pauseUnpauseTimer->setText(QString("Pause timer"));
     _ui->button_pause->setText(QString("&Pause"));
 
     qDebug() << "TIMER: Setting timer with an interval of"
@@ -168,7 +175,7 @@ void MainWindow::pauseUnpause()
     if(!_countdownTimer->paused())
     {
         _countdownTimer->pauseUnpause();
-        _actionPauseUnpause->setText(QString("Resume timer"));
+        _actions.pauseUnpauseTimer->setText(QString("Resume timer"));
         _ui->button_pause->setText(QString("&Resume"));
 
         qDebug() << "TIMER: Pausing timer with "
@@ -176,33 +183,31 @@ void MainWindow::pauseUnpause()
                  << "minutes left.";
     } else {
         _countdownTimer->pauseUnpause();
-        _actionPauseUnpause->setText(QString("Pause timer"));
+        _actions.pauseUnpauseTimer->setText(QString("Pause timer"));
         _ui->button_pause->setText(QString("Pause"));
 
         qDebug() << "TIMER: Unpausing timer.";
     }
-
 }
 
 /* Stops and resets the countdown timer */
 void MainWindow::stopTimer()
 {
     _countdownTimer->stop();
-    _actionPauseUnpause->setEnabled(false);
+    _actions.pauseUnpauseTimer->setEnabled(false);
     _ui->button_pause->setEnabled(false);
-    _actionStop->setEnabled(false);
+    _actions.stopTimer->setEnabled(false);
     _ui->button_stopTimer->setEnabled(false);
 
     qDebug() << "TIMER: Stopping timer.";
 }
 
-/* Show "Time to stretch" in the system tray */
+/* Show time out message in the system tray */
 void MainWindow::showTimeoutMessage()
 {
     QSettings settings;
     int time = settings.value("secondsToDisplay", 5).toInt();
 
-    //settings.setValue("timeoutMessage", "Stand up you lazy bastard.");
     QString message(settings.value("timeoutMessage",
                                    "Time to stretch!").toString());
 
@@ -214,11 +219,28 @@ void MainWindow::showTimeoutMessage()
 
 #ifdef Q_OS_UNIX
     // Cred: https://www.freesound.org/people/SpiceProgram/sounds/387217/
-    QSound::play("://resources/ping.wav");
+    QSound::play("://ping.wav");
 #endif
 
-    _countdownTimer->start();
+#ifdef AGGRESSIVE_MODE_COMPAT
+    _countdownTimer->stop();
+    qDebug() << "TIMER: Timeout";
+
+    if(settings.value("aggressiveMode", false).toBool())
+    {
+        AlarmDialog* d = new AlarmDialog();
+        connect(d, SIGNAL(destroyed(QObject*)), this, SLOT(setTimer()));
+        d->exec();
+        d->deleteLater();
+    }
+    else
+    {
+        setTimer();
+    }
+#else // AGGRESSIVE_MODE_COMPAT
+    setTimer();
     qDebug() << "TIMER: Timeout and restarting timer.";
+#endif // AGGRESSIVE_MODE_COMPAT
 }
 
 /* Show and set focus on the main window */
@@ -346,8 +368,3 @@ void MainWindow::about()
     AboutDialog dialog;
     dialog.exec();
 }
-
-
-
-
-
