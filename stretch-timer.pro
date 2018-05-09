@@ -1,4 +1,5 @@
-QT += core gui multimedia
+QT += core gui
+linux:QT += multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,7 +14,8 @@ else {
     DESTDIR = build/release
 }
 
-#DEFINES += QT_NO_DEBUG_OUTPUT=1
+CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
+
 OBJECTS_DIR = $${DESTDIR}
 MOC_DIR = $${DESTDIR}
 RCC_DIR = $${DESTDIR}
@@ -23,44 +25,46 @@ UI_DIR = $${DESTDIR}
 win32:LIBS += -luser32
 linux:LIBS += -lX11 -lXext -lXss
 
+VPATH += ./src
+
 SOURCES += \
-    src/main.cpp\
-    src/mainwindow.cpp \
-    src/countdowntimer.cpp \
-    src/settingswidget.cpp \
-    src/aboutdialog.cpp \
-    src/darkstyle.cpp
+    main.cpp\
+    mainwindow.cpp \
+    countdowntimer.cpp \
+    settingswidget.cpp \
+    aboutdialog.cpp \
+    darkstyle.cpp
 win32|linux {
     SOURCES += \
-        src/idletimer.cpp \
-        src/alarmdialog.cpp
+        idletimer.cpp \
+        alarmdialog.cpp
 }
 
 HEADERS  += \
-    src/mainwindow.h \
-    src/version.h \
-    src/countdowntimer.h \
-    src/settingswidget.h \
-    src/aboutdialog.h \
-    src/common.h \
-    src/darkstyle.h
+    mainwindow.h \
+    version.h \
+    countdowntimer.h \
+    settingswidget.h \
+    aboutdialog.h \
+    common.h \
+    darkstyle.h
 win32|linux {
     HEADERS += \
-        src/idletimer.h \
-        src/alarmdialog.h \
+        idletimer.h \
+        alarmdialog.h \
 }
 
 FORMS += \
-    src/mainwindow.ui \
-    src/settingswidget.ui \
-    src/aboutdialog.ui
+    mainwindow.ui \
+    settingswidget.ui \
+    aboutdialog.ui
 win32|linux {
     FORMS += \
-        src/alarmdialog.ui
+        alarmdialog.ui
 }
 
 RC_ICONS = src/res/icon.ico
 
 RESOURCES += \
-    src/res/res.qrc \
-    src/res/darkstyle.qrc
+    res/res.qrc \
+    res/darkstyle.qrc
