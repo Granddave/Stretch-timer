@@ -58,9 +58,9 @@ void MainWindow::initUI()
     _ui->button_pause->setEnabled(false);
     _ui->button_stopTimer->setEnabled(false);
 
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q), this, SLOT(closeApp()));
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(hide()));
-    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(settings()));
+    _shortcuts.close = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q), this, SLOT(closeApp()));
+    _shortcuts.hide = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(hide()));
+    _shortcuts.settings = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(settings()));
 }
 
 /* Initialize system tray with context menu */
@@ -93,14 +93,14 @@ void MainWindow::initSystemTray()
     connect(_actions.stopTimer, SIGNAL(triggered()), this, SLOT(stopTimer()));
 
     _actions.openSettings = new QAction("S&ettings", this);
-    _actions.openSettings->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_S));
+    _actions.openSettings->setShortcut(_shortcuts.settings->key());
     connect(_actions.openSettings, SIGNAL(triggered()), this, SLOT(settings()));
 
     _actions.openAbout = new QAction("&About", this);
     connect(_actions.openAbout, SIGNAL(triggered()), this, SLOT(about()));
 
     _actions.quit = new QAction("&Quit", this);
-    _actions.quit->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
+    _actions.quit->setShortcut(_shortcuts.close->key());
     connect(_actions.quit, SIGNAL(triggered()), this, SLOT(closeApp()));
 
     _trayIconMenu = new QMenu(this);

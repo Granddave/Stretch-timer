@@ -10,6 +10,7 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QAction>
+#include <QShortcut>
 #include <QSettings>
 
 namespace Ui {
@@ -63,6 +64,12 @@ private:
         QAction* openAbout;
         QAction* quit;
     } _actions;
+
+    struct {
+        QShortcut* close;
+        QShortcut* hide;
+        QShortcut* settings;
+    } _shortcuts;
 };
 
 #endif // MAINWINDOW_H

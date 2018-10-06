@@ -105,5 +105,6 @@ void SettingsWidget::hideCloseRadioChanged(bool b)
 
 void SettingsWidget::darkThemeToggled(bool b)
 {
+    Q_UNUSED(b);
     _ui->darkTheme_checkBox->setText("Restart for change to take effect");
 }

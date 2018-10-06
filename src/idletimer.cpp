@@ -14,10 +14,12 @@
 #include <X11/extensions/scrnsaver.h>
 #endif
 
+#define IDLE_TIMER_DEFAULT 10 // sec
+
 IdleTimer::IdleTimer(QObject *parent) : QObject(parent)
 {
     QSettings settings;
-    _interval = settings.value("idleTimer", 10).toInt();
+    _interval = settings.value("idleTimer", IDLE_TIMER_DEFAULT).toInt();
     _timer = new CountdownTimer(seconds, this, _interval);
 
     connect(_timer, SIGNAL(timeout()), this, SLOT(stopTimer()));
