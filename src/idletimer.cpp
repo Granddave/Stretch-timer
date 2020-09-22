@@ -18,7 +18,7 @@
 
 #define IDLE_TIMER_DEFAULT 10 // sec
 
-IdleTimer::IdleTimer(QObject *parent) : QObject(parent)
+IdleTimer::IdleTimer(QObject* parent) : QObject(parent)
 {
     QSettings settings;
     _interval = settings.value("idleTimer", IDLE_TIMER_DEFAULT).toInt();
@@ -48,13 +48,16 @@ int IdleTimer::getIdleTime()
     return t;
 #elif defined(Q_OS_LINUX) // Cred to https://stackoverflow.com/a/4702411
     time_t idle_time;
-    static XScreenSaverInfo *mit_info;
+    static XScreenSaverInfo* mit_info;
     Display* display;
     int screen;
     mit_info = XScreenSaverAllocInfo();
-    if((display=XOpenDisplay(NULL)) == NULL) { return(-1); }
+    if ((display = XOpenDisplay(NULL)) == NULL)
+    {
+        return (-1);
+    }
     screen = DefaultScreen(display);
-    XScreenSaverQueryInfo(display, RootWindow(display,screen), mit_info);
+    XScreenSaverQueryInfo(display, RootWindow(display, screen), mit_info);
     idle_time = (mit_info->idle) / 1000;
     XFree(mit_info);
     XCloseDisplay(display);
@@ -73,7 +76,7 @@ void IdleTimer::stopTimer()
  * or reset timer if the computer isn't left alone. */
 void IdleTimer::sendTick(int countDown)
 {
-    if(countDown < _interval - getIdleTime())
+    if (countDown < _interval - getIdleTime())
     {
         _timer->start();
         emit tick(_interval);

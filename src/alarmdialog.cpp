@@ -4,9 +4,7 @@
 
 #include "ui_alarmdialog.h"
 
-AlarmDialog::AlarmDialog(QWidget *parent) :
-    QDialog(parent),
-    _ui(new Ui::AlarmDialog)
+AlarmDialog::AlarmDialog(QWidget* parent) : QDialog(parent), _ui(new Ui::AlarmDialog)
 {
     _ui->setupUi(this);
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
@@ -24,21 +22,24 @@ AlarmDialog::~AlarmDialog()
 }
 
 /* Disable Esc to close dialog */
-void AlarmDialog::keyPressEvent(QKeyEvent *e)
+void AlarmDialog::keyPressEvent(QKeyEvent* e)
 {
-    if(e->key() != Qt::Key_Escape)
+    if (e->key() != Qt::Key_Escape)
+    {
         QDialog::keyPressEvent(e);
+    }
 }
 
 /* Update text and button */
 void AlarmDialog::update(int time)
 {
-    if(time == 0)
+    if (time == 0)
+    {
         _ui->button_close->setDisabled(false);
+    }
 
-    _ui->label_timeLeft->setText("Don't touch the computer for another <b>"
-                                 + QString::number(time)
-                                 + "</b> seconds.");
+    _ui->label_timeLeft->setText("Don't touch the computer for another <b>" +
+                                 QString::number(time) + "</b> seconds.");
 }
 
 #endif // AGGRESSIVE_MODE_SUPPORTED

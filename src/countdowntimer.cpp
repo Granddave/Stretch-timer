@@ -2,11 +2,8 @@
 
 #include <QDebug>
 
-CountdownTimer::CountdownTimer(TimerType timerType, QObject *parent,
-                               int interval) :
-    QObject(parent),
-    _timerType(timerType),
-    _interval(interval)
+CountdownTimer::CountdownTimer(TimerType timerType, QObject* parent, int interval)
+    : QObject(parent), _timerType(timerType), _interval(interval)
 {
     _countDownTimer = new QTimer(this);
     _countDownTimer->setSingleShot(true);
@@ -39,7 +36,7 @@ void CountdownTimer::start()
 /* Toggles between paused and unpaused */
 void CountdownTimer::pauseUnpause()
 {
-    if(!_paused)
+    if (!_paused)
     {
         // Pause timer
         _countDownTimer->stop();
@@ -72,8 +69,10 @@ void CountdownTimer::stop()
 /* Returning number of seconds remaining */
 int CountdownTimer::remainingTime()
 {
-    if(_paused)
+    if (_paused)
+    {
         return _remaining;
+    }
 
     int interval = _countDownTimer->interval();
     qint64 elapsed = _elapsedTimer->elapsed();
@@ -86,7 +85,7 @@ int CountdownTimer::remainingTime()
 /* Sets new interval */
 bool CountdownTimer::setInterval(int interval)
 {
-    if(interval < 1)
+    if (interval < 1)
     {
         qDebug() << "WARNING: The interval is less than 1. interval: " << interval;
         return false;

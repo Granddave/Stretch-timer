@@ -14,7 +14,7 @@ class IdleTimer : public QObject
 {
     Q_OBJECT
 public:
-    explicit IdleTimer(QObject *parent = 0);
+    explicit IdleTimer(QObject* parent = 0);
     void start();
 
 signals:

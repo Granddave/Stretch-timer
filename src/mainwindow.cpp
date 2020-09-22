@@ -22,9 +22,7 @@
 #include <QSound>
 #endif // Q_OS_UNIX
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    _ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), _ui(new Ui::MainWindow)
 {
     QSettings settings;
     qDebug() << "SETTINGS: Config file located at" << settings.fileName();
@@ -72,7 +70,7 @@ void MainWindow::initSystemTray()
     _trayIcon->setVisible(true);
 
     // Click on message from tray icon
-    connect(_trayIcon, SIGNAL(messageClicked()),this, SLOT(showMainWindow()));
+    connect(_trayIcon, SIGNAL(messageClicked()), this, SLOT(showMainWindow()));
 
     // Click on tray icon
     connect(_trayIcon,
@@ -164,24 +162,23 @@ void MainWindow::setTimer()
     _actions.pauseUnpauseTimer->setText(QString("Pause timer"));
     _ui->button_pause->setText(QString("&Pause"));
 
-    qDebug() << "TIMER: Setting timer with an interval of"
-             << interval
-             << "minutes.";
+    qDebug() << "TIMER: Setting timer with an interval of" << interval << "minutes.";
 }
 
 /* Pause/Unpause the countdown timer */
 void MainWindow::pauseUnpause()
 {
-    if(!_countdownTimer->paused())
+    if (!_countdownTimer->paused())
     {
         _countdownTimer->pauseUnpause();
         _actions.pauseUnpauseTimer->setText(QString("Resume timer"));
         _ui->button_pause->setText(QString("&Resume"));
 
-        qDebug() << "TIMER: Pausing timer with "
-                 << _countdownTimer->remainingTime() / 60
+        qDebug() << "TIMER: Pausing timer with " << _countdownTimer->remainingTime() / 60
                  << "minutes left.";
-    } else {
+    }
+    else
+    {
         _countdownTimer->pauseUnpause();
         _actions.pauseUnpauseTimer->setText(QString("Pause timer"));
         _ui->button_pause->setText(QString("Pause"));
@@ -208,14 +205,9 @@ void MainWindow::showTimeoutMessage()
     QSettings settings;
     int time = settings.value("secondsToDisplay", 5).toInt();
 
-    QString message(settings.value("timeoutMessage",
-                                   "Time to stretch!").toString());
+    QString message(settings.value("timeoutMessage", "Time to stretch!").toString());
 
-    _trayIcon->showMessage(
-                "StretchTimer",
-                message,
-                QSystemTrayIcon::NoIcon,
-                time * 1000);
+    _trayIcon->showMessage("StretchTimer", message, QSystemTrayIcon::NoIcon, time * 1000);
 
 #ifdef Q_OS_UNIX
     // Cred: https://www.freesound.org/people/SpiceProgram/sounds/387217/
@@ -226,7 +218,7 @@ void MainWindow::showTimeoutMessage()
     _countdownTimer->stop();
     qDebug() << "TIMER: Timeout";
 
-    if(settings.value("aggressiveMode", false).toBool())
+    if (settings.value("aggressiveMode", false).toBool())
     {
         AlarmDialog* d = new AlarmDialog();
         connect(d, SIGNAL(destroyed(QObject*)), this, SLOT(setTimer()));
@@ -237,7 +229,7 @@ void MainWindow::showTimeoutMessage()
     {
         setTimer();
     }
-#else // AGGRESSIVE_MODE_SUPPORTED
+#else  // AGGRESSIVE_MODE_SUPPORTED
     setTimer();
     qDebug() << "TIMER: Timeout and restarting timer.";
 #endif // AGGRESSIVE_MODE_SUPPORTED
@@ -251,12 +243,12 @@ void MainWindow::showMainWindow()
 }
 
 /* This gets called when the user presses the close button */
-void MainWindow::closeEvent(QCloseEvent *e)
+void MainWindow::closeEvent(QCloseEvent* e)
 {
     QSettings settings;
     bool quitOnClose = settings.value("quitOnClose", false).toBool();
 
-    if(quitOnClose)
+    if (quitOnClose)
     {
         closeApp();
     }
@@ -283,7 +275,7 @@ void MainWindow::hideApp()
     if (_trayIcon->isVisible())
     {
         QSettings settings;
-        if(settings.value("showPopupWhenHide", true).toBool())
+        if (settings.value("showPopupWhenHide", true).toBool())
         {
             _trayIcon->showMessage("Stretch Timer is still running...",
                                    "To terminate the program, "
@@ -301,7 +293,7 @@ void MainWindow::hideApp()
 /* The system tray is activated */
 void MainWindow::SystemTrayTriggered(QSystemTrayIcon::ActivationReason e)
 {
-    if(e == QSystemTrayIcon::Trigger)
+    if (e == QSystemTrayIcon::Trigger)
     {
         showMainWindow();
     }
@@ -310,7 +302,7 @@ void MainWindow::SystemTrayTriggered(QSystemTrayIcon::ActivationReason e)
 /* Update the label with the remaining time */
 void MainWindow::tickUpdate(int rem)
 {
-    if(rem < 0)
+    if (rem < 0)
     {
         /* Missed the timeout.
          * Could be because OS went to sleep etc. */
@@ -322,15 +314,15 @@ void MainWindow::tickUpdate(int rem)
 
     QString str, sec, min, hour;
 
-    sec  = QString::number(rem % 60).rightJustified(2, '0');
-    min  = QString::number((rem / 60) % 60).rightJustified(2, '0');
+    sec = QString::number(rem % 60).rightJustified(2, '0');
+    min = QString::number((rem / 60) % 60).rightJustified(2, '0');
     hour = QString::number((rem / 3600) % 24).rightJustified(2, '0');
 
-    if(_countdownTimer->isActive())
+    if (_countdownTimer->isActive())
     {
-        QTextStream(&str) << "Time left: " << hour << ":"<< min << ":" << sec;
+        QTextStream(&str) << "Time left: " << hour << ":" << min << ":" << sec;
     }
-    else if(_countdownTimer->paused())
+    else if (_countdownTimer->paused())
     {
         QTextStream(&str) << "Timer is paused at " << min << ":" << sec;
     }

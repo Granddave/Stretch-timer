@@ -13,7 +13,8 @@
 #include <QShortcut>
 #include <QSettings>
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -22,7 +23,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
     void readGeometry();
@@ -33,7 +34,7 @@ private slots:
     void stopTimer();
     void showTimeoutMessage();
     void showMainWindow();
-    void closeEvent(QCloseEvent *e);
+    void closeEvent(QCloseEvent* e);
     void closeApp();
     void hideApp();
     void SystemTrayTriggered(QSystemTrayIcon::ActivationReason e);
@@ -56,7 +57,8 @@ private:
     QSystemTrayIcon* _trayIcon;
     QMenu* _trayIconMenu;
 
-    struct {
+    struct
+    {
         QAction* setTimer;
         QAction* pauseUnpauseTimer;
         QAction* stopTimer;
@@ -65,7 +67,8 @@ private:
         QAction* quit;
     } _actions;
 
-    struct {
+    struct
+    {
         QShortcut* close;
         QShortcut* hide;
         QShortcut* settings;

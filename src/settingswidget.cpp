@@ -6,19 +6,15 @@
 #include <QSettings>
 #include <QDebug>
 
-SettingsWidget::SettingsWidget(QWidget *parent) :
-    QDialog(parent),
-    _ui(new Ui::SettingsWidget)
+SettingsWidget::SettingsWidget(QWidget* parent) : QDialog(parent), _ui(new Ui::SettingsWidget)
 {
     _ui->setupUi(this);
     this->layout()->setSizeConstraint(QLayout::SetFixedSize);
     loadSettings();
 
     connect(_ui->buttonBox, SIGNAL(accepted()), this, SLOT(saveSettings()));
-    connect(_ui->hide_radioButton, SIGNAL(toggled(bool)),
-            this, SLOT(hideCloseRadioChanged(bool)));
-    connect(_ui->darkTheme_checkBox, SIGNAL(toggled(bool)),
-            this, SLOT(darkThemeToggled(bool)));
+    connect(_ui->hide_radioButton, SIGNAL(toggled(bool)), this, SLOT(hideCloseRadioChanged(bool)));
+    connect(_ui->darkTheme_checkBox, SIGNAL(toggled(bool)), this, SLOT(darkThemeToggled(bool)));
 
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(close()));
 }
@@ -43,15 +39,15 @@ void SettingsWidget::loadSettings()
 
 #ifdef AGGRESSIVE_MODE_SUPPORTED
     bool aggressiveMode = settings.value("aggressiveMode", false).toBool();
-        _ui->aggressiveMode_checkBox->setChecked(aggressiveMode);
-#else // AGGRESSIVE_MODE_SUPPORTED
+    _ui->aggressiveMode_checkBox->setChecked(aggressiveMode);
+#else  // AGGRESSIVE_MODE_SUPPORTED
     _ui->aggressiveMode_checkBox->hide();
     _ui->aggressiveMode_label->hide();
 #endif // AGGRESSIVE_MODE_SUPPORTED
 
     // Quit on close
     bool quitOnClose = settings.value("quitOnClose", false).toBool();
-    if(quitOnClose)
+    if (quitOnClose)
     {
         _ui->quit_radioButton->setChecked(true);
         _ui->disablePopup_checkBox->setEnabled(false);

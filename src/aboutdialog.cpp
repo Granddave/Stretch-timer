@@ -5,9 +5,7 @@
 // Qt
 #include <QShortcut>
 
-AboutDialog::AboutDialog(QWidget *parent) :
-    QDialog(parent),
-    _ui(new Ui::AboutDialog)
+AboutDialog::AboutDialog(QWidget* parent) : QDialog(parent), _ui(new Ui::AboutDialog)
 {
     _ui->setupUi(this);
     _ui->st_label->setText("Stretch Timer " + QString(STRETCHTIMER_VERSION));
