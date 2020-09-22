@@ -1,6 +1,10 @@
 #ifndef IDLETIMER_H
 #define IDLETIMER_H
 
+#include "common.h"
+
+#ifdef AGGRESSIVE_MODE_SUPPORTED
+
 #include "countdowntimer.h"
 
 // Qt
@@ -26,4 +30,5 @@ private:
     int _interval;
 };
 
+#endif // AGGRESSIVE_MODE_SUPPORTED
 #endif // IDLETIMER_H

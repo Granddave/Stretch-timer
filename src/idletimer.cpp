@@ -1,5 +1,7 @@
 #include "idletimer.h"
 
+#ifdef AGGRESSIVE_MODE_SUPPORTED
+
 // Qt
 #include <QSettings>
 #include <QDebug>
@@ -81,3 +83,5 @@ void IdleTimer::sendTick(int countDown)
         emit tick(countDown);
     }
 }
+
+#endif // AGGRESSIVE_MODE_SUPPORTED

@@ -1,7 +1,10 @@
 #ifndef ALARMDIALOG_H
 #define ALARMDIALOG_H
 
+#include "common.h"
 #include "idletimer.h"
+
+#ifdef AGGRESSIVE_MODE_SUPPORTED
 
 // Qt
 #include <QDialog>
@@ -29,4 +32,5 @@ private:
 
 };
 
+#endif // AGGRESSIVE_MODE_SUPPORTED
 #endif // ALARMDIALOG_H

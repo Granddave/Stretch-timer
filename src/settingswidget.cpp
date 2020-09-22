@@ -41,14 +41,13 @@ void SettingsWidget::loadSettings()
     int time = settings.value("secondsToDisplay", 5).toInt();
     _ui->timeToShow_spinBox->setValue(time);
 
-#ifdef AGGRESSIVE_MODE_COMPAT
-    // Aggressive mode
+#ifdef AGGRESSIVE_MODE_SUPPORTED
     bool aggressiveMode = settings.value("aggressiveMode", false).toBool();
         _ui->aggressiveMode_checkBox->setChecked(aggressiveMode);
-#else // AGGRESSIVE_MODE_COMPAT
+#else // AGGRESSIVE_MODE_SUPPORTED
     _ui->aggressiveMode_checkBox->hide();
     _ui->aggressiveMode_label->hide();
-#endif // AGGRESSIVE_MODE_COMPAT
+#endif // AGGRESSIVE_MODE_SUPPORTED
 
     // Quit on close
     bool quitOnClose = settings.value("quitOnClose", false).toBool();

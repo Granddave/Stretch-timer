@@ -1,4 +1,7 @@
 #include "alarmdialog.h"
+
+#ifdef AGGRESSIVE_MODE_SUPPORTED
+
 #include "ui_alarmdialog.h"
 
 AlarmDialog::AlarmDialog(QWidget *parent) :
@@ -37,3 +40,5 @@ void AlarmDialog::update(int time)
                                  + QString::number(time)
                                  + "</b> seconds.");
 }
+
+#endif // AGGRESSIVE_MODE_SUPPORTED

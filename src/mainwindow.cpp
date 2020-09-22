@@ -5,9 +5,9 @@
 #include "aboutdialog.h"
 #include "common.h"
 
-#ifdef AGGRESSIVE_MODE_COMPAT
+#ifdef AGGRESSIVE_MODE_SUPPORTED
 #include "alarmdialog.h"
-#endif // AGGRESSIVE_MODE_COMPAT
+#endif // AGGRESSIVE_MODE_SUPPORTED
 
 // Qt
 #include <QIcon>
@@ -222,7 +222,7 @@ void MainWindow::showTimeoutMessage()
     QSound::play("://ping.wav");
 #endif
 
-#ifdef AGGRESSIVE_MODE_COMPAT
+#ifdef AGGRESSIVE_MODE_SUPPORTED
     _countdownTimer->stop();
     qDebug() << "TIMER: Timeout";
 
@@ -237,10 +237,10 @@ void MainWindow::showTimeoutMessage()
     {
         setTimer();
     }
-#else // AGGRESSIVE_MODE_COMPAT
+#else // AGGRESSIVE_MODE_SUPPORTED
     setTimer();
     qDebug() << "TIMER: Timeout and restarting timer.";
-#endif // AGGRESSIVE_MODE_COMPAT
+#endif // AGGRESSIVE_MODE_SUPPORTED
 }
 
 /* Show and set focus on the main window */
