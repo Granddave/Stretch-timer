@@ -23,7 +23,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget* parent = 0);
+    explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
     void readGeometry();
@@ -51,11 +51,11 @@ private:
     void initSystemTray();
     void initCountdownTimer();
 
-    Ui::MainWindow* _ui;
-    CountdownTimer* _countdownTimer;
+    Ui::MainWindow* m_ui;
+    CountdownTimer* m_countdownTimer;
 
-    QSystemTrayIcon* _trayIcon;
-    QMenu* _trayIconMenu;
+    QSystemTrayIcon* m_trayIcon;
+    QMenu* m_trayIconMenu;
 
     struct
     {
@@ -65,14 +65,14 @@ private:
         QAction* openSettings;
         QAction* openAbout;
         QAction* quit;
-    } _actions;
+    } m_actions;
 
     struct
     {
         QShortcut* close;
         QShortcut* hide;
         QShortcut* settings;
-    } _shortcuts;
+    } m_shortcuts;
 };
 
 #endif // MAINWINDOW_H

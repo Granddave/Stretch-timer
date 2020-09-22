@@ -3,32 +3,32 @@
 #include <QDebug>
 
 CountdownTimer::CountdownTimer(TimerType timerType, QObject* parent, int interval)
-    : QObject(parent), _timerType(timerType), _interval(interval)
+    : QObject(parent), m_timerType(timerType), m_interval(interval)
 {
-    _countDownTimer = new QTimer(this);
-    _countDownTimer->setSingleShot(true);
-    _countDownTimer->setInterval(_interval * 1000 * _timerType);
-    connect(_countDownTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
+    m_countDownTimer = new QTimer(this);
+    m_countDownTimer->setSingleShot(true);
+    m_countDownTimer->setInterval(m_interval * 1000 * m_timerType);
+    connect(m_countDownTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
 
-    _tickTimer = new QTimer(this);
-    _tickTimer->start(1000);
-    connect(_tickTimer, SIGNAL(timeout()), this, SLOT(sendTick()));
+    m_tickTimer = new QTimer(this);
+    m_tickTimer->start(1000);
+    connect(m_tickTimer, SIGNAL(timeout()), this, SLOT(sendTick()));
 
-    _elapsedTimer = new QTime();
-    _elapsedTimer->start();
+    m_elapsedTimer = new QTime();
+    m_elapsedTimer->start();
 
-    _paused = false;
+    m_paused = false;
     stop();
 }
 
 /* Starts timer */
 void CountdownTimer::start()
 {
-    _paused = false;
-    _countDownTimer->stop();
-    _countDownTimer->start(_interval * 1000 * _timerType);
-    _tickTimer->start(1000);
-    _elapsedTimer->restart();
+    m_paused = false;
+    m_countDownTimer->stop();
+    m_countDownTimer->start(m_interval * 1000 * m_timerType);
+    m_tickTimer->start(1000);
+    m_elapsedTimer->restart();
 
     sendTick();
 }
@@ -36,21 +36,21 @@ void CountdownTimer::start()
 /* Toggles between paused and unpaused */
 void CountdownTimer::pauseUnpause()
 {
-    if (!_paused)
+    if (!m_paused)
     {
         // Pause timer
-        _countDownTimer->stop();
-        _countDownTimer->setInterval(_remaining);
-        _tickTimer->stop();
-        _paused = true;
+        m_countDownTimer->stop();
+        m_countDownTimer->setInterval(m_remaining);
+        m_tickTimer->stop();
+        m_paused = true;
     }
     else
     {
         // Unpause timer
-        _countDownTimer->start(_remaining * 1000);
-        _tickTimer->start(1000);
-        _elapsedTimer->restart();
-        _paused = false;
+        m_countDownTimer->start(m_remaining * 1000);
+        m_tickTimer->start(1000);
+        m_elapsedTimer->restart();
+        m_paused = false;
     }
 
     sendTick();
@@ -59,9 +59,9 @@ void CountdownTimer::pauseUnpause()
 /* Stops timer */
 void CountdownTimer::stop()
 {
-    _paused = false;
-    _countDownTimer->stop();
-    _tickTimer->stop();
+    m_paused = false;
+    m_countDownTimer->stop();
+    m_tickTimer->stop();
 
     emit tick(0);
 }
@@ -69,17 +69,17 @@ void CountdownTimer::stop()
 /* Returning number of seconds remaining */
 int CountdownTimer::remainingTime()
 {
-    if (_paused)
+    if (m_paused)
     {
-        return _remaining;
+        return m_remaining;
     }
 
-    int interval = _countDownTimer->interval();
-    qint64 elapsed = _elapsedTimer->elapsed();
+    int interval = m_countDownTimer->interval();
+    qint64 elapsed = m_elapsedTimer->elapsed();
 
-    _remaining = qRound((double)(interval - elapsed) / 1000);
+    m_remaining = qRound((double)(interval - elapsed) / 1000);
 
-    return _remaining;
+    return m_remaining;
 }
 
 /* Sets new interval */
@@ -92,7 +92,7 @@ bool CountdownTimer::setInterval(int interval)
     }
     else
     {
-        _interval = interval;
+        m_interval = interval;
         return true;
     }
 }

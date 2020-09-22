@@ -22,7 +22,7 @@ class CountdownTimer : public QObject
 {
     Q_OBJECT
 public:
-    explicit CountdownTimer(TimerType timerType, QObject* parent = 0, int interval = 30);
+    explicit CountdownTimer(TimerType timerType, QObject* parent = nullptr, int interval = 30);
 
     void start();        // Start countdown timer with 'interval' seconds
     void pauseUnpause(); // Pause/unpause timer
@@ -31,15 +31,15 @@ public:
 
     bool isActive() const
     {
-        return _countDownTimer->isActive();
+        return m_countDownTimer->isActive();
     }
     bool paused() const
     {
-        return _paused;
+        return m_paused;
     }
     int interval() const
     {
-        return _interval;
+        return m_interval;
     }
     bool setInterval(int interval);
 
@@ -52,13 +52,13 @@ signals:
     int tick(int);  // Sends update signal.
 
 private:
-    TimerType _timerType;
-    QTimer* _countDownTimer; // Main countdown timer.
-    QTimer* _tickTimer;      // Sends update tick every second.
-    QTime* _elapsedTimer;    // Needed to calculate remaining time.
-    bool _paused;            // If timer is paused or not.
-    int _remaining;          // Seconds remaining, needed if paused.
-    int _interval;           // Time in seconds.
+    TimerType m_timerType;
+    QTimer* m_countDownTimer; // Main countdown timer.
+    QTimer* m_tickTimer;      // Sends update tick every second.
+    QTime* m_elapsedTimer;    // Needed to calculate remaining time.
+    bool m_paused;            // If timer is paused or not.
+    int m_remaining;          // Seconds remaining, needed if paused.
+    int m_interval;           // Time in seconds.
 };
 
 #endif // COUNTDOWNTIMER_H

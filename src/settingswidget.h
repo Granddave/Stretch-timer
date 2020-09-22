@@ -13,7 +13,7 @@ class SettingsWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit SettingsWidget(QWidget* parent = 0);
+    explicit SettingsWidget(QWidget* parent = nullptr);
     ~SettingsWidget();
 
 private slots:
@@ -24,7 +24,7 @@ private slots:
 private:
     void loadSettings();
 
-    Ui::SettingsWidget* _ui;
+    Ui::SettingsWidget* m_ui;
 };
 
 #endif // SETTINGSWIDGET_H

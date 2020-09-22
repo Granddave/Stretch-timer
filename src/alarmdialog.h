@@ -20,7 +20,7 @@ class AlarmDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AlarmDialog(QWidget* parent = 0);
+    explicit AlarmDialog(QWidget* parent = nullptr);
     ~AlarmDialog();
 
 private slots:
@@ -28,8 +28,8 @@ private slots:
 
 private:
     void keyPressEvent(QKeyEvent* e);
-    Ui::AlarmDialog* _ui;
-    IdleTimer* _idleTimer;
+    Ui::AlarmDialog* m_ui;
+    IdleTimer* m_idleTimer;
 };
 
 #endif // AGGRESSIVE_MODE_SUPPORTED

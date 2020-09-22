@@ -14,7 +14,7 @@ class IdleTimer : public QObject
 {
     Q_OBJECT
 public:
-    explicit IdleTimer(QObject* parent = 0);
+    explicit IdleTimer(QObject* parent = nullptr);
     void start();
 
 signals:
@@ -26,8 +26,8 @@ private slots:
     void sendTick(int t);
 
 private:
-    CountdownTimer* _timer;
-    int _interval;
+    CountdownTimer* m_timer;
+    int m_interval;
 };
 
 #endif // AGGRESSIVE_MODE_SUPPORTED

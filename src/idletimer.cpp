@@ -21,17 +21,17 @@
 IdleTimer::IdleTimer(QObject* parent) : QObject(parent)
 {
     QSettings settings;
-    _interval = settings.value("idleTimer", IDLE_TIMER_DEFAULT).toInt();
-    _timer = new CountdownTimer(seconds, this, _interval);
+    m_interval = settings.value("idleTimer", IDLE_TIMER_DEFAULT).toInt();
+    m_timer = new CountdownTimer(seconds, this, m_interval);
 
-    connect(_timer, SIGNAL(timeout()), this, SLOT(stopTimer()));
-    connect(_timer, SIGNAL(tick(int)), this, SLOT(sendTick(int)));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(stopTimer()));
+    connect(m_timer, SIGNAL(tick(int)), this, SLOT(sendTick(int)));
 }
 
 void IdleTimer::start()
 {
-    _timer->start();
-    emit tick(_interval);
+    m_timer->start();
+    emit tick(m_interval);
     qDebug() << "IDLETIMER: Idletimer has started";
 }
 
@@ -52,7 +52,7 @@ int IdleTimer::getIdleTime()
     Display* display;
     int screen;
     mit_info = XScreenSaverAllocInfo();
-    if ((display = XOpenDisplay(NULL)) == NULL)
+    if ((display = XOpenDisplay(nullptr)) == nullptr)
     {
         return (-1);
     }
@@ -68,7 +68,7 @@ int IdleTimer::getIdleTime()
 /* Stops the timer */
 void IdleTimer::stopTimer()
 {
-    _timer->stop();
+    m_timer->stop();
     qDebug() << "IDLETIMER: Idletimer has been stopped";
 }
 
@@ -76,10 +76,10 @@ void IdleTimer::stopTimer()
  * or reset timer if the computer isn't left alone. */
 void IdleTimer::sendTick(int countDown)
 {
-    if (countDown < _interval - getIdleTime())
+    if (countDown < m_interval - getIdleTime())
     {
-        _timer->start();
-        emit tick(_interval);
+        m_timer->start();
+        emit tick(m_interval);
     }
     else
     {
