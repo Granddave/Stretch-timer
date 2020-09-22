@@ -1,50 +1,49 @@
-# Source files
-set(SRCS
+cmake_minimum_required(VERSION 3.13)
+
+add_executable(stretch-timer
+    res/res.qrc
     aboutdialog.cpp
+    aboutdialog.h
+    aboutdialog.ui
+    alarmdialog.cpp
+    alarmdialog.h
+    alarmdialog.ui
+    common.h
     countdowntimer.cpp
+    countdowntimer.h
     darkstyle.cpp
+    darkstyle.h
+    idletimer.cpp
+    idletimer.h
     main.cpp
     mainwindow.cpp
-    settingswidget.cpp)
-if(WIN32 OR UNIX)
-    list(APPEND SRCS 
-        alarmdialog.cpp
-        idletimer.cpp)
-endif(WIN32 OR UNIX)
-
-# Header files (non class related)
-set(HEADERS
-    common.h
-    version.h)
-
-# Qt UI headers
-set(UI_HEADERS 
-    aboutdialog.ui
+    mainwindow.h
     mainwindow.ui
-    settingswidget.ui)
-if(WIN32 OR UNIX)
-    list(APPEND UI_HEADERS
-        alarmdialog.ui)
-endif(WIN32 OR UNIX)
-
-# Qt resource files
-qt5_add_resources(QRCS 
-    res/darkstyle.qrc
-    res/res.qrc)
-
-add_executable(stretch-timer ${SRCS} ${HEADERS} ${UI_HEADERS} ${QRCS})
-
-# Libraries
-set(LIBS Qt5::Widgets)
-if(UNIX)
-    list(APPEND LIBS
-        Qt5::Multimedia # Sound notification
-        Xss Xext X11)   # User idle recognition
-endif(UNIX)
-if(WIN32)
-    list(APPEND LIBS
-        Qt5::WinMain)   # Needed? Todo: Test without on Windows
-endif(WIN32)
-
-# Link to libraries
-target_link_libraries(stretch-timer ${LIBS})
+    settingswidget.cpp
+    settingswidget.h
+    settingswidget.ui
+    version.h
+)
+set_target_properties(stretch-timer PROPERTIES
+    AUTOMOC TRUE
+    AUTORCC TRUE
+    AUTOUIC TRUE
+)
+target_link_libraries(stretch-timer PRIVATE
+    Qt5::Widgets
+    $<$<PLATFORM_ID:Windows>:Qt5::WinMain> # Todo: Is this needed? Test without on Windows.
+    $<$<PLATFORM_ID:Linux>:Qt5::Multimedia>
+    $<$<PLATFORM_ID:Linux>:Xss>
+    $<$<PLATFORM_ID:Linux>:Xext>
+    $<$<PLATFORM_ID:Linux>:X11>
+)
+target_include_directories(stretch-timer PRIVATE
+    $<$<PLATFORM_ID:Linux>:${X11_INCLUDE_DIR}>
+)
+target_compile_options(stretch-timer PRIVATE
+    ${COMPILER_WARNINGS}
+)
+set_target_properties(stretch-timer PROPERTIES
+    CXX_STANDARD 17
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+)

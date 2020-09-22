@@ -13,25 +13,28 @@ Stretch Timer is an open source project that help people to stand up and stretch
 
 ## Dependencies
 
-`Qt 4` or higher
+`Qt 4` or higher.
+
+
+## Compilation
+
+```sh
+git clone https://github.com/Granddave/Stretch-timer.git
+mkdir build && cd build
+cmake .. && cmake --build .
+```
 
 ## Install
 
 ### Windows
+
 Go to [releases page](https://github.com/Granddave/Stretch-timer/releases) to download an installer for the latest stable version or download source and compile yourself.
 
 ### Linux
 
-Get source and compile with `qmake stretch-timer.pro && make` 
-
-Tested on Manjaro KDE and Debian 9, but should work on most Linux platforms.
-
-
-## Getting the source
-
-```
-$ git clone https://github.com/Granddave/Stretch-timer.git
-```
+No complete precompiled binary or package exist for platforms other than Windows at the moment.
+Compile and install the binary manually.
+Tested on Manjaro KDE and Debian 9 and 10, but should work on most Linux platforms.
 
 ## License
 
