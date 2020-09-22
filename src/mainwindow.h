@@ -37,11 +37,11 @@ private slots:
     void closeEvent(QCloseEvent* e);
     void closeApp();
     void hideApp();
-    void SystemTrayTriggered(QSystemTrayIcon::ActivationReason e);
-    void tickUpdate(int rem);
+    void SystemTrayTriggered(const QSystemTrayIcon::ActivationReason e);
+    void tickUpdate(const int rem);
 
-    void on_spinBox_Interval_valueChanged(int val);
-    void on_slider_interval_valueChanged(int val);
+    void on_spinBox_Interval_valueChanged(const int val);
+    void on_slider_interval_valueChanged(const int val);
 
     void settings();
     void about();

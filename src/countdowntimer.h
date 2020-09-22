@@ -4,25 +4,24 @@
 #include "common.h"
 
 // Qt
+#include <QDebug>
 #include <QObject>
 #include <QTimer>
 #include <QTime>
 
-enum TimerType
+enum class TimerType
 {
-    seconds = 1,
-#if TIME_DEBUG
-    minutes = 1
-#else
-    minutes = 60
-#endif
+    seconds,
+    minutes
 };
 
 class CountdownTimer : public QObject
 {
     Q_OBJECT
 public:
-    explicit CountdownTimer(TimerType timerType, QObject* parent = nullptr, int interval = 30);
+    explicit CountdownTimer(const TimerType timerType,
+                            const int interval = 30,
+                            QObject* parent = nullptr);
 
     void start();        // Start countdown timer with 'interval' seconds
     void pauseUnpause(); // Pause/unpause timer
@@ -41,22 +40,24 @@ public:
     {
         return m_interval;
     }
-    bool setInterval(int interval);
+    bool setInterval(const int interval);
 
 private slots:
     void sendTimeout(); // Triggers void timeout()
     void sendTick();    // Triggers int tick(int)
 
 signals:
-    void timeout(); // Sends signal when countdown timer hit zero.
-    int tick(int);  // Sends update signal.
+    void timeout();      // Sends signal when countdown timer hit zero.
+    int tick(const int); // Sends update signal.
 
 private:
+    void calculateRemainder();
+
     TimerType m_timerType;
     QTimer* m_countDownTimer; // Main countdown timer.
     QTimer* m_tickTimer;      // Sends update tick every second.
-    QTime* m_elapsedTimer;    // Needed to calculate remaining time.
-    bool m_paused;            // If timer is paused or not.
+    QTime m_elapsedTimer;     // Needed to calculate remaining time.
+    bool m_paused = false;    // If timer is paused or not.
     int m_remaining;          // Seconds remaining, needed if paused.
     int m_interval;           // Time in seconds.
 };

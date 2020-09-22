@@ -31,7 +31,7 @@ void AlarmDialog::keyPressEvent(QKeyEvent* e)
 }
 
 /* Update text and button */
-void AlarmDialog::update(int time)
+void AlarmDialog::update(const int time)
 {
     if (time == 0)
     {
@@ -39,7 +39,7 @@ void AlarmDialog::update(int time)
     }
 
     m_ui->label_timeLeft->setText("Don't touch the computer for another <b>" +
-                                 QString::number(time) + "</b> seconds.");
+                                  QString::number(time) + "</b> seconds.");
 }
 
 #endif // AGGRESSIVE_MODE_SUPPORTED

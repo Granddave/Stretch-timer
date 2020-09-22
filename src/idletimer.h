@@ -23,7 +23,7 @@ signals:
 private slots:
     int getIdleTime();
     void stopTimer();
-    void sendTick(int t);
+    void sendTick(const int t);
 
 private:
     CountdownTimer* m_timer;

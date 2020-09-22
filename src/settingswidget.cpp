@@ -30,23 +30,23 @@ void SettingsWidget::loadSettings()
     QSettings settings;
 
     // Message
-    QString message = settings.value("timeoutMessage", "Time to stretch!").toString();
+    const QString message = settings.value("timeoutMessage", "Time to stretch!").toString();
     m_ui->timeoutMessagelineEdit->setText(message);
 
     // Message time
-    int time = settings.value("secondsToDisplay", 5).toInt();
+    const int time = settings.value("secondsToDisplay", 5).toInt();
     m_ui->timeToShow_spinBox->setValue(time);
 
 #ifdef AGGRESSIVE_MODE_SUPPORTED
-    bool aggressiveMode = settings.value("aggressiveMode", false).toBool();
+    const bool aggressiveMode = settings.value("aggressiveMode", false).toBool();
     m_ui->aggressiveMode_checkBox->setChecked(aggressiveMode);
 #else  // AGGRESSIVE_MODE_SUPPORTED
-    _ui->aggressiveMode_checkBox->hide();
-    _ui->aggressiveMode_label->hide();
+    m_ui->aggressiveMode_checkBox->hide();
+    m_ui->aggressiveMode_label->hide();
 #endif // AGGRESSIVE_MODE_SUPPORTED
 
     // Quit on close
-    bool quitOnClose = settings.value("quitOnClose", false).toBool();
+    const bool quitOnClose = settings.value("quitOnClose", false).toBool();
     if (quitOnClose)
     {
         m_ui->quit_radioButton->setChecked(true);
@@ -58,11 +58,11 @@ void SettingsWidget::loadSettings()
         m_ui->hide_radioButton->setChecked(true);
     }
 
-    bool showPopupWhenHide = !settings.value("showPopupWhenHide", true).toBool();
+    const bool showPopupWhenHide = !settings.value("showPopupWhenHide", true).toBool();
     settings.setValue("showPopupWhenHide", showPopupWhenHide);
     m_ui->disablePopup_checkBox->setChecked(showPopupWhenHide);
 
-    bool darkTheme = settings.value("darkTheme", true).toBool();
+    const bool darkTheme = settings.value("darkTheme", true).toBool();
     m_ui->darkTheme_checkBox->setChecked(darkTheme);
 }
 
@@ -71,34 +71,34 @@ void SettingsWidget::saveSettings()
 {
     QSettings settings;
 
-    QString message = m_ui->timeoutMessagelineEdit->text();
+    const QString message = m_ui->timeoutMessagelineEdit->text();
     settings.setValue("timeoutMessage", message);
 
-    int time = m_ui->timeToShow_spinBox->value();
+    const int time = m_ui->timeToShow_spinBox->value();
     settings.setValue("secondsToDisplay", time);
 
-    bool quitOnClose = m_ui->quit_radioButton->isChecked();
+    const bool quitOnClose = m_ui->quit_radioButton->isChecked();
     settings.setValue("quitOnClose", quitOnClose);
 
-    bool aggressiveMode = m_ui->aggressiveMode_checkBox->isChecked();
+    const bool aggressiveMode = m_ui->aggressiveMode_checkBox->isChecked();
     settings.setValue("aggressiveMode", aggressiveMode);
 
-    bool showPopupWhenHide = !m_ui->disablePopup_checkBox->isChecked();
+    const bool showPopupWhenHide = !m_ui->disablePopup_checkBox->isChecked();
     settings.setValue("showPopupWhenHide", showPopupWhenHide);
 
-    bool darkTheme = m_ui->darkTheme_checkBox->isChecked();
+    const bool darkTheme = m_ui->darkTheme_checkBox->isChecked();
     settings.setValue("darkTheme", darkTheme);
 
     qDebug() << "SETTINGS: Saved";
 }
 
-void SettingsWidget::hideCloseRadioChanged(bool b)
+void SettingsWidget::hideCloseRadioChanged(const bool b)
 {
     m_ui->disablePopup_checkBox->setEnabled(b);
     m_ui->disablePopup_label->setEnabled(b);
 }
 
-void SettingsWidget::darkThemeToggled(bool b)
+void SettingsWidget::darkThemeToggled(const bool b)
 {
     Q_UNUSED(b);
     m_ui->darkTheme_checkBox->setText("Restart for change to take effect");

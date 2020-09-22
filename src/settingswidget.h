@@ -18,8 +18,8 @@ public:
 
 private slots:
     void saveSettings();
-    void hideCloseRadioChanged(bool b);
-    void darkThemeToggled(bool b);
+    void hideCloseRadioChanged(const bool b);
+    void darkThemeToggled(const bool b);
 
 private:
     void loadSettings();

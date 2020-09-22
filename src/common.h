@@ -6,7 +6,4 @@
 #define AGGRESSIVE_MODE_SUPPORTED
 #endif
 
-/* Changes the minute countdown timers to seconds. */
-#define TIME_DEBUG 0
-
 #endif // COMMON

@@ -20,9 +20,9 @@
 
 IdleTimer::IdleTimer(QObject* parent) : QObject(parent)
 {
-    QSettings settings;
+    const QSettings settings;
     m_interval = settings.value("idleTimer", IDLE_TIMER_DEFAULT).toInt();
-    m_timer = new CountdownTimer(seconds, this, m_interval);
+    m_timer = new CountdownTimer(TimerType::seconds, m_interval, this);
 
     connect(m_timer, SIGNAL(timeout()), this, SLOT(stopTimer()));
     connect(m_timer, SIGNAL(tick(int)), this, SLOT(sendTick(int)));
@@ -47,21 +47,20 @@ int IdleTimer::getIdleTime()
 
     return t;
 #elif defined(Q_OS_LINUX) // Cred to https://stackoverflow.com/a/4702411
-    time_t idle_time;
     static XScreenSaverInfo* mit_info;
-    Display* display;
-    int screen;
-    mit_info = XScreenSaverAllocInfo();
-    if ((display = XOpenDisplay(nullptr)) == nullptr)
+
+    Display* display = XOpenDisplay(nullptr);
+    if (display == nullptr)
     {
-        return (-1);
+        return -1;
     }
-    screen = DefaultScreen(display);
+    const int screen = DefaultScreen(display);
+    mit_info = XScreenSaverAllocInfo();
     XScreenSaverQueryInfo(display, RootWindow(display, screen), mit_info);
-    idle_time = (mit_info->idle) / 1000;
+    const time_t idle_time = (mit_info->idle) / 1000;
     XFree(mit_info);
     XCloseDisplay(display);
-    return idle_time;
+    return static_cast<int>(idle_time);
 #endif
 }
 
@@ -74,9 +73,10 @@ void IdleTimer::stopTimer()
 
 /* Sends sends tick from countdown timer
  * or reset timer if the computer isn't left alone. */
-void IdleTimer::sendTick(int countDown)
+void IdleTimer::sendTick(const int countDown)
 {
-    if (countDown < m_interval - getIdleTime())
+    const int timeLeft = m_interval - getIdleTime();
+    if (countDown < timeLeft)
     {
         m_timer->start();
         emit tick(m_interval);

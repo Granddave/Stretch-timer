@@ -1,23 +1,44 @@
 #include "countdowntimer.h"
 
-#include <QDebug>
+namespace
+{
+int getSeconds(const TimerType type)
+{
+/* Changes the minute countdown timers to seconds. */
+#define TIME_DEBUG 1
+#if TIME_DEBUG
+    Q_UNUSED(type);
+    return 1;
+#else
+    switch (type)
+    {
+        case TimerType::seconds:
+            return 1;
+        case TimerType::minutes:
+            return 60;
+    }
 
-CountdownTimer::CountdownTimer(TimerType timerType, QObject* parent, int interval)
+    qDebug() << "Unhandled case in getSeconds()!";
+    return 60;
+#endif
+}
+} // namespace
+
+CountdownTimer::CountdownTimer(const TimerType timerType, const int interval, QObject* parent)
     : QObject(parent), m_timerType(timerType), m_interval(interval)
 {
     m_countDownTimer = new QTimer(this);
     m_countDownTimer->setSingleShot(true);
-    m_countDownTimer->setInterval(m_interval * 1000 * m_timerType);
+    m_countDownTimer->setInterval(m_interval * 1000 * getSeconds(m_timerType));
     connect(m_countDownTimer, SIGNAL(timeout()), this, SLOT(sendTimeout()));
 
     m_tickTimer = new QTimer(this);
     m_tickTimer->start(1000);
     connect(m_tickTimer, SIGNAL(timeout()), this, SLOT(sendTick()));
 
-    m_elapsedTimer = new QTime();
-    m_elapsedTimer->start();
+    m_elapsedTimer.start();
 
-    m_paused = false;
+    calculateRemainder();
     stop();
 }
 
@@ -26,9 +47,9 @@ void CountdownTimer::start()
 {
     m_paused = false;
     m_countDownTimer->stop();
-    m_countDownTimer->start(m_interval * 1000 * m_timerType);
+    m_countDownTimer->start(m_interval * 1000 * getSeconds(m_timerType));
     m_tickTimer->start(1000);
-    m_elapsedTimer->restart();
+    m_elapsedTimer.restart();
 
     sendTick();
 }
@@ -49,7 +70,7 @@ void CountdownTimer::pauseUnpause()
         // Unpause timer
         m_countDownTimer->start(m_remaining * 1000);
         m_tickTimer->start(1000);
-        m_elapsedTimer->restart();
+        m_elapsedTimer.restart();
         m_paused = false;
     }
 
@@ -74,16 +95,13 @@ int CountdownTimer::remainingTime()
         return m_remaining;
     }
 
-    int interval = m_countDownTimer->interval();
-    qint64 elapsed = m_elapsedTimer->elapsed();
-
-    m_remaining = qRound((double)(interval - elapsed) / 1000);
+    calculateRemainder();
 
     return m_remaining;
 }
 
 /* Sets new interval */
-bool CountdownTimer::setInterval(int interval)
+bool CountdownTimer::setInterval(const int interval)
 {
     if (interval < 1)
     {
@@ -109,4 +127,11 @@ void CountdownTimer::sendTimeout()
 void CountdownTimer::sendTick()
 {
     emit tick(remainingTime());
+}
+
+void CountdownTimer::calculateRemainder()
+{
+    const int interval = m_countDownTimer->interval();
+    const qint64 elapsed = m_elapsedTimer.elapsed();
+    m_remaining = qRound(static_cast<double>(interval - elapsed) / 1000);
 }

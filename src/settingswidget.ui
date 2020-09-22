@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>499</width>
-    <height>343</height>
+    <height>263</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -201,13 +201,7 @@
 &lt;td&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Action&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;p&gt;Ctrl+W&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Hide&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;&lt;p&gt;Ctrl+Q&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Quit&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;p&gt;Ctrl+S&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Settings&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+S&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Start timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+P&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Pause timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+R&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Resume timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;&lt;p&gt;Alt+O&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Stop timer&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;
-
-</string>
+&lt;tr&gt;&lt;td&gt;&lt;p&gt;Ctrl+S&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;Settings&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;</string>
        </property>
        <property name="indent">
         <number>0</number>
@@ -261,22 +255,6 @@
  <connections>
   <connection>
    <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>SettingsWidget</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
    <signal>rejected()</signal>
    <receiver>SettingsWidget</receiver>
    <slot>reject()</slot>
@@ -287,6 +265,22 @@
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>SettingsWidget</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
      <y>274</y>
     </hint>
    </hints>

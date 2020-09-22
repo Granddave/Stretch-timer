@@ -24,7 +24,7 @@ public:
     ~AlarmDialog();
 
 private slots:
-    void update(int time);
+    void update(const int time);
 
 private:
     void keyPressEvent(QKeyEvent* e);

@@ -58,7 +58,8 @@ void MainWindow::initUI()
 
     m_shortcuts.close = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q), this, SLOT(closeApp()));
     m_shortcuts.hide = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_W), this, SLOT(hide()));
-    m_shortcuts.settings = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(settings()));
+    m_shortcuts.settings =
+        new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(settings()));
 }
 
 /* Initialize system tray with context menu */
@@ -115,10 +116,10 @@ void MainWindow::initSystemTray()
 /* Initialize the countdown timer object and update relevant UI elements */
 void MainWindow::initCountdownTimer()
 {
-    QSettings settings;
-    int userInterval = settings.value("interval", 30).toInt();
+    const QSettings settings;
+    const int userInterval = settings.value("interval", 30).toInt();
 
-    m_countdownTimer = new CountdownTimer(minutes, this, userInterval);
+    m_countdownTimer = new CountdownTimer(TimerType::minutes, userInterval, this);
 
     connect(m_countdownTimer, SIGNAL(timeout()), this, SLOT(showTimeoutMessage()));
     connect(m_countdownTimer, SIGNAL(tick(int)), this, SLOT(tickUpdate(int)));
@@ -132,7 +133,7 @@ void MainWindow::initCountdownTimer()
  * was opened for the first time. */
 void MainWindow::readGeometry()
 {
-    QSettings settings;
+    const QSettings settings;
     restoreGeometry(settings.value("geometry").toByteArray());
 }
 
@@ -140,7 +141,7 @@ void MainWindow::readGeometry()
  * If the timer is already running, it will be stopped before started.*/
 void MainWindow::setTimer()
 {
-    int interval = m_ui->slider_interval->value();
+    const int interval = m_ui->slider_interval->value();
 
     if (!m_countdownTimer->setInterval(interval))
     {
@@ -202,10 +203,10 @@ void MainWindow::stopTimer()
 /* Show time out message in the system tray */
 void MainWindow::showTimeoutMessage()
 {
-    QSettings settings;
-    int time = settings.value("secondsToDisplay", 5).toInt();
+    const QSettings settings;
+    const int time = settings.value("secondsToDisplay", 5).toInt();
 
-    QString message(settings.value("timeoutMessage", "Time to stretch!").toString());
+    const QString message(settings.value("timeoutMessage", "Time to stretch!").toString());
 
     m_trayIcon->showMessage("StretchTimer", message, QSystemTrayIcon::NoIcon, time * 1000);
 
@@ -245,8 +246,8 @@ void MainWindow::showMainWindow()
 /* This gets called when the user presses the close button */
 void MainWindow::closeEvent(QCloseEvent* e)
 {
-    QSettings settings;
-    bool quitOnClose = settings.value("quitOnClose", false).toBool();
+    const QSettings settings;
+    const bool quitOnClose = settings.value("quitOnClose", false).toBool();
 
     if (quitOnClose)
     {
@@ -274,24 +275,24 @@ void MainWindow::hideApp()
 {
     if (m_trayIcon->isVisible())
     {
-        QSettings settings;
+        const QSettings settings;
         if (settings.value("showPopupWhenHide", true).toBool())
         {
             m_trayIcon->showMessage("Stretch Timer is still running...",
-                                   "To terminate the program, "
-                                   "choose Quit in the context menu "
-                                   "or Ctrl+Q when the window is open"
-                                   "\nThis message can be disable in "
-                                   "the settings.",
-                                   QSystemTrayIcon::NoIcon,
-                                   5000);
+                                    "To terminate the program, "
+                                    "choose Quit in the context menu "
+                                    "or Ctrl+Q when the window is open"
+                                    "\nThis message can be disable in "
+                                    "the settings.",
+                                    QSystemTrayIcon::NoIcon,
+                                    5000);
         }
         hide();
     }
 }
 
 /* The system tray is activated */
-void MainWindow::SystemTrayTriggered(QSystemTrayIcon::ActivationReason e)
+void MainWindow::SystemTrayTriggered(const QSystemTrayIcon::ActivationReason e)
 {
     if (e == QSystemTrayIcon::Trigger)
     {
@@ -300,7 +301,7 @@ void MainWindow::SystemTrayTriggered(QSystemTrayIcon::ActivationReason e)
 }
 
 /* Update the label with the remaining time */
-void MainWindow::tickUpdate(int rem)
+void MainWindow::tickUpdate(const int rem)
 {
     if (rem < 0)
     {
@@ -312,23 +313,23 @@ void MainWindow::tickUpdate(int rem)
         return;
     }
 
-    QString str, sec, min, hour;
+    const QString hour = QString::number((rem / 3600) % 24).rightJustified(2, '0');
+    const QString min = QString::number((rem / 60) % 60).rightJustified(2, '0');
+    const QString sec = QString::number(rem % 60).rightJustified(2, '0');
 
-    sec = QString::number(rem % 60).rightJustified(2, '0');
-    min = QString::number((rem / 60) % 60).rightJustified(2, '0');
-    hour = QString::number((rem / 3600) % 24).rightJustified(2, '0');
-
+    QString str;
+    QTextStream qts(&str);
     if (m_countdownTimer->isActive())
     {
-        QTextStream(&str) << "Time left: " << hour << ":" << min << ":" << sec;
+        qts << "Time left: " << hour << ":" << min << ":" << sec;
     }
     else if (m_countdownTimer->paused())
     {
-        QTextStream(&str) << "Timer is paused at " << min << ":" << sec;
+        qts << "Timer is paused at " << min << ":" << sec;
     }
     else
     {
-        QTextStream(&str) << "Timer is stopped";
+        qts << "Timer is stopped";
     }
 
     m_ui->label_timeLeft->setText(str);
@@ -336,13 +337,13 @@ void MainWindow::tickUpdate(int rem)
 }
 
 /* Sync the slider with the spinbox */
-void MainWindow::on_spinBox_Interval_valueChanged(int val)
+void MainWindow::on_spinBox_Interval_valueChanged(const int val)
 {
     m_ui->slider_interval->setValue(val);
 }
 
 /* Sync the spinbox with the slider */
-void MainWindow::on_slider_interval_valueChanged(int val)
+void MainWindow::on_slider_interval_valueChanged(const int val)
 {
     m_ui->spinBox_Interval->setValue(val);
 }

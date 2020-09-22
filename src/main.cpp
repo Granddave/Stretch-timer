@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
     a.setOrganizationName("StretchTimer");
     a.setWindowIcon(QIcon("://icon.ico"));
 
-    QSettings settings;
+    const QSettings settings;
     if (settings.value("darkTheme", true).toBool())
     {
         a.setStyle(new DarkStyle);
