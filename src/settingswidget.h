@@ -3,7 +3,8 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 class SettingsWidget;
 }
 
@@ -12,18 +13,18 @@ class SettingsWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit SettingsWidget(QWidget *parent = 0);
+    explicit SettingsWidget(QWidget* parent = nullptr);
     ~SettingsWidget();
 
 private slots:
     void saveSettings();
-    void hideCloseRadioChanged(bool b);
-    void darkThemeToggled(bool b);
+    void hideCloseRadioChanged(const bool b);
+    void darkThemeToggled(const bool b);
 
 private:
     void loadSettings();
 
-    Ui::SettingsWidget* _ui;
+    Ui::SettingsWidget* m_ui;
 };
 
 #endif // SETTINGSWIDGET_H

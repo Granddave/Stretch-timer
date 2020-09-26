@@ -1,5 +1,7 @@
 #include "idletimer.h"
 
+#ifdef AGGRESSIVE_MODE_SUPPORTED
+
 // Qt
 #include <QSettings>
 #include <QDebug>
@@ -8,26 +10,28 @@
 #if defined(Q_OS_WIN32)
 #include <windows.h>
 #elif defined(Q_OS_LINUX)
-#include <time.h>
-#include <stdio.h>
+#include <ctime>
+#include <cstdio>
 #include <unistd.h>
 #include <X11/extensions/scrnsaver.h>
 #endif
 
-IdleTimer::IdleTimer(QObject *parent) : QObject(parent)
-{
-    QSettings settings;
-    _interval = settings.value("idleTimer", 10).toInt();
-    _timer = new CountdownTimer(seconds, this, _interval);
+#define IDLE_TIMER_DEFAULT 10 // sec
 
-    connect(_timer, SIGNAL(timeout()), this, SLOT(stopTimer()));
-    connect(_timer, SIGNAL(tick(int)), this, SLOT(sendTick(int)));
+IdleTimer::IdleTimer(QObject* parent) : QObject(parent)
+{
+    const QSettings settings;
+    m_interval = settings.value("idleTimer", IDLE_TIMER_DEFAULT).toInt();
+    m_timer = new CountdownTimer(TimerType::seconds, m_interval, this);
+
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(stopTimer()));
+    connect(m_timer, SIGNAL(tick(int)), this, SLOT(sendTick(int)));
 }
 
 void IdleTimer::start()
 {
-    _timer->start();
-    emit tick(_interval);
+    m_timer->start();
+    emit tick(m_interval);
     qDebug() << "IDLETIMER: Idletimer has started";
 }
 
@@ -43,39 +47,44 @@ int IdleTimer::getIdleTime()
 
     return t;
 #elif defined(Q_OS_LINUX) // Cred to https://stackoverflow.com/a/4702411
-    time_t idle_time;
-    static XScreenSaverInfo *mit_info;
-    Display* display;
-    int screen;
-    mit_info = XScreenSaverAllocInfo();
-    if((display=XOpenDisplay(NULL)) == NULL) { return(-1); }
-    screen = DefaultScreen(display);
-    XScreenSaverQueryInfo(display, RootWindow(display,screen), mit_info);
-    idle_time = (mit_info->idle) / 1000;
-    XFree(mit_info);
+    static XScreenSaverInfo* mitInfo;
+
+    Display* display = XOpenDisplay(nullptr);
+    if (display == nullptr)
+    {
+        return -1;
+    }
+    const int screen = DefaultScreen(display);
+    mitInfo = XScreenSaverAllocInfo();
+    XScreenSaverQueryInfo(display, RootWindow(display, screen), mitInfo);
+    const time_t idleTime = (mitInfo->idle) / 1000;
+    XFree(mitInfo);
     XCloseDisplay(display);
-    return idle_time;
+    return static_cast<int>(idleTime);
 #endif
 }
 
 /* Stops the timer */
 void IdleTimer::stopTimer()
 {
-    _timer->stop();
+    m_timer->stop();
     qDebug() << "IDLETIMER: Idletimer has been stopped";
 }
 
 /* Sends sends tick from countdown timer
  * or reset timer if the computer isn't left alone. */
-void IdleTimer::sendTick(int countDown)
+void IdleTimer::sendTick(const int countDown)
 {
-    if(countDown < _interval - getIdleTime())
+    const int timeLeft = m_interval - getIdleTime();
+    if (countDown < timeLeft)
     {
-        _timer->start();
-        emit tick(_interval);
+        m_timer->start();
+        emit tick(m_interval);
     }
     else
     {
         emit tick(countDown);
     }
 }
+
+#endif // AGGRESSIVE_MODE_SUPPORTED

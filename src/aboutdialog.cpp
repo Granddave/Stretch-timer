@@ -1,16 +1,15 @@
 #include "aboutdialog.h"
-#include "ui_aboutdialog.h"
-#include "version.h"
 
 // Qt
 #include <QShortcut>
 
-AboutDialog::AboutDialog(QWidget *parent) :
-    QDialog(parent),
-    _ui(new Ui::AboutDialog)
+#include "ui_aboutdialog.h"
+#include "version.h"
+
+AboutDialog::AboutDialog(QWidget* parent) : QDialog(parent), m_ui(new Ui::AboutDialog)
 {
-    _ui->setupUi(this);
-    _ui->st_label->setText("Stretch Timer " + QString(STRETCHTIMER_VERSION));
+    m_ui->setupUi(this);
+    m_ui->st_label->setText("Stretch Timer " + QString(STRETCHTIMER_VERSION));
 
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
@@ -19,5 +18,5 @@ AboutDialog::AboutDialog(QWidget *parent) :
 
 AboutDialog::~AboutDialog()
 {
-    delete _ui;
+    delete m_ui;
 }

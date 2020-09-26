@@ -1,0 +1,21 @@
+---
+AccessModifierOffset: -4
+AlignTrailingComments: true
+AllowShortFunctionsOnASingleLine: false
+AllowAllParametersOfDeclarationOnNextLine: true
+BasedOnStyle: Chromium
+BinPackArguments: false
+BinPackParameters: false
+BreakBeforeBraces: Allman
+BreakConstructorInitializers: BeforeColon
+ColumnLimit: 100
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+IndentWidth: 4
+Language: Cpp
+PointerAlignment: Left
+PointerBindsToType: false
+SortIncludes: false
+SpacesBeforeTrailingComments: 1
+TabWidth: 8
+UseTab: Never
+---

@@ -1,16 +1,20 @@
 #ifndef IDLETIMER_H
 #define IDLETIMER_H
 
-#include "countdowntimer.h"
+#include "common.h"
+
+#ifdef AGGRESSIVE_MODE_SUPPORTED
 
 // Qt
 #include <QObject>
+
+#include "countdowntimer.h"
 
 class IdleTimer : public QObject
 {
     Q_OBJECT
 public:
-    explicit IdleTimer(QObject *parent = 0);
+    explicit IdleTimer(QObject* parent = nullptr);
     void start();
 
 signals:
@@ -19,11 +23,12 @@ signals:
 private slots:
     int getIdleTime();
     void stopTimer();
-    void sendTick(int t);
+    void sendTick(const int countDown);
 
 private:
-    CountdownTimer* _timer;
-    int _interval;
+    CountdownTimer* m_timer;
+    int m_interval;
 };
 
+#endif // AGGRESSIVE_MODE_SUPPORTED
 #endif // IDLETIMER_H

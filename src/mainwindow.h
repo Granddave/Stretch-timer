@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "countdowntimer.h"
-
 // Qt
 #include <QMainWindow>
 #include <QTimer>
@@ -10,9 +8,13 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QAction>
+#include <QShortcut>
 #include <QSettings>
 
-namespace Ui {
+#include "countdowntimer.h"
+
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -21,7 +23,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
     void readGeometry();
@@ -32,14 +34,14 @@ private slots:
     void stopTimer();
     void showTimeoutMessage();
     void showMainWindow();
-    void closeEvent(QCloseEvent *e);
+    void closeEvent(QCloseEvent* e);
     void closeApp();
     void hideApp();
-    void SystemTrayTriggered(QSystemTrayIcon::ActivationReason e);
-    void tickUpdate(int rem);
+    void systemTrayTriggered(QSystemTrayIcon::ActivationReason e);
+    void tickUpdate(const int rem);
 
-    void on_spinBox_Interval_valueChanged(int val);
-    void on_slider_interval_valueChanged(int val);
+    void spinBoxIntervalChanged(int val);
+    void sliderIntervalChanged(int val);
 
     void settings();
     void about();
@@ -49,20 +51,28 @@ private:
     void initSystemTray();
     void initCountdownTimer();
 
-    Ui::MainWindow* _ui;
-    CountdownTimer* _countdownTimer;
+    Ui::MainWindow* m_ui;
 
-    QSystemTrayIcon* _trayIcon;
-    QMenu* _trayIconMenu;
+    CountdownTimer* m_countdownTimer{};
+    QSystemTrayIcon* m_trayIcon{};
+    QMenu* m_trayIconMenu{};
 
-    struct {
+    struct
+    {
         QAction* setTimer;
         QAction* pauseUnpauseTimer;
         QAction* stopTimer;
         QAction* openSettings;
         QAction* openAbout;
         QAction* quit;
-    } _actions;
+    } m_actions{};
+
+    struct
+    {
+        QShortcut* close;
+        QShortcut* hide;
+        QShortcut* settings;
+    } m_shortcuts{};
 };
 
 #endif // MAINWINDOW_H

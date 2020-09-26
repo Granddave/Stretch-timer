@@ -1,39 +1,45 @@
 #include "alarmdialog.h"
+
+#ifdef AGGRESSIVE_MODE_SUPPORTED
+
 #include "ui_alarmdialog.h"
 
-AlarmDialog::AlarmDialog(QWidget *parent) :
-    QDialog(parent),
-    _ui(new Ui::AlarmDialog)
+AlarmDialog::AlarmDialog(QWidget* parent) : QDialog(parent), m_ui(new Ui::AlarmDialog)
 {
-    _ui->setupUi(this);
+    m_ui->setupUi(this);
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
-    _idleTimer = new IdleTimer(this);
+    m_idleTimer = new IdleTimer(this);
 
-    connect(_idleTimer, SIGNAL(tick(int)), this, SLOT(update(int)));
-    connect(_ui->button_close, SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(m_idleTimer, SIGNAL(tick(int)), this, SLOT(update(int)));
+    connect(m_ui->button_close, SIGNAL(clicked(bool)), this, SLOT(close()));
 
-    _idleTimer->start();
+    m_idleTimer->start();
 }
 
 AlarmDialog::~AlarmDialog()
 {
-    delete _ui;
+    delete m_ui;
 }
 
 /* Disable Esc to close dialog */
-void AlarmDialog::keyPressEvent(QKeyEvent *e)
+void AlarmDialog::keyPressEvent(QKeyEvent* e)
 {
-    if(e->key() != Qt::Key_Escape)
+    if (e->key() != Qt::Key_Escape)
+    {
         QDialog::keyPressEvent(e);
+    }
 }
 
 /* Update text and button */
-void AlarmDialog::update(int time)
+void AlarmDialog::update(const int time)
 {
-    if(time == 0)
-        _ui->button_close->setDisabled(false);
+    if (time == 0)
+    {
+        m_ui->button_close->setDisabled(false);
+    }
 
-    _ui->label_timeLeft->setText("Don't touch the computer for another <b>"
-                                 + QString::number(time)
-                                 + "</b> seconds.");
+    m_ui->label_timeLeft->setText("Don't touch the computer for another <b>" +
+                                  QString::number(time) + "</b> seconds.");
 }
+
+#endif // AGGRESSIVE_MODE_SUPPORTED
