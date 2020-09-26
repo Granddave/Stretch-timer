@@ -2,10 +2,10 @@
 
 namespace
 {
+/* Changes the minute countdown timers to seconds. */
 int getSeconds(const TimerType type)
 {
-/* Changes the minute countdown timers to seconds. */
-#define TIME_DEBUG 1
+#define TIME_DEBUG 0
 #if TIME_DEBUG
     Q_UNUSED(type);
     return 1;
