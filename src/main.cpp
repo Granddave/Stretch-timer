@@ -1,27 +1,27 @@
-#include "mainwindow.h"
-#include "darkstyle.h"
-
 #include <QApplication>
 #include <QCoreApplication>
 #include <QSettings>
+
+#include "mainwindow.h"
+#include "darkstyle.h"
 
 int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
 
-    a.setApplicationName("stretch-timer");
-    a.setOrganizationName("StretchTimer");
-    a.setWindowIcon(QIcon("://icon.ico"));
+    QApplication::setApplicationName("stretch-timer");
+    QApplication::setOrganizationName("StretchTimer");
+    QApplication::setWindowIcon(QIcon("://icon.ico"));
 
     const QSettings settings;
     if (settings.value("darkTheme", true).toBool())
     {
-        a.setStyle(new DarkStyle);
+        QApplication::setStyle(new DarkStyle);
     }
 
     MainWindow w;
     w.readGeometry();
     w.show();
 
-    return a.exec();
+    return QApplication::exec();
 }

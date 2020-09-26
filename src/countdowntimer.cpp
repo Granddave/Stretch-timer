@@ -108,11 +108,9 @@ bool CountdownTimer::setInterval(const int interval)
         qDebug() << "WARNING: The interval is less than 1. interval: " << interval;
         return false;
     }
-    else
-    {
-        m_interval = interval;
-        return true;
-    }
+
+    m_interval = interval;
+    return true;
 }
 
 /* Sends timeout signal */

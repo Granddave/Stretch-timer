@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "countdowntimer.h"
-
 // Qt
 #include <QMainWindow>
 #include <QTimer>
@@ -12,6 +10,8 @@
 #include <QAction>
 #include <QShortcut>
 #include <QSettings>
+
+#include "countdowntimer.h"
 
 namespace Ui
 {
@@ -37,11 +37,11 @@ private slots:
     void closeEvent(QCloseEvent* e);
     void closeApp();
     void hideApp();
-    void SystemTrayTriggered(const QSystemTrayIcon::ActivationReason e);
+    void systemTrayTriggered(QSystemTrayIcon::ActivationReason e);
     void tickUpdate(const int rem);
 
-    void on_spinBox_Interval_valueChanged(const int val);
-    void on_slider_interval_valueChanged(const int val);
+    void spinBoxIntervalChanged(int val);
+    void sliderIntervalChanged(int val);
 
     void settings();
     void about();
@@ -52,10 +52,10 @@ private:
     void initCountdownTimer();
 
     Ui::MainWindow* m_ui;
-    CountdownTimer* m_countdownTimer;
 
-    QSystemTrayIcon* m_trayIcon;
-    QMenu* m_trayIconMenu;
+    CountdownTimer* m_countdownTimer{};
+    QSystemTrayIcon* m_trayIcon{};
+    QMenu* m_trayIconMenu{};
 
     struct
     {
@@ -65,14 +65,14 @@ private:
         QAction* openSettings;
         QAction* openAbout;
         QAction* quit;
-    } m_actions;
+    } m_actions{};
 
     struct
     {
         QShortcut* close;
         QShortcut* hide;
         QShortcut* settings;
-    } m_shortcuts;
+    } m_shortcuts{};
 };
 
 #endif // MAINWINDOW_H

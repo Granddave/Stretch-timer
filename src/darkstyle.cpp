@@ -23,7 +23,8 @@ DarkStyle::DarkStyle(QStyle* style) : QProxyStyle(style)
 
 QStyle* DarkStyle::styleBase(QStyle* style) const
 {
-    static QStyle* base = !style ? QStyleFactory::create(QStringLiteral("Fusion")) : style;
+    static QStyle* base =
+        style == nullptr ? QStyleFactory::create(QStringLiteral("Fusion")) : style;
     return base;
 }
 
@@ -59,7 +60,7 @@ void DarkStyle::polish(QPalette& palette)
 
 void DarkStyle::polish(QApplication* app)
 {
-    if (!app)
+    if (app == nullptr)
     {
         return;
     }

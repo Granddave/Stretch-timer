@@ -1,13 +1,13 @@
 #ifndef COUNTDOWNTIMER_H
 #define COUNTDOWNTIMER_H
 
-#include "common.h"
-
 // Qt
 #include <QDebug>
 #include <QObject>
 #include <QTimer>
 #include <QTime>
+
+#include "common.h"
 
 enum class TimerType
 {
@@ -58,7 +58,7 @@ private:
     QTimer* m_tickTimer;      // Sends update tick every second.
     QTime m_elapsedTimer;     // Needed to calculate remaining time.
     bool m_paused = false;    // If timer is paused or not.
-    int m_remaining;          // Seconds remaining, needed if paused.
+    int m_remaining{};        // Seconds remaining, needed if paused.
     int m_interval;           // Time in seconds.
 };
 

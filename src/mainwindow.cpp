@@ -1,13 +1,4 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "version.h"
-#include "settingswidget.h"
-#include "aboutdialog.h"
-#include "common.h"
-
-#ifdef AGGRESSIVE_MODE_SUPPORTED
-#include "alarmdialog.h"
-#endif // AGGRESSIVE_MODE_SUPPORTED
 
 // Qt
 #include <QIcon>
@@ -21,6 +12,16 @@
 #ifdef Q_OS_UNIX
 #include <QSound>
 #endif // Q_OS_UNIX
+
+#include "ui_mainwindow.h"
+#include "version.h"
+#include "settingswidget.h"
+#include "aboutdialog.h"
+#include "common.h"
+
+#ifdef AGGRESSIVE_MODE_SUPPORTED
+#include "alarmdialog.h"
+#endif // AGGRESSIVE_MODE_SUPPORTED
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
@@ -52,6 +53,10 @@ void MainWindow::initUI()
     connect(m_ui->button_setTimer, SIGNAL(clicked()), this, SLOT(setTimer()));
     connect(m_ui->button_pause, SIGNAL(clicked()), this, SLOT(pauseUnpause()));
     connect(m_ui->button_stopTimer, SIGNAL(clicked()), this, SLOT(stopTimer()));
+    connect(
+        m_ui->spinBox_interval, SIGNAL(valueChanged(int)), this, SLOT(spinBoxIntervalChanged(int)));
+    connect(
+        m_ui->slider_interval, SIGNAL(valueChanged(int)), this, SLOT(sliderIntervalChanged(int)));
 
     m_ui->button_pause->setEnabled(false);
     m_ui->button_stopTimer->setEnabled(false);
@@ -65,19 +70,15 @@ void MainWindow::initUI()
 /* Initialize system tray with context menu */
 void MainWindow::initSystemTray()
 {
-    // Tray icon
     m_trayIcon = new QSystemTrayIcon(this);
     m_trayIcon->setIcon(QIcon("://icon.ico"));
     m_trayIcon->setVisible(true);
 
-    // Click on message from tray icon
     connect(m_trayIcon, SIGNAL(messageClicked()), this, SLOT(showMainWindow()));
-
-    // Click on tray icon
     connect(m_trayIcon,
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this,
-            SLOT(SystemTrayTriggered(QSystemTrayIcon::ActivationReason)));
+            SLOT(systemTrayTriggered(QSystemTrayIcon::ActivationReason)));
 
     // Tray actions
     m_actions.setTimer = new QAction("&Set timer", this);
@@ -124,7 +125,7 @@ void MainWindow::initCountdownTimer()
     connect(m_countdownTimer, SIGNAL(timeout()), this, SLOT(showTimeoutMessage()));
     connect(m_countdownTimer, SIGNAL(tick(int)), this, SLOT(tickUpdate(int)));
 
-    m_ui->spinBox_Interval->setValue(m_countdownTimer->interval());
+    m_ui->spinBox_interval->setValue(m_countdownTimer->interval());
     m_ui->slider_interval->setValue(m_countdownTimer->interval());
 }
 
@@ -160,8 +161,8 @@ void MainWindow::setTimer()
     m_actions.stopTimer->setEnabled(true);
     m_ui->button_stopTimer->setEnabled(true);
 
-    m_actions.pauseUnpauseTimer->setText(QString("Pause timer"));
-    m_ui->button_pause->setText(QString("&Pause"));
+    m_actions.pauseUnpauseTimer->setText("Pause timer");
+    m_ui->button_pause->setText("&Pause");
 
     qDebug() << "TIMER: Setting timer with an interval of" << interval << "minutes.";
 }
@@ -172,8 +173,8 @@ void MainWindow::pauseUnpause()
     if (!m_countdownTimer->paused())
     {
         m_countdownTimer->pauseUnpause();
-        m_actions.pauseUnpauseTimer->setText(QString("Resume timer"));
-        m_ui->button_pause->setText(QString("&Resume"));
+        m_actions.pauseUnpauseTimer->setText("Resume timer");
+        m_ui->button_pause->setText("&Resume");
 
         qDebug() << "TIMER: Pausing timer with " << m_countdownTimer->remainingTime() / 60
                  << "minutes left.";
@@ -181,8 +182,8 @@ void MainWindow::pauseUnpause()
     else
     {
         m_countdownTimer->pauseUnpause();
-        m_actions.pauseUnpauseTimer->setText(QString("Pause timer"));
-        m_ui->button_pause->setText(QString("Pause"));
+        m_actions.pauseUnpauseTimer->setText("Pause timer");
+        m_ui->button_pause->setText("Pause");
 
         qDebug() << "TIMER: Unpausing timer.";
     }
@@ -192,6 +193,7 @@ void MainWindow::pauseUnpause()
 void MainWindow::stopTimer()
 {
     m_countdownTimer->stop();
+
     m_actions.pauseUnpauseTimer->setEnabled(false);
     m_ui->button_pause->setEnabled(false);
     m_actions.stopTimer->setEnabled(false);
@@ -204,8 +206,8 @@ void MainWindow::stopTimer()
 void MainWindow::showTimeoutMessage()
 {
     const QSettings settings;
-    const int time = settings.value("secondsToDisplay", 5).toInt();
 
+    const int time = settings.value("secondsToDisplay", 5).toInt();
     const QString message(settings.value("timeoutMessage", "Time to stretch!").toString());
 
     m_trayIcon->showMessage("StretchTimer", message, QSystemTrayIcon::NoIcon, time * 1000);
@@ -221,7 +223,7 @@ void MainWindow::showTimeoutMessage()
 
     if (settings.value("aggressiveMode", false).toBool())
     {
-        AlarmDialog* d = new AlarmDialog();
+        auto* d = new AlarmDialog();
         connect(d, SIGNAL(destroyed(QObject*)), this, SLOT(setTimer()));
         d->exec();
         d->deleteLater();
@@ -260,8 +262,7 @@ void MainWindow::closeEvent(QCloseEvent* e)
     }
 }
 
-/* This really closes the application and saves the
- * geometry of the window */
+/* This really closes the application and saves the geometry of the window */
 void MainWindow::closeApp()
 {
     QSettings settings;
@@ -292,7 +293,7 @@ void MainWindow::hideApp()
 }
 
 /* The system tray is activated */
-void MainWindow::SystemTrayTriggered(const QSystemTrayIcon::ActivationReason e)
+void MainWindow::systemTrayTriggered(QSystemTrayIcon::ActivationReason e)
 {
     if (e == QSystemTrayIcon::Trigger)
     {
@@ -317,8 +318,8 @@ void MainWindow::tickUpdate(const int rem)
     const QString min = QString::number((rem / 60) % 60).rightJustified(2, '0');
     const QString sec = QString::number(rem % 60).rightJustified(2, '0');
 
-    QString str;
-    QTextStream qts(&str);
+    QString statusText;
+    QTextStream qts(&statusText);
     if (m_countdownTimer->isActive())
     {
         qts << "Time left: " << hour << ":" << min << ":" << sec;
@@ -332,20 +333,20 @@ void MainWindow::tickUpdate(const int rem)
         qts << "Timer is stopped";
     }
 
-    m_ui->label_timeLeft->setText(str);
-    m_trayIcon->setToolTip(str);
+    m_ui->label_timeLeft->setText(statusText);
+    m_trayIcon->setToolTip(statusText);
 }
 
 /* Sync the slider with the spinbox */
-void MainWindow::on_spinBox_Interval_valueChanged(const int val)
+void MainWindow::spinBoxIntervalChanged(int val)
 {
     m_ui->slider_interval->setValue(val);
 }
 
 /* Sync the spinbox with the slider */
-void MainWindow::on_slider_interval_valueChanged(const int val)
+void MainWindow::sliderIntervalChanged(int val)
 {
-    m_ui->spinBox_Interval->setValue(val);
+    m_ui->spinBox_interval->setValue(val);
 }
 
 /* Opens settings window */

@@ -10,8 +10,8 @@
 #if defined(Q_OS_WIN32)
 #include <windows.h>
 #elif defined(Q_OS_LINUX)
-#include <time.h>
-#include <stdio.h>
+#include <ctime>
+#include <cstdio>
 #include <unistd.h>
 #include <X11/extensions/scrnsaver.h>
 #endif
@@ -47,7 +47,7 @@ int IdleTimer::getIdleTime()
 
     return t;
 #elif defined(Q_OS_LINUX) // Cred to https://stackoverflow.com/a/4702411
-    static XScreenSaverInfo* mit_info;
+    static XScreenSaverInfo* mitInfo;
 
     Display* display = XOpenDisplay(nullptr);
     if (display == nullptr)
@@ -55,12 +55,12 @@ int IdleTimer::getIdleTime()
         return -1;
     }
     const int screen = DefaultScreen(display);
-    mit_info = XScreenSaverAllocInfo();
-    XScreenSaverQueryInfo(display, RootWindow(display, screen), mit_info);
-    const time_t idle_time = (mit_info->idle) / 1000;
-    XFree(mit_info);
+    mitInfo = XScreenSaverAllocInfo();
+    XScreenSaverQueryInfo(display, RootWindow(display, screen), mitInfo);
+    const time_t idleTime = (mitInfo->idle) / 1000;
+    XFree(mitInfo);
     XCloseDisplay(display);
-    return static_cast<int>(idle_time);
+    return static_cast<int>(idleTime);
 #endif
 }
 

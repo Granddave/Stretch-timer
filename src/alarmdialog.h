@@ -2,13 +2,13 @@
 #define ALARMDIALOG_H
 
 #include "common.h"
-#include "idletimer.h"
-
 #ifdef AGGRESSIVE_MODE_SUPPORTED
 
 // Qt
 #include <QDialog>
 #include <QKeyEvent>
+
+#include "idletimer.h"
 
 namespace Ui
 {

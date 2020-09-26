@@ -1,10 +1,11 @@
 #include "settingswidget.h"
-#include "ui_settingswidget.h"
-#include "common.h"
 
 #include <QShortcut>
 #include <QSettings>
 #include <QDebug>
+
+#include "ui_settingswidget.h"
+#include "common.h"
 
 SettingsWidget::SettingsWidget(QWidget* parent) : QDialog(parent), m_ui(new Ui::SettingsWidget)
 {

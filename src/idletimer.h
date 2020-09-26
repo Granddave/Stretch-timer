@@ -5,10 +5,10 @@
 
 #ifdef AGGRESSIVE_MODE_SUPPORTED
 
-#include "countdowntimer.h"
-
 // Qt
 #include <QObject>
+
+#include "countdowntimer.h"
 
 class IdleTimer : public QObject
 {
@@ -23,7 +23,7 @@ signals:
 private slots:
     int getIdleTime();
     void stopTimer();
-    void sendTick(const int t);
+    void sendTick(const int countDown);
 
 private:
     CountdownTimer* m_timer;

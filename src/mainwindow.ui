@@ -7,7 +7,7 @@
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
       <item row="2" column="1">
-       <widget class="QSpinBox" name="spinBox_Interval">
+       <widget class="QSpinBox" name="spinBox_interval">
         <property name="suffix">
          <string> minutes</string>
         </property>
@@ -87,7 +87,7 @@
   <tabstop>button_pause</tabstop>
   <tabstop>button_stopTimer</tabstop>
   <tabstop>slider_interval</tabstop>
-  <tabstop>spinBox_Interval</tabstop>
+  <tabstop>spinBox_interval</tabstop>
  </tabstops>
  <resources/>
  <connections/>
