@@ -2,82 +2,10 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
-  <property name="windowModality">
-   <enum>Qt::NonModal</enum>
-  </property>
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>310</width>
-    <height>96</height>
-   </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>310</width>
-    <height>96</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>310</width>
-    <height>96</height>
-   </size>
-  </property>
-  <property name="contextMenuPolicy">
-   <enum>Qt::NoContextMenu</enum>
-  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <property name="topMargin">
-     <number>0</number>
-    </property>
-    <property name="horizontalSpacing">
-     <number>6</number>
-    </property>
-    <property name="verticalSpacing">
-     <number>12</number>
-    </property>
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <property name="verticalSpacing">
-       <number>0</number>
-      </property>
-      <item row="2" column="0">
-       <widget class="QSlider" name="slider_interval">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>120</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="1">
        <widget class="QSpinBox" name="spinBox_Interval">
         <property name="suffix">
@@ -101,58 +29,52 @@
         </property>
        </widget>
       </item>
-     </layout>
-    </item>
-    <item row="1" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="spacing">
-       <number>6</number>
-      </property>
-      <property name="sizeConstraint">
-       <enum>QLayout::SetDefaultConstraint</enum>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QPushButton" name="button_setTimer">
-        <property name="text">
-         <string>&amp;Set timer</string>
+      <item row="2" column="0">
+       <widget class="QSlider" name="slider_interval">
+        <property name="minimum">
+         <number>1</number>
         </property>
-        <property name="autoDefault">
-         <bool>true</bool>
+        <property name="maximum">
+         <number>120</number>
         </property>
-        <property name="default">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="button_pause">
-        <property name="text">
-         <string>&amp;Pause</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="button_stopTimer">
-        <property name="text">
-         <string>St&amp;op timer</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
         </property>
-       </spacer>
+        <item>
+         <widget class="QPushButton" name="button_setTimer">
+          <property name="text">
+           <string>&amp;Set timer</string>
+          </property>
+          <property name="autoDefault">
+           <bool>true</bool>
+          </property>
+          <property name="default">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_pause">
+          <property name="text">
+           <string>&amp;Pause</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="button_stopTimer">
+          <property name="text">
+           <string>St&amp;op timer</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>

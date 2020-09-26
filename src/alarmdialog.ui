@@ -13,12 +13,6 @@
   <property name="focusPolicy">
    <enum>Qt::StrongFocus</enum>
   </property>
-  <property name="windowTitle">
-   <string>Dialog</string>
-  </property>
-  <property name="sizeGripEnabled">
-   <bool>false</bool>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -27,20 +21,11 @@
        <property name="enabled">
         <bool>true</bool>
        </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
        <property name="maximumSize">
         <size>
          <width>48</width>
          <height>48</height>
         </size>
-       </property>
-       <property name="text">
-        <string/>
        </property>
        <property name="pixmap">
         <pixmap resource="res/res.qrc">:/logo.png</pixmap>
@@ -57,14 +42,8 @@
          <pointsize>12</pointsize>
         </font>
        </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
        <property name="text">
         <string>Time to stand up!</string>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::PlainText</enum>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
