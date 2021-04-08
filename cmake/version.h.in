@@ -1,6 +1,6 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define STRETCHTIMER_VERSION "0.5.0"
+#define STRETCHTIMER_VERSION "@VERSION@"
 
 #endif // VERSION_H

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.7.2)
 
 add_executable(stretch-timer
     res/res.qrc
@@ -47,3 +47,9 @@ set_target_properties(stretch-timer PROPERTIES
     CXX_STANDARD 17
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
 )
+set_target_properties(stretch-timer PROPERTIES OUTPUT_NAME "${EXECUTABLE_NAME}")
+
+install(TARGETS stretch-timer DESTINATION "${CMAKE_INSTALL_BINDIR}")
+install(FILES res/logo.png RENAME stretch-timer.png DESTINATION "${CMAKE_INSTALL_DATADIR}/pixmaps")
+configure_file("${CMAKE_SOURCE_DIR}/cmake/stretch-timer.desktop.in" "stretch-timer.desktop" @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/stretch-timer.desktop" DESTINATION "${CMAKE_INSTALL_DATADIR}/applications")

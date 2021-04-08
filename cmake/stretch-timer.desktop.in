@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=StretchTimer
+Exec=@CMAKE_INSTALL_FULL_BINDIR@/@EXECUTABLE_NAME@
+Terminal=false
+Type=Application
+Icon=stretch-timer
+StartupWMClass=StretchTimer
+Comment=Reminds you to take breaks
+Categories=Utility

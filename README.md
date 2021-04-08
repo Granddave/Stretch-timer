@@ -10,11 +10,10 @@ Stretch Timer is an open source project that help people to stand up and stretch
 
 ![Settings](https://github.com/Granddave/Stretch-timer/blob/master/preview-images/settings.png)
 
+## Build dependencies
 
-## Dependencies
-
-`Qt 4` or higher.
-
+- `Qt 4` or higher.
+- libxss-dev
 
 ## Compilation
 
@@ -38,7 +37,7 @@ Tested on Manjaro KDE and Debian 9 and 10, but should work on most Linux platfor
 
 ## License
 
-Stretch Timer is licensed under GNU GPL3
+Stretch Timer is licensed under GNU GPL3.
 Developed by David Isaksson ([davidisaksson93@gmail.com](mailto:davidisaksson93@gmail.com))
 
 ### 3rd party licenses
