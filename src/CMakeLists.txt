@@ -33,9 +33,8 @@ target_link_libraries(stretch-timer PRIVATE
     Qt5::Widgets
     $<$<PLATFORM_ID:Windows>:Qt5::WinMain> # Todo: Is this needed? Test without on Windows.
     $<$<PLATFORM_ID:Linux>:Qt5::Multimedia>
-    $<$<PLATFORM_ID:Linux>:Xss>
-    $<$<PLATFORM_ID:Linux>:Xext>
-    $<$<PLATFORM_ID:Linux>:X11>
+    $<$<PLATFORM_ID:Linux>:X11::Xss>
+    $<$<PLATFORM_ID:Linux>:X11::X11>
 )
 target_include_directories(stretch-timer PRIVATE
     $<$<PLATFORM_ID:Linux>:${X11_INCLUDE_DIR}>
@@ -45,7 +44,6 @@ target_compile_options(stretch-timer PRIVATE
 )
 set_target_properties(stretch-timer PROPERTIES
     CXX_STANDARD 17
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
 )
 set_target_properties(stretch-timer PROPERTIES OUTPUT_NAME "${EXECUTABLE_NAME}")
 

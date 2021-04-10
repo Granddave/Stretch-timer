@@ -11,4 +11,4 @@ mkdir $BUILD_DIR
 cd $BUILD_DIR
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local ..
-cmake --build . -- package -j4
+cmake --build . --target package -j 4

@@ -12,8 +12,7 @@ Stretch Timer is an open source project that help people to stand up and stretch
 
 ## Build dependencies
 
-- `Qt 4` or higher.
-- libxss-dev
+Ubuntu 20.04 dev packages: `qtbase5-dev qtmultimedia5-dev libxss-dev`
 
 ## Compilation
 
