@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QObject>
 #include <QTimer>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include "common.h"
 
@@ -54,12 +54,12 @@ private:
     void calculateRemainder();
 
     TimerType m_timerType;
-    QTimer* m_countDownTimer; // Main countdown timer.
-    QTimer* m_tickTimer;      // Sends update tick every second.
-    QTime m_elapsedTimer;     // Needed to calculate remaining time.
-    bool m_paused = false;    // If timer is paused or not.
-    int m_remaining{};        // Seconds remaining, needed if paused.
-    int m_interval;           // Time in seconds.
+    QTimer* m_countDownTimer;     // Main countdown timer.
+    QTimer* m_tickTimer;          // Sends update tick every second.
+    QElapsedTimer m_elapsedTimer; // Needed to calculate remaining time.
+    bool m_paused = false;        // If timer is paused or not.
+    int m_remaining{};            // Seconds remaining, needed if paused.
+    int m_interval;               // Time in seconds.
 };
 
 #endif // COUNTDOWNTIMER_H
